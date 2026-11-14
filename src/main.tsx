@@ -54,6 +54,21 @@ function registrarServiceWorker(): void {
       onOfflineReady() {
         marcarOfflineReady();
       },
+      // No iPhone, o app aberto pela Tela de Início costuma voltar da memória sem recarregar a página, e aí o
+      // navegador não procura versão nova. Por isso a busca é refeita toda vez que o app volta para a frente
+      // e, com ele aberto, a cada meia hora. Achando versão nova, o autoUpdate recarrega a página sozinho.
+      onRegisteredSW(_url, reg) {
+        if (!reg) return;
+        const procurar = (): void => {
+          if (document.visibilityState !== 'visible' || navigator.onLine === false) return;
+          void reg.update().catch(() => {
+            /* sem rede: tenta na próxima */
+          });
+        };
+        document.addEventListener('visibilitychange', procurar);
+        window.addEventListener('online', procurar);
+        window.setInterval(procurar, 30 * 60 * 1000);
+      },
     });
   } catch {
     /* sem service worker: o app segue funcionando com internet */
