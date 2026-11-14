@@ -1,0 +1,163 @@
+/* Corrida: estilos da feature (classes com o prefixo co-). Só tokens, nenhuma cor literal. */
+
+/* ---------- Plano: bloco ---------- */
+.co-objetivo{color:var(--muted);font-size:var(--fs-sm);text-wrap:pretty}
+.co-bloco-pe{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:8px;font-size:var(--fs-xs);color:var(--muted)}
+.co-bloco-pe b{color:var(--fg)}
+
+/* ---------- Plano: semanas ---------- */
+.co-semanas{display:flex;flex-direction:column;gap:8px;min-width:0}
+.co-sem{background:var(--surface);border:1px solid var(--line-soft);border-radius:var(--r);min-width:0}
+.co-sem.is-atual{border-color:color-mix(in srgb,var(--c-corrida) 45%,var(--line))}
+.co-sem.is-aberta{box-shadow:var(--shadow)}
+.co-sem-head{display:flex;align-items:center;gap:12px;width:100%;min-height:64px;padding:12px 14px;border:0;border-radius:var(--r);background:none;color:inherit;text-align:left}
+.co-sem-head:active{background:var(--surface-2)}
+.co-sem-n{flex:none;display:grid;place-items:center;width:34px;height:34px;border-radius:var(--r-sm);background:var(--surface-2);color:var(--muted);font:600 20px/1 var(--f-display)}
+.co-sem.is-atual .co-sem-n{background:color-mix(in srgb,var(--c-corrida) 18%,transparent);color:color-mix(in srgb,var(--c-corrida) var(--pill-ink),var(--fg))}
+.co-sem-main{flex:1;min-width:0;display:flex;flex-direction:column;gap:4px}
+.co-sem-main .ui-tag{white-space:normal}
+.co-sem.is-atual .co-sem-main .ui-tag{color:color-mix(in srgb,var(--c-corrida) var(--pill-ink),var(--fg))}
+.co-sem-t{font:600 19px/1.1 var(--f-display);letter-spacing:.01em;overflow-wrap:anywhere}
+.co-sem-s{font-size:var(--fs-xs);color:var(--muted)}
+.co-sem-chev{flex:none;color:var(--faint);transition:transform .18s}
+.co-sem.is-aberta .co-sem-chev{transform:rotate(90deg)}
+.co-sem-body{display:flex;flex-direction:column;gap:6px;padding:0 14px 8px}
+.co-recado{padding:10px 12px;border-left:2px solid var(--c-corrida);border-radius:0 var(--r-xs) var(--r-xs) 0;background:var(--surface-2);font-size:var(--fs-sm);color:var(--fg);text-wrap:pretty}
+
+.co-treinos{display:flex;flex-direction:column;min-width:0}
+.co-treino{position:relative;display:flex;align-items:center;gap:12px;min-height:60px;padding:8px 0;color:inherit}
+.co-treino + .co-treino{border-top:1px solid var(--line-soft)}
+.co-treino:active{opacity:.7}
+.co-treino-dia{flex:none;display:flex;flex-direction:column;align-items:center;gap:4px;width:34px}
+.co-treino-dia b{font:600 20px/1 var(--f-display)}
+.co-treino-main{flex:1;min-width:0;display:flex;flex-direction:column;gap:4px}
+.co-treino-t{font-weight:600;line-height:1.25;overflow-wrap:anywhere}
+.co-treino-s{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:var(--fs-xs);color:var(--muted)}
+.co-treino-graf{flex:none;width:64px}
+.co-treino-chev{flex:none;color:var(--faint);margin-left:-6px}
+.co-treino.is-pulado .co-treino-t{color:var(--muted);font-weight:500}
+.co-treino.is-pulado .co-treino-graf{opacity:.45}
+
+/* ---------- Plano: gráfico e roteiro ---------- */
+.co-graf-head{display:flex;justify-content:space-between;align-items:baseline;gap:6px 12px;flex-wrap:wrap;margin-bottom:6px}
+.co-graf-head .ui-legend{margin:0}
+.co-roteiro-intro{font-size:var(--fs-sm)}
+.co-roteiro{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;min-width:0}
+.co-etapa{position:relative;display:flex;flex-direction:column;gap:5px;padding:0 0 22px 28px;min-width:0}
+.co-etapa:last-child{padding-bottom:0}
+.co-etapa::before{content:"";position:absolute;left:6px;top:14px;bottom:-4px;width:2px;border-radius:2px;background:var(--line)}
+.co-etapa:last-child::before{display:none}
+.co-etapa.is-passada::before{background:color-mix(in srgb,var(--good) 55%,var(--line))}
+.co-etapa-pt{position:absolute;left:0;top:3px;width:14px;height:14px;border-radius:50%;background:var(--bg);border:2px solid var(--faint)}
+.co-etapa.is-atual .co-etapa-pt{border-color:var(--accent);background:var(--accent);box-shadow:0 0 0 4px var(--accent-soft)}
+.co-etapa.is-passada .co-etapa-pt{border-color:var(--good);background:var(--good)}
+.co-etapa-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap;min-height:20px}
+.co-etapa-t{font:600 21px/1 var(--f-display);letter-spacing:.01em}
+.co-etapa:not(.is-atual):not(.is-passada) .co-etapa-t{color:var(--muted)}
+.co-etapa-meta{display:flex;align-items:flex-start;gap:6px;margin-top:3px;font-size:var(--fs-sm);color:var(--muted)}
+.co-etapa-meta .ui-icon{margin-top:3px;color:var(--faint)}
+.co-etapa-meta b{color:var(--fg);font-weight:600}
+.co-etapa-p{font-size:var(--fs-sm);color:var(--muted);text-wrap:pretty}
+.co-etapa.is-atual .co-etapa-p{color:var(--fg)}
+
+/* ---------- Histórico ---------- */
+.co-periodo{display:flex;justify-content:center;min-width:0;margin-top:-12px}
+
+/* ---------- Zonas ---------- */
+.co-fcmax{display:flex;align-items:center;gap:14px;padding-bottom:14px;border-bottom:1px solid var(--line-soft)}
+.co-fcmax .ui-val{flex:none}
+.co-zonas{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+.co-zona{display:flex;flex-direction:column;gap:7px;padding:14px 0;min-width:0}
+.co-zona + .co-zona{border-top:1px solid var(--line-soft)}
+.co-zona-head{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.co-zona-t{display:flex;align-items:center;gap:8px;font-weight:700}
+.co-zona-t i{width:8px;height:8px;border-radius:2px;background:var(--co-lv)}
+.co-zona-bpm{font:600 20px/1 var(--f-display);white-space:nowrap}
+.co-zona-bpm small{font:500 var(--fs-xs)/1 var(--f-body);color:var(--muted);margin-left:4px}
+.co-zona-trilho{position:relative;height:6px;border-radius:3px;background:var(--track)}
+.co-zona-trilho i{position:absolute;top:0;bottom:0;border-radius:3px;background:var(--co-lv)}
+.co-zona-p{font-size:var(--fs-xs);color:var(--muted)}
+.co-zona-eixo{display:flex;justify-content:space-between;font:500 var(--fs-2xs)/1 var(--f-mono);color:var(--faint);letter-spacing:.04em}
+
+.co-pse{list-style:none;margin:14px 0 0;padding:0;display:flex;flex-direction:column}
+.co-pse li{display:flex;align-items:flex-start;gap:12px;padding:10px 0}
+.co-pse li + li{border-top:1px solid var(--line-soft)}
+.co-pse-n{flex:none;width:58px;padding:6px 0;border-radius:var(--r-xs);background:color-mix(in srgb,var(--co-lv) 18%,transparent);color:color-mix(in srgb,var(--co-lv) var(--pill-ink),var(--fg));font:600 17px/1 var(--f-display);text-align:center;white-space:nowrap}
+.co-pse-main{flex:1;min-width:0;display:flex;flex-direction:column;gap:1px}
+.co-pse-main span{font-size:var(--fs-xs);color:var(--muted)}
+
+.co-relogio{margin:0;padding-left:1.3em;display:flex;flex-direction:column;gap:10px;font-size:var(--fs-sm);color:var(--muted)}
+.co-relogio b{color:var(--fg)}
+.co-relogio li::marker{font:600 var(--fs-xs)/1 var(--f-mono);color:var(--faint)}
+
+/* ---------- Detalhe do treino ---------- */
+.co-topo{display:flex;flex-direction:column;gap:10px;margin-top:-8px;min-width:0}
+.co-topo-linha{display:flex;justify-content:space-between;align-items:flex-end;gap:10px;flex-wrap:wrap}
+.co-topo-selos{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+.co-proposito{font-size:15px;font-weight:600;text-wrap:pretty}
+.co-nota{padding:10px 12px;border-radius:var(--r-xs);background:var(--surface-2);font-size:var(--fs-sm);white-space:pre-wrap;overflow-wrap:anywhere}
+
+.co-niveis{list-style:none;margin:10px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:4px 14px;font-size:var(--fs-xs);font-weight:600;color:var(--muted)}
+.co-niveis li{display:inline-flex;align-items:center;gap:6px}
+.co-niveis i{width:9px;height:9px;border-radius:2px;background:var(--co-lv)}
+
+.co-passos{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;min-width:0}
+.co-passo{display:flex;align-items:center;gap:12px;min-height:52px;padding:8px 0}
+.co-passos>li + li{border-top:1px solid var(--line-soft)}
+.co-passo-nv{flex:none;align-self:stretch;width:4px;margin-block:4px;border-radius:2px;background:var(--co-lv)}
+.co-passo-dur{flex:none;width:68px;font:600 19px/1 var(--f-display);white-space:nowrap}
+.co-passo-main{flex:1;min-width:0;display:flex;flex-direction:column;gap:1px}
+.co-passo-t{font-weight:600;overflow-wrap:anywhere}
+.co-passo-s{font-size:var(--fs-xs);color:var(--muted)}
+.co-passos>li.co-rep{margin:8px 0;padding:0 12px 2px;border:1px dashed var(--line);border-radius:var(--r-sm)}
+.co-passos>li.co-rep + li,.co-passos>li + li.co-rep{border-top-style:dashed}
+.co-passos>li.co-rep + li:not(.co-rep){border-top:0}
+.co-rep-head{display:flex;align-items:center;gap:10px;padding:10px 0 4px;font-size:var(--fs-xs);color:var(--muted)}
+.co-rep-x{padding:4px 8px;border-radius:var(--r-xs);background:var(--accent-soft);color:var(--accent);font:600 17px/1 var(--f-display)}
+
+.co-orientacao{font-size:15px;line-height:1.6;text-wrap:pretty}
+.co-dicas{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.co-dicas li{display:flex;align-items:flex-start;gap:10px;padding:10px 12px;border-radius:var(--r-sm);background:var(--surface);border:1px solid var(--line-soft);font-size:var(--fs-sm)}
+.co-dicas .ui-icon{margin-top:2px;color:var(--accent)}
+.co-pular{display:flex;flex-direction:column;align-items:flex-start;gap:6px;padding-top:16px;border-top:1px solid var(--line-soft)}
+
+/* ---------- Corrida guiada ---------- */
+:root.co-tela-cheia{--ui-toast-offset:76px}
+.co-guiada{height:100dvh;overflow:hidden}
+.co-guiada .ui-screen{height:100dvh;min-height:0}
+.co-guiada .ui-screen-head{margin-bottom:8px}
+.co-guiada .ui-screen-body{gap:14px;min-height:0;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;margin-inline:-4px;padding:4px}
+.co-guiada .ui-screen-foot .ui-btn:not(.is-lg){padding-inline:8px;gap:6px}
+.co-g-palco{flex:1 1 auto;display:flex;flex-direction:column;align-items:center;justify-content:space-evenly;gap:12px;min-height:0;min-width:0;text-align:center}
+.co-g-meta{display:flex;justify-content:space-between;gap:10px;width:100%}
+.co-g-passo{display:flex;flex-direction:column;align-items:center;gap:8px;min-width:0;max-width:100%}
+.co-g-nome{font:600 clamp(28px,8.6vw,38px)/1.02 var(--f-display);letter-spacing:.01em;text-wrap:balance;overflow-wrap:anywhere}
+.co-g-alvo{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:99px;background:color-mix(in srgb,var(--co-lv) 18%,transparent);color:color-mix(in srgb,var(--co-lv) var(--pill-ink),var(--fg));font:600 21px/1 var(--f-display);letter-spacing:.02em;white-space:nowrap}
+.co-g-alvo i{width:9px;height:9px;border-radius:2px;background:var(--co-lv)}
+.co-g-anel.ui-timer{width:min(100%,var(--size),36dvh)}
+.co-g-tempo{font:600 clamp(52px,17vw,72px)/1 var(--f-display);letter-spacing:.01em}
+.co-g-sub{font-size:var(--fs-sm);color:var(--muted)}
+.co-guiada.is-pausada .co-g-tempo{color:var(--muted)}
+.co-g-prox{display:flex;flex-direction:column;gap:6px;width:100%;padding:10px 14px;border-radius:var(--r-sm);background:var(--surface);border:1px solid var(--line-soft);text-align:left;min-width:0}
+.co-g-prox-linha{display:flex;align-items:center;gap:4px 10px;flex-wrap:wrap;min-width:0}
+.co-g-prox-linha b{font-weight:700;overflow-wrap:anywhere}
+.co-g-prox-linha span{font-size:var(--fs-sm);color:var(--muted)}
+.co-g-prox-nv{flex:none;width:8px;height:8px;border-radius:2px;background:var(--co-lv)}
+.co-g-grafico{flex:none;display:flex;flex-direction:column;gap:5px;min-width:0}
+.co-g-tempos{display:flex;justify-content:space-between;font:500 var(--fs-2xs)/1 var(--f-mono);color:var(--muted);letter-spacing:.04em}
+.co-g-previa{display:flex;flex-direction:column;gap:12px;padding:16px;border-radius:var(--r);background:var(--surface);border:1px solid var(--line-soft);box-shadow:var(--shadow);min-width:0}
+.co-g-como{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px;font-size:var(--fs-sm);color:var(--muted)}
+.co-g-como li{display:flex;align-items:flex-start;gap:10px}
+.co-g-como .ui-icon{margin-top:1px;color:var(--faint)}
+.co-g-anel .ui-timer-center svg.co-g-fim-ic{width:40px;height:40px;transform:none;color:var(--good)}
+.co-g-fim-t{font:600 26px/1.05 var(--f-display);letter-spacing:.01em}
+.co-g-fim-p{max-width:32ch;font-size:var(--fs-sm);color:var(--muted);text-wrap:balance}
+
+@media (max-height:700px){
+  .co-guiada .ui-screen-body{gap:10px}
+  .co-g-palco{gap:8px}
+  .co-g-anel.ui-timer{width:min(100%,var(--size),32dvh)}
+  .co-g-tempo{font-size:clamp(40px,13vw,52px)}
+  .co-g-anel .co-g-sub{display:none}
+}
+@media (prefers-reduced-motion:reduce){.co-sem-chev{transition:none}}

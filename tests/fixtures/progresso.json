@@ -1,0 +1,3369 @@
+{
+ "v": 1,
+ "criadoEm": 1788000000000,
+ "settings": {
+  "nome": "Filipe",
+  "pesoMeta": 80
+ },
+ "runs": [
+  {
+   "id": "r001",
+   "data": "2026-09-02",
+   "tipo": "Rodagem",
+   "km": 6.26,
+   "min": 38,
+   "fc": 143,
+   "rpe": 3,
+   "pse": 4,
+   "sensacao": 3,
+   "fonte": "historico",
+   "local": "rua"
+  },
+  {
+   "id": "r002",
+   "data": "2026-09-04",
+   "tipo": "Intervalado",
+   "km": 5.47,
+   "min": 32,
+   "fc": 148,
+   "rpe": 3,
+   "pse": 4,
+   "sensacao": 3,
+   "fonte": "historico",
+   "local": "rua"
+  },
+  {
+   "id": "r003",
+   "data": "2026-09-06",
+   "tipo": "Longão",
+   "km": 8.93,
+   "min": 57,
+   "fc": 155,
+   "rpe": 3,
+   "pse": 4,
+   "sensacao": 3,
+   "fonte": "historico",
+   "local": "rua"
+  },
+  {
+   "id": "r004",
+   "data": "2026-09-09",
+   "tipo": "Rodagem",
+   "km": 6.94,
+   "min": 43,
+   "fc": 143,
+   "rpe": 3,
+   "pse": 7,
+   "sensacao": 5,
+   "fonte": "historico",
+   "local": "rua"
+  },
+  {
+   "id": "r005",
+   "data": "2026-09-13",
+   "tipo": "Longão",
+   "km": 9.52,
+   "min": 64,
+   "fc": 151,
+   "rpe": 3,
+   "pse": 6,
+   "sensacao": 4,
+   "fonte": "historico",
+   "local": "rua"
+  },
+  {
+   "id": "r006",
+   "data": "2026-09-16",
+   "tipo": "Rodagem",
+   "km": 7.14,
+   "min": 43,
+   "fc": 147,
+   "rpe": 3,
+   "pse": 4,
+   "sensacao": 4,
+   "fonte": "historico",
+   "local": "rua"
+  },
+  {
+   "id": "r007",
+   "data": "2026-09-18",
+   "tipo": "Intervalado",
+   "km": 6.62,
+   "min": 38,
+   "fc": 143,
+   "rpe": 3,
+   "pse": 7,
+   "sensacao": 4,
+   "fonte": "historico",
+   "local": "rua"
+  },
+  {
+   "id": "r008",
+   "data": "2026-09-20",
+   "tipo": "Longão",
+   "km": 10.33,
+   "min": 67,
+   "fc": 152,
+   "rpe": 3,
+   "pse": 6,
+   "sensacao": 5,
+   "fonte": "historico",
+   "local": "rua"
+  },
+  {
+   "id": "r009",
+   "data": "2026-09-23",
+   "tipo": "Rodagem",
+   "km": 6.52,
+   "min": 41,
+   "fc": 149,
+   "rpe": 3,
+   "pse": 4,
+   "sensacao": 4,
+   "fonte": "historico",
+   "local": "rua"
+  },
+  {
+   "id": "r010",
+   "data": "2026-09-25",
+   "tipo": "Intervalado",
+   "km": 6.43,
+   "min": 37,
+   "fc": 151,
+   "rpe": 3,
+   "pse": 7,
+   "sensacao": 3,
+   "fonte": "historico",
+   "local": "rua"
+  },
+  {
+   "id": "r011",
+   "data": "2026-09-30",
+   "tipo": "Rodagem",
+   "km": 7.78,
+   "min": 47,
+   "fc": 157,
+   "rpe": 3,
+   "pse": 6,
+   "sensacao": 3,
+   "fonte": "historico",
+   "local": "rua"
+  },
+  {
+   "id": "r012",
+   "data": "2026-10-02",
+   "tipo": "Intervalado",
+   "km": 6.24,
+   "min": 36,
+   "fc": 152,
+   "rpe": 3,
+   "pse": 6,
+   "sensacao": 4,
+   "fonte": "historico",
+   "local": "rua"
+  },
+  {
+   "id": "r013",
+   "data": "2026-10-04",
+   "tipo": "Longão",
+   "km": 10.91,
+   "min": 73,
+   "fc": 144,
+   "rpe": 3,
+   "pse": 4,
+   "sensacao": 4,
+   "fonte": "historico",
+   "local": "rua"
+  },
+  {
+   "id": "r014",
+   "data": "2026-10-07",
+   "tipo": "Rodagem",
+   "km": 7.99,
+   "min": 47,
+   "fc": 151,
+   "rpe": 3,
+   "pse": 7,
+   "sensacao": 5,
+   "fonte": "historico",
+   "local": "rua"
+  },
+  {
+   "id": "r015",
+   "data": "2026-10-09",
+   "tipo": "Intervalado",
+   "km": 6.85,
+   "min": 40,
+   "fc": 153,
+   "rpe": 3,
+   "pse": 4,
+   "sensacao": 5,
+   "fonte": "historico",
+   "local": "rua"
+  },
+  {
+   "id": "r016",
+   "data": "2026-10-11",
+   "tipo": "Longão",
+   "km": 12.04,
+   "min": 76,
+   "fc": 143,
+   "rpe": 3,
+   "pse": 5,
+   "sensacao": 4,
+   "fonte": "historico",
+   "local": "rua"
+  },
+  {
+   "id": "r017",
+   "data": "2026-10-14",
+   "tipo": "Rodagem",
+   "km": 7.25,
+   "min": 44,
+   "fc": 157,
+   "rpe": 3,
+   "pse": 4,
+   "sensacao": 4,
+   "fonte": "historico",
+   "local": "rua"
+  },
+  {
+   "id": "r018",
+   "data": "2026-10-16",
+   "tipo": "Intervalado",
+   "km": 7.63,
+   "min": 42,
+   "fc": 146,
+   "rpe": 3,
+   "pse": 6,
+   "sensacao": 4,
+   "fonte": "historico",
+   "local": "rua"
+  },
+  {
+   "id": "r019",
+   "data": "2026-10-18",
+   "tipo": "Longão",
+   "km": 11.62,
+   "min": 77,
+   "fc": 154,
+   "rpe": 3,
+   "pse": 5,
+   "sensacao": 4,
+   "fonte": "historico",
+   "local": "rua"
+  },
+  {
+   "id": "r020",
+   "data": "2026-10-23",
+   "tipo": "Intervalado",
+   "km": 8.03,
+   "min": 44,
+   "fc": 157,
+   "rpe": 3,
+   "pse": 7,
+   "sensacao": 4,
+   "fonte": "historico",
+   "local": "rua"
+  },
+  {
+   "id": "r021",
+   "data": "2026-11-13",
+   "tipo": "Intervalado",
+   "km": 3.9,
+   "min": 25,
+   "fc": 151,
+   "rpe": 3,
+   "pse": 6,
+   "sensacao": 4,
+   "fonte": "treino",
+   "treinoId": "c-2026-11-13",
+   "titulo": "Fartlek 2M .79 25'",
+   "local": "rua",
+   "obs": "Pernas pesadas no começo, soltou depois."
+  },
+  {
+   "id": "r022",
+   "data": "2026-11-15",
+   "tipo": "Longão",
+   "km": 5.4,
+   "min": 35,
+   "fc": 148,
+   "rpe": 3,
+   "pse": 5,
+   "sensacao": 4,
+   "fonte": "treino",
+   "treinoId": "c-2026-11-15",
+   "titulo": "Longo 35' (PSE)",
+   "local": "rua"
+  }
+ ],
+ "lifts": [
+  {
+   "id": "l023",
+   "data": "2026-08-31",
+   "ficha": "B",
+   "treino": "Inferiores",
+   "programa": "hibrido",
+   "inicio": "07:10",
+   "fim": "08:14",
+   "min": 64,
+   "sets": {
+    "h-B-06": {
+     "1": {
+      "reps": 8,
+      "carga": 20.0,
+      "feito": true
+     },
+     "2": {
+      "reps": 9,
+      "carga": 20.0,
+      "feito": true
+     },
+     "3": {
+      "reps": 11,
+      "carga": 20.0,
+      "feito": true
+     },
+     "4": {
+      "reps": 12,
+      "carga": 20.0,
+      "feito": true
+     }
+    },
+    "h-B-07": {
+     "1": {
+      "reps": 10,
+      "carga": 14.0,
+      "feito": true
+     },
+     "2": {
+      "reps": 12,
+      "carga": 14.0,
+      "feito": true
+     },
+     "3": {
+      "reps": 12,
+      "carga": 14.0,
+      "feito": true
+     }
+    },
+    "h-B-08": {
+     "1": {
+      "reps": 10,
+      "carga": 120.0,
+      "feito": true
+     },
+     "2": {
+      "reps": 9,
+      "carga": 120.0,
+      "feito": true
+     },
+     "3": {
+      "reps": 12,
+      "carga": 120.0,
+      "feito": true
+     }
+    },
+    "h-B-09": {
+     "1": {
+      "reps": 12,
+      "carga": 25.0,
+      "feito": true
+     },
+     "2": {
+      "reps": 8,
+      "carga": 25.0,
+      "feito": true
+     },
+     "3": {
+      "reps": 11,
+      "carga": 25.0,
+      "feito": true
+     }
+    },
+    "h-B-12": {
+     "1": {
+      "reps": 12,
+      "carga": 60.0,
+      "feito": true
+     },
+     "2": {
+      "reps": 11,
+      "carga": 60.0,
+      "feito": true
+     },
+     "3": {
+      "reps": 11,
+      "carga": 60.0,
+      "feito": true
+     }
+    }
+   },
+   "volume": 7811,
+   "intensidade": 4,
+   "concluido": true
+  },
+  {
+   "id": "l024",
+   "data": "2026-09-05",
+   "ficha": "A",
+   "treino": "Costas e bíceps",
+   "programa": "hibrido",
+   "inicio": "07:10",
+   "fim": "08:04",
+   "min": 54,
+   "sets": {
+    "h-A-07": {
+     "1": {
+      "reps": 8,
+      "carga": 35.0,
+      "feito": true
+     },
+     "2": {
+      "reps": 9,
+      "carga": 35.0,
+      "feito": true
+     },
+     "3": {
+      "reps": 8,
+      "carga": 35.0,
+      "feito": true
+     },
+     "4": {
+      "reps": 9,
+      "carga": 35.0,
+      "feito": true
+     }
+    },
+    "h-A-08": {
+     "1": {
+      "reps": 11,
+      "carga": 25.0,
+      "feito": true
+     },
+     "2": {
+      "reps": 9,
+      "carga": 25.0,
+      "feito": true
+     },
+     "3": {
+      "reps": 8,
+      "carga": 25.0,
+      "feito": true
+     }
+    },
+    "h-A-09": {
+     "1": {
+      "reps": 10,
+      "carga": 45.0,
+      "feito": true
+     },
+     "2": {
+      "reps": 12,
+      "carga": 45.0,
+      "feito": true
+     },
+     "3": {
+      "reps": 8,
+      "carga": 45.0,
+      "feito": true
+     }
+    },
+    "h-A-10": {
+     "1": {
+      "reps": 8,
+      "carga": 40.0,
+      "feito": true
+     },
+     "2": {
+      "reps": 8,
+      "carga": 40.0,
+      "feito": true
+     },
+     "3": {
+      "reps": 12,
+      "carga": 40.0,
+      "feito": true
+     }
+    },
+    "h-A-12": {
+     "1": {
+      "reps": 9,
+      "carga": 10.0,
+      "feito": true
+     },
+     "2": {
+      "reps": 12,
+      "carga": 10.0,
+      "feito": true
+     },
+     "3": {
+      "reps": 8,
+      "carga": 10.0,
+      "feito": true
+     }
+    },
+    "h-A-13": {
+     "1": {
+      "reps": 10,
+      "carga": 8.0,
+      "feito": true
+     },
+     "2": {
+      "reps": 12,
+      "carga": 8.0,
+      "feito": true
+     },
+     "3": {
+      "reps": 8,
+      "carga": 8.0,
+      "feito": true
+     }
+    }
+   },
+   "volume": 4890,
+   "intensidade": 3,
+   "concluido": true
+  },
+  {
+   "id": "l025",
+   "data": "2026-09-07",
+   "ficha": "B",
+   "treino": "Inferiores",
+   "programa": "hibrido",
+   "inicio": "07:10",
+   "fim": "08:12",
+   "min": 62,
+   "sets": {
+    "h-B-06": {
+     "1": {
+      "reps": 9,
+      "carga": 20.5,
+      "feito": true
+     },
+     "2": {
+      "reps": 10,
+      "carga": 20.5,
+      "feito": true
+     },
+     "3": {
+      "reps": 10,
+      "carga": 20.5,
+      "feito": true
+     },
+     "4": {
+      "reps": 12,
+      "carga": 20.5,
+      "feito": true
+     }
+    },
+    "h-B-07": {
+     "1": {
+      "reps": 10,
+      "carga": 14.5,
+      "feito": true
+     },
+     "2": {
+      "reps": 11,
+      "carga": 14.5,
+      "feito": true
+     },
+     "3": {
+      "reps": 8,
+      "carga": 14.5,
+      "feito": true
+     }
+    },
+    "h-B-08": {
+     "1": {
+      "reps": 8,
+      "carga": 122.5,
+      "feito": true
+     },
+     "2": {
+      "reps": 11,
+      "carga": 122.5,
+      "feito": true
+     },
+     "3": {
+      "reps": 11,
+      "carga": 122.5,
+      "feito": true
+     }
+    },
+    "h-B-09": {
+     "1": {
+      "reps": 11,
+      "carga": 25.5,
+      "feito": true
+     },
+     "2": {
+      "reps": 11,
+      "carga": 25.5,
+      "feito": true
+     },
+     "3": {
+      "reps": 10,
+      "carga": 25.5,
+      "feito": true
+     }
+    },
+    "h-B-12": {
+     "1": {
+      "reps": 8,
+      "carga": 61.0,
+      "feito": true
+     },
+     "2": {
+      "reps": 9,
+      "carga": 61.0,
+      "feito": true
+     },
+     "3": {
+      "reps": 8,
+      "carga": 61.0,
+      "feito": true
+     }
+    }
+   },
+   "volume": 7277,
+   "intensidade": 4,
+   "concluido": true
+  },
+  {
+   "id": "l026",
+   "data": "2026-09-10",
+   "ficha": "C",
+   "treino": "Peito, ombro e braço",
+   "programa": "hibrido",
+   "inicio": "07:10",
+   "fim": "08:18",
+   "min": 68,
+   "sets": {
+    "h-C-03": {
+     "1": {
+      "reps": 9,
+      "carga": 41.0,
+      "feito": true
+     },
+     "2": {
+      "reps": 12,
+      "carga": 41.0,
+      "feito": true
+     },
+     "3": {
+      "reps": 8,
+      "carga": 41.0,
+      "feito": true
+     },
+     "4": {
+      "reps": 9,
+      "carga": 41.0,
+      "feito": true
+     }
+    },
+    "h-C-04": {
+     "1": {
+      "reps": 12,
+      "carga": 30.5,
+      "feito": true
+     },
+     "2": {
+      "reps": 10,
+      "carga": 30.5,
+      "feito": true
+     },
+     "3": {
+      "reps": 9,
+      "carga": 30.5,
+      "feito": true
+     }
+    },
+    "h-C-05": {
+     "1": {
+      "reps": 12,
+      "carga": 12.0,
+      "feito": true
+     },
+     "2": {
+      "reps": 8,
+      "carga": 12.0,
+      "feito": true
+     },
+     "3": {
+      "reps": 12,
+      "carga": 12.0,
+      "feito": true
+     }
+    },
+    "h-C-06": {
+     "1": {
+      "reps": 10,
+      "carga": 7.0,
+      "feito": true
+     },
+     "2": {
+      "reps": 8,
+      "carga": 7.0,
+      "feito": true
+     },
+     "3": {
+      "reps": 10,
+      "carga": 7.0,
+      "feito": true
+     }
+    },
+    "h-C-07": {
+     "1": {
+      "reps": 12,
+      "carga": 25.5,
+      "feito": true
+     },
+     "2": {
+      "reps": 10,
+      "carga": 25.5,
+      "feito": true
+     },
+     "3": {
+      "reps": 9,
+      "carga": 25.5,
+      "feito": true
+     }
+    },
+    "h-C-09": {
+     "1": {
+      "reps": 10,
+      "carga": 46.0,
+      "feito": true
+     },
+     "2": {
+      "reps": 9,
+      "carga": 46.0,
+      "feito": true
+     },
+     "3": {
+      "reps": 12,
+      "carga": 46.0,
+      "feito": true
+     }
+    }
+   },
+   "volume": 5300,
+   "intensidade": 4,
+   "concluido": true
+  },
+  {
+   "id": "l027",
+   "data": "2026-09-12",
+   "ficha": "A",
+   "treino": "Costas e bíceps",
+   "programa": "hibrido",
+   "inicio": "07:10",
+   "fim": "08:13",
+   "min": 63,
+   "sets": {
+    "h-A-07": {
+     "1": {
+      "reps": 12,
+      "carga": 35.5,
+      "feito": true
+     },
+     "2": {
+      "reps": 9,
+      "carga": 35.5,
+      "feito": true
+     },
+     "3": {
+      "reps": 9,
+      "carga": 35.5,
+      "feito": true
+     },
+     "4": {
+      "reps": 11,
+      "carga": 35.5,
+      "feito": true
+     }
+    },
+    "h-A-08": {
+     "1": {
+      "reps": 9,
+      "carga": 25.5,
+      "feito": true
+     },
+     "2": {
+      "reps": 9,
+      "carga": 25.5,
+      "feito": true
+     },
+     "3": {
+      "reps": 12,
+      "carga": 25.5,
+      "feito": true
+     }
+    },
+    "h-A-09": {
+     "1": {
+      "reps": 11,
+      "carga": 46.0,
+      "feito": true
+     },
+     "2": {
+      "reps": 10,
+      "carga": 46.0,
+      "feito": true
+     },
+     "3": {
+      "reps": 8,
+      "carga": 46.0,
+      "feito": true
+     }
+    },
+    "h-A-10": {
+     "1": {
+      "reps": 8,
+      "carga": 41.0,
+      "feito": true
+     },
+     "2": {
+      "reps": 10,
+      "carga": 41.0,
+      "feito": true
+     },
+     "3": {
+      "reps": 11,
+      "carga": 41.0,
+      "feito": true
+     }
+    },
+    "h-A-12": {
+     "1": {
+      "reps": 10,
+      "carga": 10.0,
+      "feito": true
+     },
+     "2": {
+      "reps": 9,
+      "carga": 10.0,
+      "feito": true
+     },
+     "3": {
+      "reps": 12,
+      "carga": 10.0,
+      "feito": true
+     }
+    },
+    "h-A-13": {
+     "1": {
+      "reps": 10,
+      "carga": 8.0,
+      "feito": true
+     },
+     "2": {
+      "reps": 11,
+      "carga": 8.0,
+      "feito": true
+     },
+     "3": {
+      "reps": 10,
+      "carga": 8.0,
+      "feito": true
+     }
+    }
+   },
+   "volume": 5302,
+   "intensidade": 3,
+   "concluido": true
+  },
+  {
+   "id": "l028",
+   "data": "2026-09-14",
+   "ficha": "B",
+   "treino": "Inferiores",
+   "programa": "hibrido",
+   "inicio": "07:10",
+   "fim": "08:07",
+   "min": 57,
+   "sets": {
+    "h-B-06": {
+     "1": {
+      "reps": 9,
+      "carga": 21.0,
+      "feito": true
+     },
+     "2": {
+      "reps": 11,
+      "carga": 21.0,
+      "feito": true
+     },
+     "3": {
+      "reps": 9,
+      "carga": 21.0,
+      "feito": true
+     },
+     "4": {
+      "reps": 10,
+      "carga": 21.0,
+      "feito": true
+     }
+    },
+    "h-B-07": {
+     "1": {
+      "reps": 9,
+      "carga": 14.5,
+      "feito": true
+     },
+     "2": {
+      "reps": 11,
+      "carga": 14.5,
+      "feito": true
+     },
+     "3": {
+      "reps": 12,
+      "carga": 14.5,
+      "feito": true
+     }
+    },
+    "h-B-08": {
+     "1": {
+      "reps": 12,
+      "carga": 125.0,
+      "feito": true
+     },
+     "2": {
+      "reps": 8,
+      "carga": 125.0,
+      "feito": true
+     },
+     "3": {
+      "reps": 11,
+      "carga": 125.0,
+      "feito": true
+     }
+    },
+    "h-B-09": {
+     "1": {
+      "reps": 10,
+      "carga": 26.0,
+      "feito": true
+     },
+     "2": {
+      "reps": 8,
+      "carga": 26.0,
+      "feito": true
+     },
+     "3": {
+      "reps": 8,
+      "carga": 26.0,
+      "feito": true
+     }
+    },
+    "h-B-12": {
+     "1": {
+      "reps": 11,
+      "carga": 62.5,
+      "feito": true
+     },
+     "2": {
+      "reps": 9,
+      "carga": 62.5,
+      "feito": true
+     },
+     "3": {
+      "reps": 11,
+      "carga": 62.5,
+      "feito": true
+     }
+    }
+   },
+   "volume": 7772,
+   "intensidade": 4,
+   "concluido": true
+  },
+  {
+   "id": "l029",
+   "data": "2026-09-17",
+   "ficha": "C",
+   "treino": "Peito, ombro e braço",
+   "programa": "hibrido",
+   "inicio": "07:10",
+   "fim": "08:06",
+   "min": 56,
+   "sets": {
+    "h-C-03": {
+     "1": {
+      "reps": 10,
+      "carga": 41.5,
+      "feito": true
+     },
+     "2": {
+      "reps": 8,
+      "carga": 41.5,
+      "feito": true
+     },
+     "3": {
+      "reps": 11,
+      "carga": 41.5,
+      "feito": true
+     },
+     "4": {
+      "reps": 11,
+      "carga": 41.5,
+      "feito": true
+     }
+    },
+    "h-C-04": {
+     "1": {
+      "reps": 11,
+      "carga": 31.0,
+      "feito": true
+     },
+     "2": {
+      "reps": 8,
+      "carga": 31.0,
+      "feito": true
+     },
+     "3": {
+      "reps": 9,
+      "carga": 31.0,
+      "feito": true
+     }
+    },
+    "h-C-05": {
+     "1": {
+      "reps": 9,
+      "carga": 12.5,
+      "feito": true
+     },
+     "2": {
+      "reps": 9,
+      "carga": 12.5,
+      "feito": true
+     },
+     "3": {
+      "reps": 8,
+      "carga": 12.5,
+      "feito": true
+     }
+    },
+    "h-C-06": {
+     "1": {
+      "reps": 9,
+      "carga": 7.5,
+      "feito": true
+     },
+     "2": {
+      "reps": 12,
+      "carga": 7.5,
+      "feito": true
+     },
+     "3": {
+      "reps": 11,
+      "carga": 7.5,
+      "feito": true
+     }
+    },
+    "h-C-07": {
+     "1": {
+      "reps": 9,
+      "carga": 26.0,
+      "feito": true
+     },
+     "2": {
+      "reps": 12,
+      "carga": 26.0,
+      "feito": true
+     },
+     "3": {
+      "reps": 12,
+      "carga": 26.0,
+      "feito": true
+     }
+    },
+    "h-C-09": {
+     "1": {
+      "reps": 11,
+      "carga": 47.0,
+      "feito": true
+     },
+     "2": {
+      "reps": 10,
+      "carga": 47.0,
+      "feito": true
+     },
+     "3": {
+      "reps": 9,
+      "carga": 47.0,
+      "feito": true
+     }
+    }
+   },
+   "volume": 5361,
+   "intensidade": 3,
+   "concluido": true
+  },
+  {
+   "id": "l030",
+   "data": "2026-09-21",
+   "ficha": "B",
+   "treino": "Inferiores",
+   "programa": "hibrido",
+   "inicio": "07:10",
+   "fim": "08:15",
+   "min": 65,
+   "sets": {
+    "h-B-06": {
+     "1": {
+      "reps": 8,
+      "carga": 21.0,
+      "feito": true
+     },
+     "2": {
+      "reps": 12,
+      "carga": 21.0,
+      "feito": true
+     },
+     "3": {
+      "reps": 9,
+      "carga": 21.0,
+      "feito": true
+     },
+     "4": {
+      "reps": 11,
+      "carga": 21.0,
+      "feito": true
+     }
+    },
+    "h-B-07": {
+     "1": {
+      "reps": 9,
+      "carga": 15.0,
+      "feito": true
+     },
+     "2": {
+      "reps": 9,
+      "carga": 15.0,
+      "feito": true
+     },
+     "3": {
+      "reps": 8,
+      "carga": 15.0,
+      "feito": true
+     }
+    },
+    "h-B-08": {
+     "1": {
+      "reps": 10,
+      "carga": 127.0,
+      "feito": true
+     },
+     "2": {
+      "reps": 9,
+      "carga": 127.0,
+      "feito": true
+     },
+     "3": {
+      "reps": 10,
+      "carga": 127.0,
+      "feito": true
+     }
+    },
+    "h-B-09": {
+     "1": {
+      "reps": 12,
+      "carga": 26.5,
+      "feito": true
+     },
+     "2": {
+      "reps": 9,
+      "carga": 26.5,
+      "feito": true
+     },
+     "3": {
+      "reps": 12,
+      "carga": 26.5,
+      "feito": true
+     }
+    },
+    "h-B-12": {
+     "1": {
+      "reps": 10,
+      "carga": 63.5,
+      "feito": true
+     },
+     "2": {
+      "reps": 10,
+      "carga": 63.5,
+      "feito": true
+     },
+     "3": {
+      "reps": 12,
+      "carga": 63.5,
+      "feito": true
+     }
+    }
+   },
+   "volume": 7820,
+   "intensidade": 3,
+   "concluido": true
+  },
+  {
+   "id": "l031",
+   "data": "2026-09-26",
+   "ficha": "A",
+   "treino": "Costas e bíceps",
+   "programa": "hibrido",
+   "inicio": "07:10",
+   "fim": "08:05",
+   "min": 55,
+   "sets": {
+    "h-A-07": {
+     "1": {
+      "reps": 11,
+      "carga": 37.0,
+      "feito": true
+     },
+     "2": {
+      "reps": 12,
+      "carga": 37.0,
+      "feito": true
+     },
+     "3": {
+      "reps": 12,
+      "carga": 37.0,
+      "feito": true
+     },
+     "4": {
+      "reps": 11,
+      "carga": 37.0,
+      "feito": true
+     }
+    },
+    "h-A-08": {
+     "1": {
+      "reps": 12,
+      "carga": 26.5,
+      "feito": true
+     },
+     "2": {
+      "reps": 9,
+      "carga": 26.5,
+      "feito": true
+     },
+     "3": {
+      "reps": 12,
+      "carga": 26.5,
+      "feito": true
+     }
+    },
+    "h-A-09": {
+     "1": {
+      "reps": 9,
+      "carga": 47.5,
+      "feito": true
+     },
+     "2": {
+      "reps": 12,
+      "carga": 47.5,
+      "feito": true
+     },
+     "3": {
+      "reps": 12,
+      "carga": 47.5,
+      "feito": true
+     }
+    },
+    "h-A-10": {
+     "1": {
+      "reps": 8,
+      "carga": 42.5,
+      "feito": true
+     },
+     "2": {
+      "reps": 11,
+      "carga": 42.5,
+      "feito": true
+     },
+     "3": {
+      "reps": 9,
+      "carga": 42.5,
+      "feito": true
+     }
+    },
+    "h-A-12": {
+     "1": {
+      "reps": 12,
+      "carga": 10.5,
+      "feito": true
+     },
+     "2": {
+      "reps": 8,
+      "carga": 10.5,
+      "feito": true
+     },
+     "3": {
+      "reps": 9,
+      "carga": 10.5,
+      "feito": true
+     }
+    },
+    "h-A-13": {
+     "1": {
+      "reps": 9,
+      "carga": 8.5,
+      "feito": true
+     },
+     "2": {
+      "reps": 9,
+      "carga": 8.5,
+      "feito": true
+     },
+     "3": {
+      "reps": 11,
+      "carga": 8.5,
+      "feito": true
+     }
+    }
+   },
+   "volume": 5885,
+   "intensidade": 4,
+   "concluido": true
+  },
+  {
+   "id": "l032",
+   "data": "2026-10-01",
+   "ficha": "C",
+   "treino": "Peito, ombro e braço",
+   "programa": "hibrido",
+   "inicio": "07:10",
+   "fim": "08:18",
+   "min": 68,
+   "sets": {
+    "h-C-03": {
+     "1": {
+      "reps": 12,
+      "carga": 43.0,
+      "feito": true
+     },
+     "2": {
+      "reps": 12,
+      "carga": 43.0,
+      "feito": true
+     },
+     "3": {
+      "reps": 11,
+      "carga": 43.0,
+      "feito": true
+     },
+     "4": {
+      "reps": 8,
+      "carga": 43.0,
+      "feito": true
+     }
+    },
+    "h-C-04": {
+     "1": {
+      "reps": 12,
+      "carga": 32.5,
+      "feito": true
+     },
+     "2": {
+      "reps": 8,
+      "carga": 32.5,
+      "feito": true
+     },
+     "3": {
+      "reps": 9,
+      "carga": 32.5,
+      "feito": true
+     }
+    },
+    "h-C-05": {
+     "1": {
+      "reps": 9,
+      "carga": 13.0,
+      "feito": true
+     },
+     "2": {
+      "reps": 10,
+      "carga": 13.0,
+      "feito": true
+     },
+     "3": {
+      "reps": 8,
+      "carga": 13.0,
+      "feito": true
+     }
+    },
+    "h-C-06": {
+     "1": {
+      "reps": 8,
+      "carga": 7.5,
+      "feito": true
+     },
+     "2": {
+      "reps": 12,
+      "carga": 7.5,
+      "feito": true
+     },
+     "3": {
+      "reps": 11,
+      "carga": 7.5,
+      "feito": true
+     }
+    },
+    "h-C-07": {
+     "1": {
+      "reps": 12,
+      "carga": 27.0,
+      "feito": true
+     },
+     "2": {
+      "reps": 8,
+      "carga": 27.0,
+      "feito": true
+     },
+     "3": {
+      "reps": 8,
+      "carga": 27.0,
+      "feito": true
+     }
+    },
+    "h-C-09": {
+     "1": {
+      "reps": 11,
+      "carga": 48.5,
+      "feito": true
+     },
+     "2": {
+      "reps": 10,
+      "carga": 48.5,
+      "feito": true
+     },
+     "3": {
+      "reps": 12,
+      "carga": 48.5,
+      "feito": true
+     }
+    }
+   },
+   "volume": 5732,
+   "intensidade": 4,
+   "concluido": true
+  },
+  {
+   "id": "l033",
+   "data": "2026-10-03",
+   "ficha": "A",
+   "treino": "Costas e bíceps",
+   "programa": "hibrido",
+   "inicio": "07:10",
+   "fim": "08:09",
+   "min": 59,
+   "sets": {
+    "h-A-07": {
+     "1": {
+      "reps": 10,
+      "carga": 38.0,
+      "feito": true
+     },
+     "2": {
+      "reps": 11,
+      "carga": 38.0,
+      "feito": true
+     },
+     "3": {
+      "reps": 12,
+      "carga": 38.0,
+      "feito": true
+     },
+     "4": {
+      "reps": 12,
+      "carga": 38.0,
+      "feito": true
+     }
+    },
+    "h-A-08": {
+     "1": {
+      "reps": 11,
+      "carga": 27.0,
+      "feito": true
+     },
+     "2": {
+      "reps": 12,
+      "carga": 27.0,
+      "feito": true
+     },
+     "3": {
+      "reps": 9,
+      "carga": 27.0,
+      "feito": true
+     }
+    },
+    "h-A-09": {
+     "1": {
+      "reps": 12,
+      "carga": 48.5,
+      "feito": true
+     },
+     "2": {
+      "reps": 10,
+      "carga": 48.5,
+      "feito": true
+     },
+     "3": {
+      "reps": 12,
+      "carga": 48.5,
+      "feito": true
+     }
+    },
+    "h-A-10": {
+     "1": {
+      "reps": 9,
+      "carga": 43.0,
+      "feito": true
+     },
+     "2": {
+      "reps": 11,
+      "carga": 43.0,
+      "feito": true
+     },
+     "3": {
+      "reps": 9,
+      "carga": 43.0,
+      "feito": true
+     }
+    },
+    "h-A-12": {
+     "1": {
+      "reps": 11,
+      "carga": 11.0,
+      "feito": true
+     },
+     "2": {
+      "reps": 8,
+      "carga": 11.0,
+      "feito": true
+     },
+     "3": {
+      "reps": 11,
+      "carga": 11.0,
+      "feito": true
+     }
+    },
+    "h-A-13": {
+     "1": {
+      "reps": 11,
+      "carga": 8.5,
+      "feito": true
+     },
+     "2": {
+      "reps": 10,
+      "carga": 8.5,
+      "feito": true
+     },
+     "3": {
+      "reps": 8,
+      "carga": 8.5,
+      "feito": true
+     }
+    }
+   },
+   "volume": 6046,
+   "intensidade": 4,
+   "concluido": true
+  },
+  {
+   "id": "l034",
+   "data": "2026-10-08",
+   "ficha": "C",
+   "treino": "Peito, ombro e braço",
+   "programa": "hibrido",
+   "inicio": "07:10",
+   "fim": "08:08",
+   "min": 58,
+   "sets": {
+    "h-C-03": {
+     "1": {
+      "reps": 8,
+      "carga": 44.0,
+      "feito": true
+     },
+     "2": {
+      "reps": 9,
+      "carga": 44.0,
+      "feito": true
+     },
+     "3": {
+      "reps": 10,
+      "carga": 44.0,
+      "feito": true
+     },
+     "4": {
+      "reps": 9,
+      "carga": 44.0,
+      "feito": true
+     }
+    },
+    "h-C-04": {
+     "1": {
+      "reps": 10,
+      "carga": 33.0,
+      "feito": true
+     },
+     "2": {
+      "reps": 9,
+      "carga": 33.0,
+      "feito": true
+     },
+     "3": {
+      "reps": 11,
+      "carga": 33.0,
+      "feito": true
+     }
+    },
+    "h-C-05": {
+     "1": {
+      "reps": 9,
+      "carga": 13.0,
+      "feito": true
+     },
+     "2": {
+      "reps": 8,
+      "carga": 13.0,
+      "feito": true
+     },
+     "3": {
+      "reps": 11,
+      "carga": 13.0,
+      "feito": true
+     }
+    },
+    "h-C-06": {
+     "1": {
+      "reps": 11,
+      "carga": 7.5,
+      "feito": true
+     },
+     "2": {
+      "reps": 9,
+      "carga": 7.5,
+      "feito": true
+     },
+     "3": {
+      "reps": 9,
+      "carga": 7.5,
+      "feito": true
+     }
+    },
+    "h-C-07": {
+     "1": {
+      "reps": 9,
+      "carga": 27.5,
+      "feito": true
+     },
+     "2": {
+      "reps": 11,
+      "carga": 27.5,
+      "feito": true
+     },
+     "3": {
+      "reps": 12,
+      "carga": 27.5,
+      "feito": true
+     }
+    },
+    "h-C-09": {
+     "1": {
+      "reps": 11,
+      "carga": 49.5,
+      "feito": true
+     },
+     "2": {
+      "reps": 10,
+      "carga": 49.5,
+      "feito": true
+     },
+     "3": {
+      "reps": 11,
+      "carga": 49.5,
+      "feito": true
+     }
+    }
+   },
+   "volume": 5620,
+   "intensidade": 4,
+   "concluido": true
+  },
+  {
+   "id": "l035",
+   "data": "2026-10-10",
+   "ficha": "A",
+   "treino": "Costas e bíceps",
+   "programa": "hibrido",
+   "inicio": "07:10",
+   "fim": "08:10",
+   "min": 60,
+   "sets": {
+    "h-A-07": {
+     "1": {
+      "reps": 10,
+      "carga": 38.5,
+      "feito": true
+     },
+     "2": {
+      "reps": 8,
+      "carga": 38.5,
+      "feito": true
+     },
+     "3": {
+      "reps": 10,
+      "carga": 38.5,
+      "feito": true
+     },
+     "4": {
+      "reps": 12,
+      "carga": 38.5,
+      "feito": true
+     }
+    },
+    "h-A-08": {
+     "1": {
+      "reps": 11,
+      "carga": 27.5,
+      "feito": true
+     },
+     "2": {
+      "reps": 11,
+      "carga": 27.5,
+      "feito": true
+     },
+     "3": {
+      "reps": 8,
+      "carga": 27.5,
+      "feito": true
+     }
+    },
+    "h-A-09": {
+     "1": {
+      "reps": 11,
+      "carga": 49.5,
+      "feito": true
+     },
+     "2": {
+      "reps": 10,
+      "carga": 49.5,
+      "feito": true
+     },
+     "3": {
+      "reps": 12,
+      "carga": 49.5,
+      "feito": true
+     }
+    },
+    "h-A-10": {
+     "1": {
+      "reps": 12,
+      "carga": 44.0,
+      "feito": true
+     },
+     "2": {
+      "reps": 10,
+      "carga": 44.0,
+      "feito": true
+     },
+     "3": {
+      "reps": 12,
+      "carga": 44.0,
+      "feito": true
+     }
+    },
+    "h-A-12": {
+     "1": {
+      "reps": 8,
+      "carga": 11.0,
+      "feito": true
+     },
+     "2": {
+      "reps": 8,
+      "carga": 11.0,
+      "feito": true
+     },
+     "3": {
+      "reps": 9,
+      "carga": 11.0,
+      "feito": true
+     }
+    },
+    "h-A-13": {
+     "1": {
+      "reps": 8,
+      "carga": 9.0,
+      "feito": true
+     },
+     "2": {
+      "reps": 8,
+      "carga": 9.0,
+      "feito": true
+     },
+     "3": {
+      "reps": 10,
+      "carga": 9.0,
+      "feito": true
+     }
+    }
+   },
+   "volume": 6004,
+   "intensidade": 3,
+   "concluido": true
+  },
+  {
+   "id": "l036",
+   "data": "2026-10-12",
+   "ficha": "B",
+   "treino": "Inferiores",
+   "programa": "hibrido",
+   "inicio": "07:10",
+   "fim": "08:15",
+   "min": 65,
+   "sets": {
+    "h-B-06": {
+     "1": {
+      "reps": 9,
+      "carga": 22.5,
+      "feito": true
+     },
+     "2": {
+      "reps": 10,
+      "carga": 22.5,
+      "feito": true
+     },
+     "3": {
+      "reps": 9,
+      "carga": 22.5,
+      "feito": true
+     },
+     "4": {
+      "reps": 11,
+      "carga": 22.5,
+      "feito": true
+     }
+    },
+    "h-B-07": {
+     "1": {
+      "reps": 10,
+      "carga": 15.5,
+      "feito": true
+     },
+     "2": {
+      "reps": 11,
+      "carga": 15.5,
+      "feito": true
+     },
+     "3": {
+      "reps": 9,
+      "carga": 15.5,
+      "feito": true
+     }
+    },
+    "h-B-08": {
+     "1": {
+      "reps": 12,
+      "carga": 134.5,
+      "feito": true
+     },
+     "2": {
+      "reps": 12,
+      "carga": 134.5,
+      "feito": true
+     },
+     "3": {
+      "reps": 12,
+      "carga": 134.5,
+      "feito": true
+     }
+    },
+    "h-B-09": {
+     "1": {
+      "reps": 11,
+      "carga": 28.0,
+      "feito": true
+     },
+     "2": {
+      "reps": 10,
+      "carga": 28.0,
+      "feito": true
+     },
+     "3": {
+      "reps": 8,
+      "carga": 28.0,
+      "feito": true
+     }
+    },
+    "h-B-12": {
+     "1": {
+      "reps": 10,
+      "carga": 67.0,
+      "feito": true
+     },
+     "2": {
+      "reps": 8,
+      "carga": 67.0,
+      "feito": true
+     },
+     "3": {
+      "reps": 9,
+      "carga": 67.0,
+      "feito": true
+     }
+    }
+   },
+   "volume": 8806,
+   "intensidade": 3,
+   "concluido": true
+  },
+  {
+   "id": "l037",
+   "data": "2026-10-15",
+   "ficha": "C",
+   "treino": "Peito, ombro e braço",
+   "programa": "hibrido",
+   "inicio": "07:10",
+   "fim": "08:09",
+   "min": 59,
+   "sets": {
+    "h-C-03": {
+     "1": {
+      "reps": 8,
+      "carga": 45.0,
+      "feito": true
+     },
+     "2": {
+      "reps": 8,
+      "carga": 45.0,
+      "feito": true
+     },
+     "3": {
+      "reps": 10,
+      "carga": 45.0,
+      "feito": true
+     },
+     "4": {
+      "reps": 8,
+      "carga": 45.0,
+      "feito": true
+     }
+    },
+    "h-C-04": {
+     "1": {
+      "reps": 12,
+      "carga": 33.5,
+      "feito": true
+     },
+     "2": {
+      "reps": 9,
+      "carga": 33.5,
+      "feito": true
+     },
+     "3": {
+      "reps": 8,
+      "carga": 33.5,
+      "feito": true
+     }
+    },
+    "h-C-05": {
+     "1": {
+      "reps": 10,
+      "carga": 13.5,
+      "feito": true
+     },
+     "2": {
+      "reps": 8,
+      "carga": 13.5,
+      "feito": true
+     },
+     "3": {
+      "reps": 11,
+      "carga": 13.5,
+      "feito": true
+     }
+    },
+    "h-C-06": {
+     "1": {
+      "reps": 8,
+      "carga": 8.0,
+      "feito": true
+     },
+     "2": {
+      "reps": 10,
+      "carga": 8.0,
+      "feito": true
+     },
+     "3": {
+      "reps": 12,
+      "carga": 8.0,
+      "feito": true
+     }
+    },
+    "h-C-07": {
+     "1": {
+      "reps": 11,
+      "carga": 28.0,
+      "feito": true
+     },
+     "2": {
+      "reps": 10,
+      "carga": 28.0,
+      "feito": true
+     },
+     "3": {
+      "reps": 12,
+      "carga": 28.0,
+      "feito": true
+     }
+    },
+    "h-C-09": {
+     "1": {
+      "reps": 9,
+      "carga": 50.5,
+      "feito": true
+     },
+     "2": {
+      "reps": 8,
+      "carga": 50.5,
+      "feito": true
+     },
+     "3": {
+      "reps": 12,
+      "carga": 50.5,
+      "feito": true
+     }
+    }
+   },
+   "volume": 5522,
+   "intensidade": 3,
+   "concluido": true
+  },
+  {
+   "id": "l038",
+   "data": "2026-10-17",
+   "ficha": "A",
+   "treino": "Costas e bíceps",
+   "programa": "hibrido",
+   "inicio": "07:10",
+   "fim": "08:18",
+   "min": 68,
+   "sets": {
+    "h-A-07": {
+     "1": {
+      "reps": 10,
+      "carga": 39.0,
+      "feito": true
+     },
+     "2": {
+      "reps": 8,
+      "carga": 39.0,
+      "feito": true
+     },
+     "3": {
+      "reps": 9,
+      "carga": 39.0,
+      "feito": true
+     },
+     "4": {
+      "reps": 9,
+      "carga": 39.0,
+      "feito": true
+     }
+    },
+    "h-A-08": {
+     "1": {
+      "reps": 10,
+      "carga": 28.0,
+      "feito": true
+     },
+     "2": {
+      "reps": 10,
+      "carga": 28.0,
+      "feito": true
+     },
+     "3": {
+      "reps": 12,
+      "carga": 28.0,
+      "feito": true
+     }
+    },
+    "h-A-09": {
+     "1": {
+      "reps": 9,
+      "carga": 50.5,
+      "feito": true
+     },
+     "2": {
+      "reps": 10,
+      "carga": 50.5,
+      "feito": true
+     },
+     "3": {
+      "reps": 11,
+      "carga": 50.5,
+      "feito": true
+     }
+    },
+    "h-A-10": {
+     "1": {
+      "reps": 12,
+      "carga": 45.0,
+      "feito": true
+     },
+     "2": {
+      "reps": 9,
+      "carga": 45.0,
+      "feito": true
+     },
+     "3": {
+      "reps": 10,
+      "carga": 45.0,
+      "feito": true
+     }
+    },
+    "h-A-12": {
+     "1": {
+      "reps": 10,
+      "carga": 11.0,
+      "feito": true
+     },
+     "2": {
+      "reps": 8,
+      "carga": 11.0,
+      "feito": true
+     },
+     "3": {
+      "reps": 10,
+      "carga": 11.0,
+      "feito": true
+     }
+    },
+    "h-A-13": {
+     "1": {
+      "reps": 8,
+      "carga": 9.0,
+      "feito": true
+     },
+     "2": {
+      "reps": 8,
+      "carga": 9.0,
+      "feito": true
+     },
+     "3": {
+      "reps": 8,
+      "carga": 9.0,
+      "feito": true
+     }
+    }
+   },
+   "volume": 5734,
+   "intensidade": 4,
+   "concluido": true
+  },
+  {
+   "id": "l039",
+   "data": "2026-10-19",
+   "ficha": "B",
+   "treino": "Inferiores",
+   "programa": "hibrido",
+   "inicio": "07:10",
+   "fim": "08:14",
+   "min": 64,
+   "sets": {
+    "h-B-06": {
+     "1": {
+      "reps": 12,
+      "carga": 23.0,
+      "feito": true
+     },
+     "2": {
+      "reps": 11,
+      "carga": 23.0,
+      "feito": true
+     },
+     "3": {
+      "reps": 9,
+      "carga": 23.0,
+      "feito": true
+     },
+     "4": {
+      "reps": 11,
+      "carga": 23.0,
+      "feito": true
+     }
+    },
+    "h-B-07": {
+     "1": {
+      "reps": 8,
+      "carga": 16.0,
+      "feito": true
+     },
+     "2": {
+      "reps": 11,
+      "carga": 16.0,
+      "feito": true
+     },
+     "3": {
+      "reps": 11,
+      "carga": 16.0,
+      "feito": true
+     }
+    },
+    "h-B-08": {
+     "1": {
+      "reps": 12,
+      "carga": 137.0,
+      "feito": true
+     },
+     "2": {
+      "reps": 11,
+      "carga": 137.0,
+      "feito": true
+     },
+     "3": {
+      "reps": 12,
+      "carga": 137.0,
+      "feito": true
+     }
+    },
+    "h-B-09": {
+     "1": {
+      "reps": 10,
+      "carga": 28.5,
+      "feito": true
+     },
+     "2": {
+      "reps": 9,
+      "carga": 28.5,
+      "feito": true
+     },
+     "3": {
+      "reps": 9,
+      "carga": 28.5,
+      "feito": true
+     }
+    },
+    "h-B-12": {
+     "1": {
+      "reps": 10,
+      "carga": 68.5,
+      "feito": true
+     },
+     "2": {
+      "reps": 9,
+      "carga": 68.5,
+      "feito": true
+     },
+     "3": {
+      "reps": 9,
+      "carga": 68.5,
+      "feito": true
+     }
+    }
+   },
+   "volume": 8980,
+   "intensidade": 4,
+   "concluido": true
+  },
+  {
+   "id": "l040",
+   "data": "2026-10-22",
+   "ficha": "C",
+   "treino": "Peito, ombro e braço",
+   "programa": "hibrido",
+   "inicio": "07:10",
+   "fim": "08:16",
+   "min": 66,
+   "sets": {
+    "h-C-03": {
+     "1": {
+      "reps": 9,
+      "carga": 45.5,
+      "feito": true
+     },
+     "2": {
+      "reps": 8,
+      "carga": 45.5,
+      "feito": true
+     },
+     "3": {
+      "reps": 8,
+      "carga": 45.5,
+      "feito": true
+     },
+     "4": {
+      "reps": 10,
+      "carga": 45.5,
+      "feito": true
+     }
+    },
+    "h-C-04": {
+     "1": {
+      "reps": 11,
+      "carga": 34.0,
+      "feito": true
+     },
+     "2": {
+      "reps": 9,
+      "carga": 34.0,
+      "feito": true
+     },
+     "3": {
+      "reps": 8,
+      "carga": 34.0,
+      "feito": true
+     }
+    },
+    "h-C-05": {
+     "1": {
+      "reps": 8,
+      "carga": 13.5,
+      "feito": true
+     },
+     "2": {
+      "reps": 11,
+      "carga": 13.5,
+      "feito": true
+     },
+     "3": {
+      "reps": 12,
+      "carga": 13.5,
+      "feito": true
+     }
+    },
+    "h-C-06": {
+     "1": {
+      "reps": 10,
+      "carga": 8.0,
+      "feito": true
+     },
+     "2": {
+      "reps": 12,
+      "carga": 8.0,
+      "feito": true
+     },
+     "3": {
+      "reps": 9,
+      "carga": 8.0,
+      "feito": true
+     }
+    },
+    "h-C-07": {
+     "1": {
+      "reps": 10,
+      "carga": 28.5,
+      "feito": true
+     },
+     "2": {
+      "reps": 8,
+      "carga": 28.5,
+      "feito": true
+     },
+     "3": {
+      "reps": 11,
+      "carga": 28.5,
+      "feito": true
+     }
+    },
+    "h-C-09": {
+     "1": {
+      "reps": 9,
+      "carga": 51.5,
+      "feito": true
+     },
+     "2": {
+      "reps": 9,
+      "carga": 51.5,
+      "feito": true
+     },
+     "3": {
+      "reps": 10,
+      "carga": 51.5,
+      "feito": true
+     }
+    }
+   },
+   "volume": 5480,
+   "intensidade": 3,
+   "concluido": true
+  },
+  {
+   "id": "l041",
+   "data": "2026-10-24",
+   "ficha": "A",
+   "treino": "Costas e bíceps",
+   "programa": "hibrido",
+   "inicio": "07:10",
+   "fim": "08:02",
+   "min": 52,
+   "sets": {
+    "h-A-07": {
+     "1": {
+      "reps": 10,
+      "carga": 40.0,
+      "feito": true
+     },
+     "2": {
+      "reps": 12,
+      "carga": 40.0,
+      "feito": true
+     },
+     "3": {
+      "reps": 10,
+      "carga": 40.0,
+      "feito": true
+     },
+     "4": {
+      "reps": 9,
+      "carga": 40.0,
+      "feito": true
+     }
+    },
+    "h-A-08": {
+     "1": {
+      "reps": 8,
+      "carga": 28.5,
+      "feito": true
+     },
+     "2": {
+      "reps": 10,
+      "carga": 28.5,
+      "feito": true
+     },
+     "3": {
+      "reps": 9,
+      "carga": 28.5,
+      "feito": true
+     }
+    },
+    "h-A-09": {
+     "1": {
+      "reps": 10,
+      "carga": 51.5,
+      "feito": true
+     },
+     "2": {
+      "reps": 9,
+      "carga": 51.5,
+      "feito": true
+     },
+     "3": {
+      "reps": 8,
+      "carga": 51.5,
+      "feito": true
+     }
+    },
+    "h-A-10": {
+     "1": {
+      "reps": 10,
+      "carga": 45.5,
+      "feito": true
+     },
+     "2": {
+      "reps": 11,
+      "carga": 45.5,
+      "feito": true
+     },
+     "3": {
+      "reps": 8,
+      "carga": 45.5,
+      "feito": true
+     }
+    },
+    "h-A-12": {
+     "1": {
+      "reps": 11,
+      "carga": 11.5,
+      "feito": true
+     },
+     "2": {
+      "reps": 10,
+      "carga": 11.5,
+      "feito": true
+     },
+     "3": {
+      "reps": 12,
+      "carga": 11.5,
+      "feito": true
+     }
+    },
+    "h-A-13": {
+     "1": {
+      "reps": 9,
+      "carga": 9.0,
+      "feito": true
+     },
+     "2": {
+      "reps": 9,
+      "carga": 9.0,
+      "feito": true
+     },
+     "3": {
+      "reps": 12,
+      "carga": 9.0,
+      "feito": true
+     }
+    }
+   },
+   "volume": 5769,
+   "intensidade": 3,
+   "concluido": true
+  },
+  {
+   "id": "l042",
+   "data": "2026-11-09",
+   "ficha": "B",
+   "treino": "Inferiores",
+   "programa": "hibrido",
+   "inicio": "07:10",
+   "fim": "08:12",
+   "min": 62,
+   "sets": {
+    "h-B-06": {
+     "1": {
+      "reps": 8,
+      "carga": 21.0,
+      "feito": true
+     },
+     "2": {
+      "reps": 9,
+      "carga": 21.0,
+      "feito": true
+     },
+     "3": {
+      "reps": 11,
+      "carga": 21.0,
+      "feito": true
+     },
+     "4": {
+      "reps": 12,
+      "carga": 21.0,
+      "feito": true
+     }
+    },
+    "h-B-07": {
+     "1": {
+      "reps": 8,
+      "carga": 14.5,
+      "feito": true
+     },
+     "2": {
+      "reps": 11,
+      "carga": 14.5,
+      "feito": true
+     },
+     "3": {
+      "reps": 8,
+      "carga": 14.5,
+      "feito": true
+     }
+    },
+    "h-B-08": {
+     "1": {
+      "reps": 10,
+      "carga": 125.0,
+      "feito": true
+     },
+     "2": {
+      "reps": 10,
+      "carga": 125.0,
+      "feito": true
+     },
+     "3": {
+      "reps": 9,
+      "carga": 125.0,
+      "feito": true
+     }
+    },
+    "h-B-09": {
+     "1": {
+      "reps": 8,
+      "carga": 26.0,
+      "feito": true
+     },
+     "2": {
+      "reps": 12,
+      "carga": 26.0,
+      "feito": true
+     },
+     "3": {
+      "reps": 12,
+      "carga": 26.0,
+      "feito": true
+     }
+    },
+    "h-B-12": {
+     "1": {
+      "reps": 9,
+      "carga": 62.5,
+      "feito": true
+     },
+     "2": {
+      "reps": 12,
+      "carga": 62.5,
+      "feito": true
+     },
+     "3": {
+      "reps": 11,
+      "carga": 62.5,
+      "feito": true
+     }
+    }
+   },
+   "volume": 7688,
+   "intensidade": 4,
+   "concluido": true
+  },
+  {
+   "id": "l043",
+   "data": "2026-11-12",
+   "ficha": "C",
+   "treino": "Peito, ombro e braço",
+   "programa": "hibrido",
+   "inicio": "07:10",
+   "fim": "08:13",
+   "min": 63,
+   "sets": {
+    "h-C-03": {
+     "1": {
+      "reps": 9,
+      "carga": 41.5,
+      "feito": true
+     },
+     "2": {
+      "reps": 10,
+      "carga": 41.5,
+      "feito": true
+     },
+     "3": {
+      "reps": 12,
+      "carga": 41.5,
+      "feito": true
+     },
+     "4": {
+      "reps": 9,
+      "carga": 41.5,
+      "feito": true
+     }
+    },
+    "h-C-04": {
+     "1": {
+      "reps": 8,
+      "carga": 31.0,
+      "feito": true
+     },
+     "2": {
+      "reps": 12,
+      "carga": 31.0,
+      "feito": true
+     },
+     "3": {
+      "reps": 11,
+      "carga": 31.0,
+      "feito": true
+     }
+    },
+    "h-C-05": {
+     "1": {
+      "reps": 12,
+      "carga": 12.5,
+      "feito": true
+     },
+     "2": {
+      "reps": 9,
+      "carga": 12.5,
+      "feito": true
+     },
+     "3": {
+      "reps": 12,
+      "carga": 12.5,
+      "feito": true
+     }
+    },
+    "h-C-06": {
+     "1": {
+      "reps": 12,
+      "carga": 7.5,
+      "feito": true
+     },
+     "2": {
+      "reps": 12,
+      "carga": 7.5,
+      "feito": true
+     },
+     "3": {
+      "reps": 8,
+      "carga": 7.5,
+      "feito": true
+     }
+    },
+    "h-C-07": {
+     "1": {
+      "reps": 12,
+      "carga": 26.0,
+      "feito": true
+     },
+     "2": {
+      "reps": 9,
+      "carga": 26.0,
+      "feito": true
+     },
+     "3": {
+      "reps": 8,
+      "carga": 26.0,
+      "feito": true
+     }
+    },
+    "h-C-09": {
+     "1": {
+      "reps": 8,
+      "carga": 47.0,
+      "feito": true
+     },
+     "2": {
+      "reps": 8,
+      "carga": 47.0,
+      "feito": true
+     },
+     "3": {
+      "reps": 9,
+      "carga": 47.0,
+      "feito": true
+     }
+    }
+   },
+   "volume": 5202,
+   "intensidade": 3,
+   "concluido": true
+  },
+  {
+   "id": "l044",
+   "data": "2026-11-14",
+   "ficha": "A",
+   "treino": "Costas e bíceps",
+   "programa": "hibrido",
+   "inicio": "07:10",
+   "fim": "08:10",
+   "min": 60,
+   "sets": {
+    "h-A-07": {
+     "1": {
+      "reps": 11,
+      "carga": 36.5,
+      "feito": true
+     },
+     "2": {
+      "reps": 12,
+      "carga": 36.5,
+      "feito": true
+     },
+     "3": {
+      "reps": 8,
+      "carga": 36.5,
+      "feito": true
+     },
+     "4": {
+      "reps": 8,
+      "carga": 36.5,
+      "feito": true
+     }
+    },
+    "h-A-08": {
+     "1": {
+      "reps": 12,
+      "carga": 26.0,
+      "feito": true
+     },
+     "2": {
+      "reps": 9,
+      "carga": 26.0,
+      "feito": true
+     },
+     "3": {
+      "reps": 11,
+      "carga": 26.0,
+      "feito": true
+     }
+    },
+    "h-A-09": {
+     "1": {
+      "reps": 10,
+      "carga": 47.0,
+      "feito": true
+     },
+     "2": {
+      "reps": 8,
+      "carga": 47.0,
+      "feito": true
+     },
+     "3": {
+      "reps": 11,
+      "carga": 47.0,
+      "feito": true
+     }
+    },
+    "h-A-10": {
+     "1": {
+      "reps": 8,
+      "carga": 41.5,
+      "feito": true
+     },
+     "2": {
+      "reps": 12,
+      "carga": 41.5,
+      "feito": true
+     },
+     "3": {
+      "reps": 12,
+      "carga": 41.5,
+      "feito": true
+     }
+    },
+    "h-A-12": {
+     "1": {
+      "reps": 8,
+      "carga": 10.5,
+      "feito": true
+     },
+     "2": {
+      "reps": 12,
+      "carga": 10.5,
+      "feito": true
+     },
+     "3": {
+      "reps": 8,
+      "carga": 10.5,
+      "feito": true
+     }
+    },
+    "h-A-13": {
+     "1": {
+      "reps": 11,
+      "carga": 8.5,
+      "feito": true
+     },
+     "2": {
+      "reps": 10,
+      "carga": 8.5,
+      "feito": true
+     },
+     "3": {
+      "reps": 8,
+      "carga": 8.5,
+      "feito": true
+     }
+    }
+   },
+   "volume": 5487,
+   "intensidade": 3,
+   "concluido": true
+  },
+  {
+   "id": "l045",
+   "data": "2026-11-16",
+   "ficha": "B",
+   "treino": "Inferiores",
+   "programa": "hibrido",
+   "inicio": "07:10",
+   "fim": "08:11",
+   "min": 61,
+   "sets": {
+    "h-B-06": {
+     "1": {
+      "reps": 9,
+      "carga": 21.0,
+      "feito": true
+     },
+     "2": {
+      "reps": 9,
+      "carga": 21.0,
+      "feito": true
+     },
+     "3": {
+      "reps": 11,
+      "carga": 21.0,
+      "feito": true
+     },
+     "4": {
+      "reps": 11,
+      "carga": 21.0,
+      "feito": true
+     }
+    },
+    "h-B-07": {
+     "1": {
+      "reps": 11,
+      "carga": 14.5,
+      "feito": true
+     },
+     "2": {
+      "reps": 8,
+      "carga": 14.5,
+      "feito": true
+     },
+     "3": {
+      "reps": 11,
+      "carga": 14.5,
+      "feito": true
+     }
+    },
+    "h-B-08": {
+     "1": {
+      "reps": 10,
+      "carga": 125.0,
+      "feito": true
+     },
+     "2": {
+      "reps": 8,
+      "carga": 125.0,
+      "feito": true
+     },
+     "3": {
+      "reps": 12,
+      "carga": 125.0,
+      "feito": true
+     }
+    },
+    "h-B-09": {
+     "1": {
+      "reps": 9,
+      "carga": 26.0,
+      "feito": true
+     },
+     "2": {
+      "reps": 8,
+      "carga": 26.0,
+      "feito": true
+     },
+     "3": {
+      "reps": 12,
+      "carga": 26.0,
+      "feito": true
+     }
+    },
+    "h-B-12": {
+     "1": {
+      "reps": 9,
+      "carga": 62.5,
+      "feito": true
+     },
+     "2": {
+      "reps": 10,
+      "carga": 62.5,
+      "feito": true
+     },
+     "3": {
+      "reps": 10,
+      "carga": 62.5,
+      "feito": true
+     }
+    }
+   },
+   "volume": 7592,
+   "intensidade": 4,
+   "concluido": true
+  }
+ ],
+ "weights": [
+  {
+   "id": "w046",
+   "data": "2026-09-01",
+   "kg": 84.5
+  },
+  {
+   "id": "w047",
+   "data": "2026-09-02",
+   "kg": 84.5
+  },
+  {
+   "id": "w048",
+   "data": "2026-09-05",
+   "kg": 84.5
+  },
+  {
+   "id": "w049",
+   "data": "2026-09-08",
+   "kg": 84.7
+  },
+  {
+   "id": "w050",
+   "data": "2026-09-09",
+   "kg": 84.9
+  },
+  {
+   "id": "w051",
+   "data": "2026-09-11",
+   "kg": 84.8
+  },
+  {
+   "id": "w052",
+   "data": "2026-09-15",
+   "kg": 84.5
+  },
+  {
+   "id": "w053",
+   "data": "2026-09-17",
+   "kg": 84.5
+  },
+  {
+   "id": "w054",
+   "data": "2026-09-18",
+   "kg": 84.4
+  },
+  {
+   "id": "w055",
+   "data": "2026-09-20",
+   "kg": 84.6
+  },
+  {
+   "id": "w056",
+   "data": "2026-09-24",
+   "kg": 84.8
+  },
+  {
+   "id": "w057",
+   "data": "2026-09-26",
+   "kg": 84.3
+  },
+  {
+   "id": "w058",
+   "data": "2026-09-29",
+   "kg": 84.0
+  },
+  {
+   "id": "w059",
+   "data": "2026-09-30",
+   "kg": 83.8
+  },
+  {
+   "id": "w060",
+   "data": "2026-10-02",
+   "kg": 83.9
+  },
+  {
+   "id": "w061",
+   "data": "2026-10-04",
+   "kg": 84.1
+  },
+  {
+   "id": "w062",
+   "data": "2026-10-07",
+   "kg": 83.9
+  },
+  {
+   "id": "w063",
+   "data": "2026-10-08",
+   "kg": 84.2
+  },
+  {
+   "id": "w064",
+   "data": "2026-10-10",
+   "kg": 84.1
+  },
+  {
+   "id": "w065",
+   "data": "2026-10-11",
+   "kg": 83.6
+  },
+  {
+   "id": "w066",
+   "data": "2026-10-12",
+   "kg": 83.8
+  },
+  {
+   "id": "w067",
+   "data": "2026-10-13",
+   "kg": 84.0
+  },
+  {
+   "id": "w068",
+   "data": "2026-10-14",
+   "kg": 83.8
+  },
+  {
+   "id": "w069",
+   "data": "2026-10-16",
+   "kg": 83.6
+  },
+  {
+   "id": "w070",
+   "data": "2026-10-25",
+   "kg": 83.8
+  },
+  {
+   "id": "w071",
+   "data": "2026-10-29",
+   "kg": 83.5
+  },
+  {
+   "id": "w072",
+   "data": "2026-10-31",
+   "kg": 83.5
+  },
+  {
+   "id": "w073",
+   "data": "2026-11-01",
+   "kg": 83.4
+  },
+  {
+   "id": "w074",
+   "data": "2026-11-04",
+   "kg": 83.6
+  },
+  {
+   "id": "w075",
+   "data": "2026-11-05",
+   "kg": 83.6
+  },
+  {
+   "id": "w076",
+   "data": "2026-11-06",
+   "kg": 83.4
+  },
+  {
+   "id": "w077",
+   "data": "2026-11-07",
+   "kg": 83.2
+  },
+  {
+   "id": "w078",
+   "data": "2026-11-10",
+   "kg": 83.6
+  },
+  {
+   "id": "w079",
+   "data": "2026-11-13",
+   "kg": 83.3
+  },
+  {
+   "id": "w080",
+   "data": "2026-11-14",
+   "kg": 83.1
+  },
+  {
+   "id": "w081",
+   "data": "2026-11-15",
+   "kg": 82.8
+  },
+  {
+   "id": "w082",
+   "data": "2026-11-16",
+   "kg": 82.8
+  },
+  {
+   "id": "w083",
+   "data": "2026-11-17",
+   "kg": 82.9
+  },
+  {
+   "id": "w084",
+   "data": "2026-11-18",
+   "kg": 82.7,
+   "obs": "Em jejum"
+  }
+ ],
+ "mob": [
+  {
+   "id": "m085",
+   "data": "2026-09-03",
+   "rotina": "core-do-corredor",
+   "nome": "Core do corredor",
+   "seg": 556,
+   "completo": true
+  },
+  {
+   "id": "m086",
+   "data": "2026-09-04",
+   "rotina": "fortalecimento-dos-pes",
+   "nome": "Fortalecimento dos pés",
+   "seg": 637,
+   "completo": true
+  },
+  {
+   "id": "m087",
+   "data": "2026-09-07",
+   "rotina": "core-do-corredor",
+   "nome": "Core do corredor",
+   "seg": 541,
+   "completo": true
+  },
+  {
+   "id": "m088",
+   "data": "2026-09-14",
+   "rotina": "educativos-iniciante",
+   "nome": "Educativos de corrida · iniciante",
+   "seg": 390,
+   "completo": true
+  },
+  {
+   "id": "m089",
+   "data": "2026-09-17",
+   "rotina": "fortalecimento-dos-pes",
+   "nome": "Fortalecimento dos pés",
+   "seg": 629,
+   "completo": true
+  },
+  {
+   "id": "m090",
+   "data": "2026-09-19",
+   "rotina": "pos-corrida",
+   "nome": "Alongamento pós-corrida",
+   "seg": 478,
+   "completo": true
+  },
+  {
+   "id": "m091",
+   "data": "2026-09-20",
+   "rotina": "fortalecimento-dos-pes",
+   "nome": "Fortalecimento dos pés",
+   "seg": 583,
+   "completo": true
+  },
+  {
+   "id": "m092",
+   "data": "2026-09-27",
+   "rotina": "alongamento-completo",
+   "nome": "Alongamento completo",
+   "seg": 1319,
+   "completo": true
+  },
+  {
+   "id": "m093",
+   "data": "2026-09-29",
+   "rotina": "core-do-corredor",
+   "nome": "Core do corredor",
+   "seg": 526,
+   "completo": true
+  },
+  {
+   "id": "m094",
+   "data": "2026-10-04",
+   "rotina": "core-do-corredor",
+   "nome": "Core do corredor",
+   "seg": 577,
+   "completo": true
+  },
+  {
+   "id": "m095",
+   "data": "2026-10-06",
+   "rotina": "core-do-corredor",
+   "nome": "Core do corredor",
+   "seg": 538,
+   "completo": true
+  },
+  {
+   "id": "m096",
+   "data": "2026-10-08",
+   "rotina": "fortalecimento-dos-pes",
+   "nome": "Fortalecimento dos pés",
+   "seg": 608,
+   "completo": true
+  },
+  {
+   "id": "m097",
+   "data": "2026-10-10",
+   "rotina": "core-do-corredor",
+   "nome": "Core do corredor",
+   "seg": 541,
+   "completo": true
+  },
+  {
+   "id": "m098",
+   "data": "2026-10-12",
+   "rotina": "alongamento-completo",
+   "nome": "Alongamento completo",
+   "seg": 1293,
+   "completo": true
+  },
+  {
+   "id": "m099",
+   "data": "2026-10-16",
+   "rotina": "educativos-iniciante",
+   "nome": "Educativos de corrida · iniciante",
+   "seg": 383,
+   "completo": true
+  },
+  {
+   "id": "m100",
+   "data": "2026-10-17",
+   "rotina": "alongamento-completo",
+   "nome": "Alongamento completo",
+   "seg": 1344,
+   "completo": true
+  },
+  {
+   "id": "m101",
+   "data": "2026-10-19",
+   "rotina": "pos-corrida",
+   "nome": "Alongamento pós-corrida",
+   "seg": 493,
+   "completo": true
+  },
+  {
+   "id": "m102",
+   "data": "2026-10-23",
+   "rotina": "core-do-corredor",
+   "nome": "Core do corredor",
+   "seg": 574,
+   "completo": true
+  },
+  {
+   "id": "m103",
+   "data": "2026-10-24",
+   "rotina": "educativos-iniciante",
+   "nome": "Educativos de corrida · iniciante",
+   "seg": 355,
+   "completo": true
+  },
+  {
+   "id": "m104",
+   "data": "2026-10-27",
+   "rotina": "alongamento-completo",
+   "nome": "Alongamento completo",
+   "seg": 1323,
+   "completo": true
+  },
+  {
+   "id": "m105",
+   "data": "2026-11-11",
+   "rotina": "fortalecimento-dos-pes",
+   "nome": "Fortalecimento dos pés",
+   "seg": 633,
+   "completo": true
+  },
+  {
+   "id": "m106",
+   "data": "2026-11-16",
+   "rotina": "fortalecimento-dos-pes",
+   "nome": "Fortalecimento dos pés",
+   "seg": 588,
+   "completo": true
+  },
+  {
+   "id": "m107",
+   "data": "2026-11-15",
+   "rotina": "pos-corrida",
+   "nome": "Alongamento pós-corrida",
+   "seg": 492,
+   "completo": true
+  },
+  {
+   "id": "m108",
+   "data": "2026-11-17",
+   "rotina": "alongamento-completo",
+   "nome": "Alongamento completo",
+   "seg": 1335,
+   "completo": true
+  }
+ ],
+ "marcas": {
+  "c-2026-11-13": "feito",
+  "c-2026-11-15": "feito"
+ }
+}

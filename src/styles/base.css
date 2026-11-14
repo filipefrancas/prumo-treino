@@ -1,0 +1,57 @@
+/* base: reset mínimo, tipografia do corpo, foco, toque, movimento reduzido, áreas seguras e utilitários.
+   É a base do Prumo (10-base.css) com o que um PWA no iPhone pede a mais: áreas seguras em variáveis, texto sem
+   auto-ajuste, campos que nunca dão zoom, toque sem atraso nem realce e controles sem seleção de texto.
+   Nenhuma cor literal aqui: só tokens de tokens.css. */
+
+/* áreas seguras (entalhe, cantos e barra de início do iPhone). Use sempre estas variáveis em vez de env():
+   assim dá para simular um iPhone nas capturas sobrescrevendo as quatro no :root. */
+:root{
+  --safe-top:env(safe-area-inset-top,0px);
+  --safe-right:env(safe-area-inset-right,0px);
+  --safe-bottom:env(safe-area-inset-bottom,0px);
+  --safe-left:env(safe-area-inset-left,0px);
+}
+
+*,*::before,*::after{box-sizing:border-box}
+/* o iPhone não aumenta o texto sozinho ao girar o aparelho; o realce cinza do toque some em tudo */
+html{height:100%;-webkit-text-size-adjust:100%;text-size-adjust:100%;-webkit-tap-highlight-color:transparent}
+body{min-height:100%;min-height:100dvh;margin:0;overflow-wrap:break-word;background:var(--bg);color:var(--fg);font:var(--fs-md)/1.5 var(--f-body);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+button,input,select,textarea{font:inherit;color:inherit;margin:0}
+/* campos nunca abaixo de 16 px: o Safari do iPhone dá zoom na página ao focar um campo menor */
+input,select,textarea{font-size:max(16px,1em)}
+button{cursor:pointer}
+button:disabled{cursor:default}
+a{color:inherit;text-decoration:none}
+:where(p,li) a{text-decoration:underline;text-underline-offset:3px}
+[hidden]{display:none!important}
+#app{min-height:100dvh;isolation:isolate}
+svg{flex:none}
+ul,ol{margin:0;padding-left:1.2em}
+b,strong{font-weight:700}
+small{font-size:var(--fs-xs)}
+hr{border:0;border-top:1px solid var(--line-soft);margin:0}
+::selection{background:var(--accent-soft)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:var(--r-xs)}
+h1,h2,h3,h4{text-wrap:balance;margin:0}
+p{margin:0}
+summary{cursor:pointer}
+kbd{font:500 var(--fs-2xs)/1 var(--f-mono);border:1px solid var(--line);border-bottom-width:2px;border-radius:4px;padding:2px 5px;background:var(--surface-2);color:var(--muted)}
+
+/* toque: sem atraso de toque duplo; controles não selecionam texto nem abrem o menu de toque longo do iOS */
+a,button,input,select,textarea,label,summary,[role="button"]{touch-action:manipulation}
+a,button,summary,[role="button"]{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+/* no WebKit a seleção desligada é herdada: um campo dentro de um controle precisa dela de volta para aceitar texto */
+input,textarea,select,[contenteditable]{-webkit-user-select:text;user-select:text}
+
+/* utilitários */
+.num{font-variant-numeric:tabular-nums}
+.sr-only{position:absolute!important;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0,0,0,0);clip-path:inset(50%);white-space:nowrap;border:0}
+
+/* o que uma folha aberta tira do fluxo fica inerte para toque, teclado e leitor de tela */
+[inert]{pointer-events:none;-webkit-user-select:none;user-select:none}
+
+/* movimento reduzido: transição de .01ms (não "none"), então quem mede o estilo logo depois de trocar uma classe ainda
+   lê o valor antigo; meça no requestAnimationFrame seguinte */
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
+}

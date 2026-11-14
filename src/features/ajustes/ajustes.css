@@ -1,0 +1,44 @@
+/* Ajustes: estilos da feature (classes com o prefixo aj-). Só tokens, nenhuma cor literal. */
+
+.aj-nota{margin-top:10px;line-height:1.5}
+.aj-folha-txt{font-size:var(--fs-md);line-height:1.55}
+.aj-folha-txt b{color:var(--fg)}
+.aj-erro{margin-top:12px}
+.aj-link{justify-self:start}
+
+/* zonas: número da zona na cor do nível de intensidade */
+.aj-zona-n{display:grid;place-items:center;width:28px;height:28px;border-radius:var(--r-xs);font:600 16px/1 var(--f-display);color:var(--fg);background:color-mix(in srgb,var(--aj-z) 22%,var(--surface));border:1px solid color-mix(in srgb,var(--aj-z) 55%,transparent)}
+.aj-zona-1{--aj-z:var(--lv-2)}
+.aj-zona-2{--aj-z:var(--lv-3)}
+.aj-zona-3{--aj-z:var(--lv-4)}
+.aj-zona-4{--aj-z:var(--lv-5)}
+
+/* plano da semana: um marcador por tipo de treino (corrida em cima, musculação embaixo) */
+.aj-marcas{display:grid;gap:4px;width:24px;justify-items:center}
+.aj-marcas i{width:10px;height:10px;border-radius:3px;border:1.5px solid var(--line)}
+.aj-marcas i.is-corrida{border-color:var(--c-corrida);background:var(--c-corrida)}
+.aj-marcas i.is-musc{border-color:var(--c-musc);background:var(--c-musc)}
+
+.aj-toggles{padding-block:6px}
+
+/* dados */
+.aj-resumo{font-size:var(--fs-md);line-height:1.55;color:var(--muted)}
+.aj-resumo b{color:var(--fg);font-weight:600}
+.aj-backup-nota{margin-top:6px;line-height:1.5}
+.aj-acao{margin:14px 0 8px}
+.aj-acao.is-fim{margin:10px 0 0}
+.aj-perigo{display:flex;align-items:center;gap:12px;border-color:color-mix(in srgb,var(--crit) 28%,var(--line-soft))}
+.aj-perigo-txt{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.aj-perigo-txt b{font-weight:600}
+.aj-perigo-txt span{font-size:var(--fs-xs);color:var(--muted);line-height:1.4}
+
+/* passos numerados (instalação, colar no Prumo) */
+.aj-passos{display:grid;gap:10px;margin:0;padding:0;list-style:none;counter-reset:aj-passo;font-size:var(--fs-md);line-height:1.5;color:var(--muted)}
+.aj-folha-txt + .aj-passos{margin-top:14px}
+.aj-passos li{position:relative;min-height:24px;padding-left:36px;counter-increment:aj-passo}
+.aj-passos li::before{content:counter(aj-passo);position:absolute;left:0;top:-1px;display:grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--accent-soft);color:var(--accent);font:600 var(--fs-xs)/1 var(--f-mono)}
+.aj-passos b{color:var(--fg);font-weight:600}
+.aj-passo-icone{display:inline-block;vertical-align:-3px;color:var(--fg)}
+.aj-instalar-nota{margin-top:14px;line-height:1.5}
+
+.aj-versao{font:500 var(--fs-sm)/1 var(--f-mono);color:var(--muted)}

@@ -1,0 +1,948 @@
+{
+ "lifts": [
+  {
+   "id": "l-b1",
+   "data": "2026-11-02",
+   "ficha": "B",
+   "treino": "Inferiores",
+   "programa": "hibrido",
+   "inicio": "18:00",
+   "fim": "18:58",
+   "concluido": true,
+   "emAndamento": false,
+   "min": 58,
+   "sets": {
+    "h-B-01": {
+     "1": {
+      "feito": true,
+      "t": "18:05"
+     },
+     "2": {
+      "feito": true,
+      "t": "18:05"
+     }
+    },
+    "h-B-02": {
+     "1": {
+      "feito": true,
+      "t": "18:05"
+     },
+     "2": {
+      "feito": true,
+      "t": "18:05"
+     }
+    },
+    "h-B-03": {
+     "1": {
+      "feito": true,
+      "t": "18:05"
+     },
+     "2": {
+      "feito": true,
+      "t": "18:05"
+     }
+    },
+    "h-B-04": {
+     "1": {
+      "feito": true,
+      "t": "18:05"
+     },
+     "2": {
+      "feito": true,
+      "t": "18:05"
+     }
+    },
+    "h-B-05": {
+     "1": {
+      "carga": 0,
+      "reps": 20,
+      "feito": true,
+      "t": "18:10"
+     },
+     "2": {
+      "carga": 0,
+      "reps": 20,
+      "feito": true,
+      "t": "18:13"
+     }
+    },
+    "h-B-06": {
+     "1": {
+      "carga": 16,
+      "reps": 18,
+      "feito": true,
+      "t": "18:10"
+     },
+     "2": {
+      "carga": 16,
+      "reps": 16,
+      "feito": true,
+      "t": "18:13"
+     }
+    },
+    "h-B-07": {
+     "1": {
+      "carga": 8,
+      "reps": 12,
+      "feito": true,
+      "t": "18:10"
+     },
+     "2": {
+      "carga": 8,
+      "reps": 12,
+      "feito": true,
+      "t": "18:13"
+     },
+     "3": {
+      "carga": 8,
+      "reps": 10,
+      "feito": true,
+      "t": "18:16"
+     }
+    },
+    "h-B-08": {
+     "1": {
+      "carga": 140,
+      "reps": 15,
+      "feito": true,
+      "t": "18:10"
+     },
+     "2": {
+      "carga": 140,
+      "reps": 15,
+      "feito": true,
+      "t": "18:13"
+     },
+     "3": {
+      "carga": 140,
+      "reps": 15,
+      "feito": true,
+      "t": "18:16"
+     }
+    },
+    "h-B-09": {
+     "1": {
+      "carga": 70,
+      "reps": 12,
+      "feito": true,
+      "t": "18:10"
+     },
+     "2": {
+      "carga": 70,
+      "reps": 11,
+      "feito": true,
+      "t": "18:13"
+     }
+    },
+    "h-B-10": {
+     "1": {
+      "carga": 25,
+      "reps": 10,
+      "feito": true,
+      "t": "18:10"
+     },
+     "2": {
+      "carga": 25,
+      "reps": 10,
+      "feito": true,
+      "t": "18:13"
+     },
+     "3": {
+      "carga": 25,
+      "reps": 9,
+      "feito": true,
+      "t": "18:16"
+     }
+    },
+    "h-B-11": {
+     "1": {
+      "carga": 0,
+      "reps": 12,
+      "feito": true,
+      "t": "18:10"
+     },
+     "2": {
+      "carga": 0,
+      "reps": 12,
+      "feito": true,
+      "t": "18:13"
+     },
+     "3": {
+      "carga": 0,
+      "reps": 11,
+      "feito": true,
+      "t": "18:16"
+     }
+    },
+    "h-B-12": {
+     "1": {
+      "carga": 110,
+      "reps": 13,
+      "feito": true,
+      "t": "18:10"
+     },
+     "2": {
+      "carga": 110,
+      "reps": 12,
+      "feito": true,
+      "t": "18:13"
+     },
+     "3": {
+      "carga": 110,
+      "reps": 12,
+      "feito": true,
+      "t": "18:16"
+     }
+    },
+    "h-B-13": {
+     "1": {
+      "carga": 0,
+      "reps": 15,
+      "feito": true,
+      "t": "18:10"
+     },
+     "2": {
+      "carga": 0,
+      "reps": 14,
+      "feito": true,
+      "t": "18:13"
+     },
+     "3": {
+      "carga": 0,
+      "reps": 12,
+      "feito": true,
+      "t": "18:16"
+     }
+    }
+   },
+   "intensidade": 3,
+   "obs": "",
+   "volume": 13521,
+   "prs": []
+  },
+  {
+   "id": "l-b2",
+   "data": "2026-11-09",
+   "ficha": "B",
+   "treino": "Inferiores",
+   "programa": "hibrido",
+   "inicio": "18:00",
+   "fim": "18:58",
+   "concluido": true,
+   "emAndamento": false,
+   "min": 58,
+   "sets": {
+    "h-B-01": {
+     "1": {
+      "feito": true,
+      "t": "18:05"
+     },
+     "2": {
+      "feito": true,
+      "t": "18:05"
+     }
+    },
+    "h-B-02": {
+     "1": {
+      "feito": true,
+      "t": "18:05"
+     },
+     "2": {
+      "feito": true,
+      "t": "18:05"
+     }
+    },
+    "h-B-03": {
+     "1": {
+      "feito": true,
+      "t": "18:05"
+     },
+     "2": {
+      "feito": true,
+      "t": "18:05"
+     }
+    },
+    "h-B-04": {
+     "1": {
+      "feito": true,
+      "t": "18:05"
+     },
+     "2": {
+      "feito": true,
+      "t": "18:05"
+     }
+    },
+    "h-B-05": {
+     "1": {
+      "carga": 0,
+      "reps": 20,
+      "feito": true,
+      "t": "18:10"
+     },
+     "2": {
+      "carga": 0,
+      "reps": 20,
+      "feito": true,
+      "t": "18:13"
+     }
+    },
+    "h-B-06": {
+     "1": {
+      "carga": 17,
+      "reps": 18,
+      "feito": true,
+      "t": "18:10"
+     },
+     "2": {
+      "carga": 17,
+      "reps": 16,
+      "feito": true,
+      "t": "18:13"
+     }
+    },
+    "h-B-07": {
+     "1": {
+      "carga": 9,
+      "reps": 12,
+      "feito": true,
+      "t": "18:10"
+     },
+     "2": {
+      "carga": 9,
+      "reps": 12,
+      "feito": true,
+      "t": "18:13"
+     },
+     "3": {
+      "carga": 9,
+      "reps": 10,
+      "feito": true,
+      "t": "18:16"
+     }
+    },
+    "h-B-08": {
+     "1": {
+      "carga": 150,
+      "reps": 15,
+      "feito": true,
+      "t": "18:10"
+     },
+     "2": {
+      "carga": 150,
+      "reps": 15,
+      "feito": true,
+      "t": "18:13"
+     },
+     "3": {
+      "carga": 150,
+      "reps": 12,
+      "feito": true,
+      "t": "18:16"
+     }
+    },
+    "h-B-09": {
+     "1": {
+      "carga": 72,
+      "reps": 12,
+      "feito": true,
+      "t": "18:10"
+     },
+     "2": {
+      "carga": 72,
+      "reps": 11,
+      "feito": true,
+      "t": "18:13"
+     }
+    },
+    "h-B-10": {
+     "1": {
+      "carga": 25,
+      "reps": 11,
+      "feito": true,
+      "t": "18:10"
+     },
+     "2": {
+      "carga": 25,
+      "reps": 10,
+      "feito": true,
+      "t": "18:13"
+     },
+     "3": {
+      "carga": 25,
+      "reps": 9,
+      "feito": true,
+      "t": "18:16"
+     }
+    },
+    "h-B-11": {
+     "1": {
+      "carga": 0,
+      "reps": 13,
+      "feito": true,
+      "t": "18:10"
+     },
+     "2": {
+      "carga": 0,
+      "reps": 12,
+      "feito": true,
+      "t": "18:13"
+     },
+     "3": {
+      "carga": 0,
+      "reps": 11,
+      "feito": true,
+      "t": "18:16"
+     }
+    },
+    "h-B-12": {
+     "1": {
+      "carga": 110,
+      "reps": 14,
+      "feito": true,
+      "t": "18:10"
+     },
+     "2": {
+      "carga": 110,
+      "reps": 12,
+      "feito": true,
+      "t": "18:13"
+     },
+     "3": {
+      "carga": 110,
+      "reps": 12,
+      "feito": true,
+      "t": "18:16"
+     }
+    },
+    "h-B-13": {
+     "1": {
+      "carga": 0,
+      "reps": 15,
+      "feito": true,
+      "t": "18:10"
+     },
+     "2": {
+      "carga": 0,
+      "reps": 14,
+      "feito": true,
+      "t": "18:13"
+     },
+     "3": {
+      "carga": 0,
+      "reps": 12,
+      "feito": true,
+      "t": "18:16"
+     }
+    }
+   },
+   "intensidade": 3,
+   "obs": "Perna pesada no fim, mas sem dor.",
+   "obsEx": {
+    "h-B-08": "Banco no furo 3"
+   },
+   "prs": [
+    {
+     "exId": "h-B-08",
+     "nome": "Leg Press 45 Pés Afastados",
+     "e1rm": 225,
+     "carga": 150,
+     "reps": 15,
+     "anterior": 210,
+     "medida": "e1rm"
+    },
+    {
+     "exId": "h-B-06",
+     "nome": "Agachamento com Halter na Frente",
+     "e1rm": 27.2,
+     "carga": 17,
+     "reps": 18,
+     "anterior": 25.6,
+     "medida": "e1rm"
+    }
+   ],
+   "volume": 13770
+  },
+  {
+   "id": "l-c1",
+   "data": "2026-11-12",
+   "ficha": "C",
+   "treino": "Peito, ombro e braço",
+   "programa": "hibrido",
+   "inicio": "07:10",
+   "fim": "08:02",
+   "concluido": true,
+   "emAndamento": false,
+   "min": 52,
+   "intensidade": 3,
+   "prs": [],
+   "sets": {
+    "h-C-03": {
+     "1": {
+      "carga": 22.5,
+      "reps": 15,
+      "feito": true,
+      "t": "18:10"
+     },
+     "2": {
+      "carga": 30,
+      "reps": 12,
+      "feito": true,
+      "t": "18:13"
+     },
+     "3": {
+      "carga": 60,
+      "reps": 12,
+      "feito": true,
+      "t": "18:16"
+     },
+     "4": {
+      "carga": 60,
+      "reps": 11,
+      "feito": true,
+      "t": "18:19"
+     },
+     "5": {
+      "carga": 60,
+      "reps": 10,
+      "feito": true,
+      "t": "18:22"
+     }
+    },
+    "h-C-04": {
+     "1": {
+      "carga": 60,
+      "reps": 12,
+      "feito": true,
+      "t": "18:10"
+     },
+     "2": {
+      "carga": 60,
+      "reps": 12,
+      "feito": true,
+      "t": "18:13"
+     },
+     "3": {
+      "carga": 60,
+      "reps": 12,
+      "feito": true,
+      "t": "18:16"
+     }
+    },
+    "h-C-05": {
+     "1": {
+      "carga": 12,
+      "reps": 12,
+      "feito": true,
+      "t": "18:10"
+     },
+     "2": {
+      "carga": 12,
+      "reps": 11,
+      "feito": true,
+      "t": "18:13"
+     },
+     "3": {
+      "carga": 12,
+      "reps": 10,
+      "feito": true,
+      "t": "18:16"
+     }
+    },
+    "h-C-06": {
+     "1": {
+      "carga": 7.5,
+      "reps": 15,
+      "feito": true,
+      "t": "18:10"
+     },
+     "2": {
+      "carga": 7.5,
+      "reps": 13,
+      "feito": true,
+      "t": "18:13"
+     }
+    },
+    "h-C-07": {
+     "1": {
+      "carga": 40,
+      "reps": 12,
+      "feito": true,
+      "t": "18:10"
+     },
+     "2": {
+      "carga": 40,
+      "reps": 10,
+      "feito": true,
+      "t": "18:13"
+     },
+     "3": {
+      "carga": 40,
+      "reps": 9,
+      "feito": true,
+      "t": "18:16"
+     }
+    },
+    "h-C-08": {
+     "1": {
+      "carga": 22.5,
+      "reps": 12,
+      "feito": true,
+      "t": "18:10"
+     },
+     "2": {
+      "carga": 22.5,
+      "reps": 12,
+      "feito": true,
+      "t": "18:13"
+     },
+     "3": {
+      "carga": 22.5,
+      "reps": 10,
+      "feito": true,
+      "t": "18:16"
+     }
+    },
+    "h-C-09": {
+     "1": {
+      "carga": 64,
+      "reps": 12,
+      "feito": true,
+      "t": "18:10"
+     },
+     "2": {
+      "carga": 64,
+      "reps": 10,
+      "feito": true,
+      "t": "18:13"
+     },
+     "3": {
+      "carga": 64,
+      "reps": 9,
+      "feito": true,
+      "t": "18:16"
+     }
+    },
+    "h-C-10": {
+     "1": {
+      "carga": 15,
+      "reps": 12,
+      "feito": true,
+      "t": "18:10"
+     },
+     "2": {
+      "carga": 15,
+      "reps": 12,
+      "feito": true,
+      "t": "18:13"
+     },
+     "3": {
+      "carga": 15,
+      "reps": 10,
+      "feito": true,
+      "t": "18:16"
+     }
+    }
+   },
+   "volume": 9942.5
+  },
+  {
+   "id": "l-a1",
+   "data": "2026-11-14",
+   "ficha": "A",
+   "treino": "Costas e bíceps",
+   "programa": "hibrido",
+   "inicio": "09:00",
+   "fim": "09:55",
+   "concluido": true,
+   "emAndamento": false,
+   "min": 55,
+   "intensidade": 4,
+   "prs": [],
+   "sets": {
+    "h-A-06": {
+     "1": {
+      "carga": 4,
+      "reps": 15,
+      "feito": true,
+      "t": "18:10"
+     },
+     "2": {
+      "carga": 4,
+      "reps": 14,
+      "feito": true,
+      "t": "18:13"
+     }
+    },
+    "h-A-07": {
+     "1": {
+      "carga": 19,
+      "reps": 15,
+      "feito": true,
+      "t": "18:10"
+     },
+     "2": {
+      "carga": 30,
+      "reps": 12,
+      "feito": true,
+      "t": "18:13"
+     },
+     "3": {
+      "carga": 30,
+      "reps": 12,
+      "feito": true,
+      "t": "18:16"
+     },
+     "4": {
+      "carga": 30,
+      "reps": 10,
+      "feito": true,
+      "t": "18:19"
+     }
+    },
+    "h-A-08": {
+     "1": {
+      "carga": 26,
+      "reps": 12,
+      "feito": true,
+      "t": "18:10"
+     },
+     "2": {
+      "carga": 26,
+      "reps": 12,
+      "feito": true,
+      "t": "18:13"
+     },
+     "3": {
+      "carga": 26,
+      "reps": 12,
+      "feito": true,
+      "t": "18:16"
+     }
+    },
+    "h-A-09": {
+     "1": {
+      "carga": 42.5,
+      "reps": 12,
+      "feito": true,
+      "t": "18:10"
+     },
+     "2": {
+      "carga": 42.5,
+      "reps": 12,
+      "feito": true,
+      "t": "18:13"
+     },
+     "3": {
+      "carga": 42.5,
+      "reps": 11,
+      "feito": true,
+      "t": "18:16"
+     },
+     "4": {
+      "carga": 42.5,
+      "reps": 10,
+      "feito": true,
+      "t": "18:19"
+     }
+    },
+    "h-A-10": {
+     "1": {
+      "carga": 30,
+      "reps": 12,
+      "feito": true,
+      "t": "18:10"
+     },
+     "2": {
+      "carga": 30,
+      "reps": 11,
+      "feito": true,
+      "t": "18:13"
+     },
+     "3": {
+      "carga": 30,
+      "reps": 10,
+      "feito": true,
+      "t": "18:16"
+     }
+    },
+    "h-A-11": {
+     "1": {
+      "carga": 5,
+      "reps": 20,
+      "feito": true,
+      "t": "18:10"
+     },
+     "2": {
+      "carga": 5,
+      "reps": 18,
+      "feito": true,
+      "t": "18:13"
+     },
+     "3": {
+      "carga": 5,
+      "reps": 16,
+      "feito": true,
+      "t": "18:16"
+     },
+     "4": {
+      "carga": 5,
+      "reps": 15,
+      "feito": true,
+      "t": "18:19"
+     }
+    },
+    "h-A-12": {
+     "1": {
+      "carga": 12,
+      "reps": 12,
+      "feito": true,
+      "t": "18:10"
+     },
+     "2": {
+      "carga": 12,
+      "reps": 11,
+      "feito": true,
+      "t": "18:13"
+     },
+     "3": {
+      "carga": 12,
+      "reps": 10,
+      "feito": true,
+      "t": "18:16"
+     },
+     "4": {
+      "carga": 12,
+      "reps": 9,
+      "feito": true,
+      "t": "18:19"
+     }
+    },
+    "h-A-13": {
+     "1": {
+      "carga": 20,
+      "reps": 12,
+      "feito": true,
+      "t": "18:10"
+     },
+     "2": {
+      "carga": 20,
+      "reps": 11,
+      "feito": true,
+      "t": "18:13"
+     },
+     "3": {
+      "carga": 20,
+      "reps": 10,
+      "feito": true,
+      "t": "18:16"
+     },
+     "4": {
+      "carga": 20,
+      "reps": 9,
+      "feito": true,
+      "t": "18:19"
+     }
+    }
+   },
+   "volume": 6948.5
+  },
+  {
+   "id": "l-agora",
+   "data": "2026-11-16",
+   "ficha": "B",
+   "treino": "Inferiores",
+   "programa": "hibrido",
+   "inicio": "11:34",
+   "emAndamento": true,
+   "concluido": false,
+   "inicioMs": 1794839650000,
+   "obsEx": {
+    "h-B-07": "Halter de 10 estava ocupado, fiz com 9"
+   },
+   "sets": {
+    "h-B-01": {
+     "1": {
+      "feito": true,
+      "t": "11:36"
+     },
+     "2": {
+      "feito": true,
+      "t": "11:37"
+     }
+    },
+    "h-B-02": {
+     "1": {
+      "feito": true,
+      "t": "11:38"
+     },
+     "2": {
+      "feito": true,
+      "t": "11:39"
+     }
+    },
+    "h-B-03": {
+     "1": {
+      "feito": true,
+      "t": "11:40"
+     }
+    },
+    "h-B-05": {
+     "1": {
+      "carga": 0,
+      "reps": 20,
+      "feito": true,
+      "t": "11:43"
+     },
+     "2": {
+      "carga": 0,
+      "reps": 20,
+      "feito": true,
+      "t": "11:46"
+     }
+    },
+    "h-B-06": {
+     "1": {
+      "carga": 17,
+      "reps": 20,
+      "feito": true,
+      "t": "11:44"
+     },
+     "2": {
+      "carga": 17,
+      "reps": 18,
+      "feito": true,
+      "t": "11:47"
+     }
+    },
+    "h-B-07": {
+     "1": {
+      "carga": 9,
+      "reps": 13,
+      "feito": true,
+      "t": "11:50"
+     },
+     "2": {
+      "carga": 9,
+      "reps": 12,
+      "feito": true,
+      "t": "11:52"
+     },
+     "3": {
+      "carga": 9,
+      "reps": 12,
+      "feito": true,
+      "t": "11:54"
+     }
+    },
+    "h-B-08": {
+     "1": {
+      "carga": 160,
+      "reps": 12,
+      "feito": true,
+      "t": "11:57"
+     }
+    }
+   }
+  }
+ ]
+}

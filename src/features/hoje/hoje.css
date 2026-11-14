@@ -1,0 +1,52 @@
+/* Hoje: estilos da feature (classes com o prefixo hj-). Só tokens, nenhuma cor literal. */
+
+/* cabeçalho de um cartão do dia: título e apoio à esquerda, número grande à direita */
+.hj-topo{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;min-width:0}
+.hj-topo-txt{flex:1;min-width:0}
+.hj-titulo{font:600 26px/1.05 var(--f-display);letter-spacing:.01em;color:var(--fg);overflow-wrap:anywhere}
+.hj-titulo.is-sm{font-size:21px}
+.hj-sub{margin-top:6px;font-size:var(--fs-sm);line-height:1.45;color:var(--muted)}
+.hj-min{flex:none;font:600 38px/.9 var(--f-display);letter-spacing:.01em;white-space:nowrap;color:var(--fg)}
+.hj-min small{font:500 var(--fs-sm)/1 var(--f-body);color:var(--muted);margin-left:3px}
+
+.hj-perfil{margin-top:14px}
+.hj-selos{margin-top:12px;row-gap:6px}
+.hj-feito{margin-top:12px}
+
+/* ações do cartão: dividem a largura; uma só ocupa tudo */
+.hj-acoes{display:flex;gap:10px;margin-top:16px;min-width:0}
+.hj-acoes>*{flex:1 1 0;min-width:0}
+.hj-ver-ficha{display:block;width:max-content;margin:12px auto 0}
+
+/* musculação: letra grande da ficha */
+.hj-ficha{display:flex;align-items:center;gap:14px;min-width:0}
+.hj-letra{flex:none;display:grid;place-items:center;width:60px;height:60px;border-radius:var(--r);background:color-mix(in srgb,var(--c-musc) 16%,var(--surface));border:1px solid color-mix(in srgb,var(--c-musc) 40%,transparent);font:600 40px/1 var(--f-display);color:var(--fg)}
+.hj-thumbs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:16px 0 0;padding:0;list-style:none}
+.hj-thumbs li{display:flex;flex-direction:column;gap:6px;min-width:0}
+.hj-thumbs .ui-fig{border-radius:var(--r-sm)}
+.hj-thumbs span{font-size:var(--fs-xs);font-weight:600;line-height:1.3;color:var(--muted);display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;line-clamp:2;overflow:hidden;overflow-wrap:anywhere}
+
+/* sugestões de mobilidade em volta da corrida */
+.hj-sugestoes{padding-block:12px 6px}
+.hj-sugestoes .ui-card-head{margin-bottom:4px}
+.hj-row-min{font:500 var(--fs-xs)/1 var(--f-mono);color:var(--muted);white-space:nowrap}
+
+.hj-recado{margin-top:8px;font-size:var(--fs-md);line-height:1.55;color:var(--muted)}
+
+/* semana em números: anel e três linhas */
+.hj-semana{display:flex;align-items:center;gap:20px;min-width:0}
+.hj-semana .ui-ring-center b i{font-style:normal;font-size:.6em;color:var(--muted)}
+.hj-nums{flex:1;min-width:0;display:flex;flex-direction:column;margin:0}
+.hj-nums>div{display:flex;align-items:baseline;justify-content:space-between;gap:10px;padding:9px 0;min-width:0}
+.hj-nums>div + div{border-top:1px solid var(--line-soft)}
+.hj-nums dt{display:flex;align-items:center;gap:8px;min-width:0;font-size:var(--fs-sm);font-weight:600;color:var(--muted)}
+.hj-nums dd{margin:0;font:600 24px/1 var(--f-display);white-space:nowrap;color:var(--fg)}
+.hj-nums dd small{font:500 var(--fs-xs)/1 var(--f-body);color:var(--muted)}
+
+.hj-peso-nota{line-height:1.5}
+
+@media (max-width:374px){
+  .hj-semana{gap:14px}
+  .hj-letra{width:52px;height:52px;font-size:34px}
+  .hj-titulo{font-size:24px}
+}

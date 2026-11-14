@@ -1,0 +1,92 @@
+/* Mobilidade: estilos da feature (classes com o prefixo mo-). Só tokens, nenhuma cor literal. */
+
+/* ---------- lista de rotinas ---------- */
+.mo-rot{display:flex;align-items:center;gap:12px;min-width:0}
+.mo-rot-fig{flex:none}
+.mo-rot-txt{flex:1;min-width:0;display:flex;flex-direction:column;gap:6px}
+.mo-rot-quando{color:var(--muted);font-size:var(--fs-sm);line-height:1.4;text-wrap:pretty}
+.mo-rot-meta{display:flex;flex-wrap:wrap;align-items:center;gap:2px 6px;font-size:var(--fs-xs);font-weight:600;color:var(--muted)}
+.mo-rot-meta i{font-style:normal;color:var(--faint)}
+.mo-rot-ultima{display:inline-flex;align-items:center;gap:4px;color:color-mix(in srgb,var(--good) var(--pill-ink),var(--fg))}
+.mo-rot-chev{flex:none;color:var(--faint);margin-right:-4px}
+/* valor em texto ("há 3 dias", "livre") dentro de um Stat: menor que um número */
+.mo-stat-txt .ui-stat-val{font-size:clamp(17px,21cqi,22px);line-height:1.2;white-space:normal;padding-block:3px}
+
+/* sugestão do dia */
+.mo-sug{border-color:color-mix(in srgb,var(--accent) 35%,var(--line-soft))}
+.mo-sug .ui-card-head{margin-bottom:12px}
+.mo-sug-nome{font-size:15px;font-weight:700;line-height:1.25}
+.mo-sug .ui-pill{flex:none;align-self:flex-start}
+
+/* ---------- detalhe da rotina ---------- */
+.mo-desc{line-height:1.55;text-wrap:pretty}
+.mo-quando{display:flex;align-items:flex-start;gap:8px;color:var(--muted);font-size:var(--fs-sm);line-height:1.45}
+.mo-quando .ui-icon{margin-top:2px;color:var(--faint)}
+.mo-passo-fig{width:52px;height:52px}
+
+/* ---------- rotina guiada (tela cheia) ---------- */
+/* o corpo não rola nem estica enquanto a tela de tocar está aberta */
+:root.mo-tela-cheia,:root.mo-tela-cheia body{overflow:hidden;overscroll-behavior:none}
+:root.mo-tela-cheia{--ui-toast-offset:96px}
+.mo-tocar{--mo-tom:var(--ui-area,var(--c-mob));display:flex;flex-direction:column;height:100dvh;width:100%;max-width:560px;margin:0 auto;overflow:hidden;padding:calc(var(--safe-top) + 8px) max(16px,var(--safe-right)) calc(var(--safe-bottom) + 12px) max(16px,var(--safe-left))}
+
+.mo-tc-head{flex:none;display:flex;align-items:center;gap:4px;min-height:48px;margin-inline:-10px}
+.mo-tc-titles{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center}
+.mo-tc-rotina{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mo-tc-pos{font:600 20px/1 var(--f-display);letter-spacing:.01em}
+
+/* pontos de progresso: um traço por posição */
+.mo-tc-dots{flex:none;display:flex;align-items:center;gap:3px;height:8px;margin-top:10px}
+.mo-tc-dot{flex:1 1 0;min-width:0;height:4px;border-radius:99px;background:var(--track)}
+.mo-tc-dot.is-feito{background:var(--mo-tom)}
+.mo-tc-dot.is-pulado{background:repeating-linear-gradient(90deg,var(--faint) 0 3px,transparent 3px 5px)}
+.mo-tc-dot.is-atual{height:8px;background:var(--fg)}
+
+.mo-tc-main{flex:1;min-height:0;display:flex;flex-direction:column;align-items:center;gap:12px;padding-top:14px}
+/* a animação ocupa o que sobra da altura, sempre em 4:3 */
+.mo-tc-fig{flex:1 1 0;min-height:96px;width:100%;display:flex;justify-content:center}
+.mo-tc-fig .ui-fig{width:auto;height:100%;max-width:100%}
+
+.mo-tc-info{flex:none;width:100%;display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center}
+.mo-tc-tags{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:6px;min-height:22px}
+.mo-tc-nome{font:600 30px/1.02 var(--f-display);letter-spacing:.01em;overflow-wrap:anywhere}
+.mo-tc-frase{max-width:38ch;color:var(--muted);font-size:var(--fs-md);line-height:1.4;text-wrap:balance;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;line-clamp:3;overflow:hidden}
+.mo-tc-nota{max-width:38ch;font-size:var(--fs-xs);font-weight:600;color:color-mix(in srgb,var(--accent) var(--pill-ink),var(--fg));text-wrap:balance}
+
+.mo-tc-clock{flex:none;display:flex;flex-direction:column;align-items:center;gap:6px;width:100%}
+.mo-tc-ring{width:clamp(128px,21dvh,190px);container-type:inline-size}
+.mo-tc-ring .ui-timer-center{gap:2cqi;padding:11%}
+.mo-tc-lab{font:500 var(--fs-2xs)/1 var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.mo-tc-num{font:600 34cqi/.9 var(--f-display);letter-spacing:.01em}
+.mo-tc-sub{font-size:var(--fs-xs);font-weight:600;color:var(--muted)}
+.mo-tc-extra{display:flex;align-items:center;justify-content:center;min-height:36px}
+.mo-tc-extra .ui-note{display:inline-flex;align-items:center;gap:6px}
+.mo-tc-ico{color:var(--faint)}
+.mo-tocar.is-pausado .mo-tc-ring .ui-timer-fill{opacity:.45}
+.mo-tocar.is-pausado .mo-tc-fig{opacity:.6}
+
+/* controles na base, ao alcance do polegar: voltar · ação principal · pular */
+.mo-tc-ctl{flex:none;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.5fr) minmax(0,1fr);gap:8px;padding-top:10px}
+.mo-tc-ctl .ui-btn{padding-inline:8px;gap:6px}
+.mo-tc-ctl .ui-btn:not(.is-primary):nth-child(odd){font-size:var(--fs-md)}
+
+/* telas baixas (360 × 640): menos texto, mesma hierarquia */
+@media (max-height:700px){
+  .mo-tc-main{gap:8px;padding-top:10px}
+  .mo-tc-nome{font-size:26px}
+  .mo-tc-frase{-webkit-line-clamp:2;line-clamp:2;font-size:var(--fs-sm)}
+  .mo-tc-nota{display:none}
+  .mo-tc-extra{min-height:32px}
+}
+
+/* ---------- resumo final ---------- */
+.mo-fim{justify-content:space-between}
+.mo-fim-main{flex:1;min-height:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;text-align:center}
+/* o anel do kit gira e estica todo svg de dentro: o ícone do centro fica como é */
+.mo-fim .ui-ring-center .mo-fim-check{width:48px;height:48px;transform:none;color:var(--mo-tom)}
+.mo-fim-txt{display:flex;flex-direction:column;align-items:center;gap:8px}
+.mo-fim-titulo{font:600 34px/1 var(--f-display);letter-spacing:.01em}
+.mo-fim-stats{width:100%;text-align:left}
+.mo-fim-nota{display:inline-flex;align-items:center;gap:6px}
+.mo-fim-nota .mo-tc-ico{color:var(--good)}
+.mo-fim-ctl{flex:none;display:flex;flex-direction:column;gap:6px}

@@ -1,0 +1,34 @@
+/* Progresso: estilos da feature (classes com o prefixo pr-). Só tokens, nenhuma cor literal. */
+
+/* os cartões da tela ficam mais juntos que as seções de uma tela comum */
+.pr-pilha{display:flex;flex-direction:column;gap:14px;min-width:0}
+
+/* consistência: anel da semana ao lado dos números, mapa embaixo */
+.pr-cons{display:flex;align-items:center;gap:14px;min-width:0}
+.pr-cons-nums{flex:1;min-width:0;display:grid;gap:8px}
+.pr-cons-nums .ui-stat{padding-block:8px 9px}
+.pr-cons-nums .ui-stat-val{font-size:26px}
+.pr-heat{margin-top:16px}
+.pr-heat .ui-heat-grid{max-width:none}
+
+/* gráfico com o próprio rótulo */
+.pr-chart{margin-top:16px;min-width:0}
+.pr-chart-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px;min-width:0}
+.pr-chart-head .pr-chart-lab{margin-bottom:0;min-width:0}
+.pr-chart-lab{margin-bottom:10px;font-size:var(--fs-xs);font-weight:600;color:var(--muted);line-height:1.3}
+
+/* bloco secundário dentro do cartão (recordes, últimos registros) */
+.pr-sub{margin-top:18px;padding-top:14px;border-top:1px solid var(--line-soft);min-width:0}
+.pr-sub-head{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:4px}
+.pr-mais{display:block;margin:8px auto 0}
+.pr-novo{color:var(--accent)}
+.pr-novo-txt{color:color-mix(in srgb,var(--accent) var(--pill-ink),var(--fg));font-weight:700}
+
+/* peso: valor atual e fatos */
+.pr-peso{display:flex;align-items:flex-end;justify-content:space-between;gap:8px 14px;flex-wrap:wrap;min-width:0}
+.pr-peso-atual{display:flex;flex-direction:column;gap:6px}
+.pr-peso-fatos{display:flex;flex-direction:column;align-items:flex-end;gap:6px;min-width:0;text-align:right}
+
+/* resumo para o treinador */
+.pr-resumo-ver{display:flex;justify-content:center;margin-top:12px}
+.pr-resumo-txt{margin:12px 0 0;padding:12px;border-radius:var(--r-sm);background:var(--surface-2);border:1px solid var(--line-soft);font:500 var(--fs-xs)/1.55 var(--f-mono);color:var(--fg);white-space:pre-wrap;overflow-wrap:anywhere;max-height:320px;overflow-y:auto;-webkit-overflow-scrolling:touch;-webkit-user-select:text;user-select:text}

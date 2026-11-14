@@ -1,0 +1,35 @@
+{
+  "name": "prumo-treino",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Prumo Treino: app pessoal de corrida, musculação e mobilidade (PWA offline).",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview --port 4173 --strictPort",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "fig": "tsx tools/render-figures.ts",
+    "shots": "tsx tools/screenshots.ts",
+    "icons": "tsx tools/gen-icons.ts"
+  },
+  "dependencies": {
+    "preact": "^11.2.0"
+  },
+  "devDependencies": {
+    "@fontsource/barlow-condensed": "^5.3.0",
+    "@fontsource/jetbrains-mono": "^5.3.0",
+    "@fontsource/manrope": "^5.3.0",
+    "@preact/preset-vite": "^2.10.6",
+    "@resvg/resvg-js": "^2.6.2",
+    "@types/node": "^26.6.6",
+    "fake-indexeddb": "^6.2.8",
+    "playwright-core": "^1.65.1",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.8",
+    "vite-plugin-pwa": "^2.0.0",
+    "vitest": "^5.1.0"
+  }
+}

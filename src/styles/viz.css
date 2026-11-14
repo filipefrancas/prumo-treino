@@ -1,0 +1,125 @@
+/* viz: números e gráficos do kit (Stat, Ring, Meter, ProgressBar, WeekStrip, Bars, LineChart, Spark, Heat,
+   IntensityChart, TimerRing). É o desenho do Prumo (KPI, anel, meter, faixa da semana, gráficos) com o prefixo ui-.
+   Só tokens: a cor de cada peça chega pela variável --tone, definida pelo componente. */
+
+/* ---------- Stat (KPI) ---------- */
+.ui-stat-row{display:grid;gap:8px;min-width:0}
+.ui-stat-row--2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.ui-stat-row--3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.ui-stat-row--4{grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+.ui-stat{--tone:var(--fg);display:flex;flex-direction:column;gap:5px;min-width:0;padding:10px 12px 11px;border-radius:var(--r-sm);background:var(--surface-2);container-type:inline-size}
+.ui-stat-row--4 .ui-stat{padding:10px 8px 11px}
+.ui-stat-lab{display:flex;align-items:flex-start;gap:6px;color:var(--muted);font-size:clamp(10.5px,15cqi,12px);font-weight:600;line-height:1.3;min-width:0}
+.ui-stat-lab span{min-width:0;overflow-wrap:break-word;text-wrap:balance}
+.ui-stat-dot{width:7px;height:7px;border-radius:2px;flex:none;margin-top:4.5px;background:var(--tone)}
+.ui-stat-val{font:600 clamp(24px,34cqi,32px)/1 var(--f-display);letter-spacing:.01em;white-space:nowrap;color:var(--fg)}
+.ui-stat--tinted .ui-stat-val{color:var(--tone)}
+.ui-stat-val small{font:500 clamp(11px,13cqi,14px)/1 var(--f-body);color:var(--muted);margin-left:3px;letter-spacing:0}
+.ui-stat-foot{display:flex;align-items:center;gap:3px 6px;flex-wrap:wrap;font-size:var(--fs-xs);line-height:1.3;color:var(--muted);min-height:1.3em}
+.ui-stat-sub b{color:var(--fg);font-weight:600}
+.ui-stat-delta{display:inline-flex;align-items:center;gap:3px;font-weight:600;white-space:nowrap}
+.ui-stat-delta svg{flex:none}
+.ui-stat-delta--muted{color:var(--muted)}
+.ui-stat-delta--good{color:var(--good)}
+.ui-stat-delta--warn{color:var(--warn)}
+.ui-stat-delta--crit{color:var(--crit)}
+
+/* ---------- Ring ---------- */
+.ui-ring{--tone:var(--accent);--size:124px;position:relative;width:var(--size);height:var(--size);flex:none}
+.ui-ring > svg{display:block;width:100%;height:100%;transform:rotate(-90deg)}
+.ui-ring-track{stroke:var(--track)}
+.ui-ring-fill{stroke:var(--tone)}
+.ui-ring-center{position:absolute;inset:0;display:grid;place-content:center;justify-items:center;text-align:center;padding:14%}
+.ui-ring-center b{font:600 calc(var(--size)*.34)/.9 var(--f-display);letter-spacing:.01em;white-space:nowrap}
+.ui-ring-center span{font:500 var(--fs-2xs)/1.15 var(--f-mono);letter-spacing:.12em;color:var(--muted);text-transform:uppercase;margin-top:calc(var(--size)*.045)}
+@media (prefers-reduced-motion:no-preference){.ui-ring-fill{transition:stroke-dasharray .5s cubic-bezier(.3,.8,.3,1)}}
+
+/* ---------- ProgressBar e Meter ---------- */
+.ui-bar{--tone:var(--accent);position:relative;height:6px;border-radius:99px;background:var(--track);overflow:hidden}
+.ui-bar i{display:block;height:100%;max-width:100%;border-radius:99px;background:var(--tone)}
+.ui-bar--marked::after{content:"";position:absolute;top:0;bottom:0;left:var(--mark,75%);width:1.5px;background:var(--faint);opacity:.9}
+@media (prefers-reduced-motion:no-preference){.ui-bar i{transition:width .35s cubic-bezier(.3,.8,.3,1)}}
+.ui-meter{display:flex;flex-direction:column;gap:7px;min-width:0}
+.ui-meter-head{display:flex;align-items:baseline;justify-content:space-between;gap:10px;font-size:var(--fs-xs);line-height:1.3}
+.ui-meter-lab{color:var(--muted);font-weight:600;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ui-meter-right{color:var(--fg);font-weight:600;white-space:nowrap;flex:none}
+.ui-meter-right small,.ui-meter-right span{color:var(--muted);font-weight:500;font-size:inherit}
+
+/* ---------- WeekStrip (faixa da semana) ---------- */
+.ui-week{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:5px;min-width:0}
+.ui-wd{display:flex;flex-direction:column;align-items:center;gap:5px;min-width:0;min-height:68px;padding:8px 2px 9px;border:1px solid var(--line-soft);border-radius:var(--r-sm);background:var(--surface-2);color:var(--fg)}
+.ui-wd-letter{font:500 var(--fs-2xs)/1 var(--f-mono);letter-spacing:.1em;color:var(--muted);text-transform:uppercase}
+.ui-wd-num{font:600 19px/1 var(--f-display);letter-spacing:.01em}
+.ui-wd-marks{display:flex;justify-content:center;gap:3px;min-height:8px;margin-top:auto}
+.ui-mk{display:block;width:8px;height:8px;border-radius:2px;--c:var(--muted);background:transparent;border:1.5px solid color-mix(in srgb,var(--c) 70%,transparent)}
+.ui-mk--corrida{--c:var(--c-corrida)}
+.ui-mk--musc{--c:var(--c-musc)}
+.ui-mk--mob{--c:var(--c-mob)}
+.ui-mk.is-done{background:var(--c);border-color:var(--c)}
+.ui-wd.is-selected{background:var(--surface-3);border-color:var(--line)}
+.ui-wd.is-today{outline:1.5px solid var(--accent);outline-offset:1px}
+.ui-wd.is-today .ui-wd-num{color:var(--accent)}
+.ui-wd:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:var(--r-sm)}
+@media (hover:hover){.ui-wd:hover{border-color:var(--line)}}
+@media (prefers-reduced-motion:no-preference){.ui-wd{transition:background-color .15s,border-color .15s}}
+
+/* ---------- gráficos: moldura e peças comuns ---------- */
+.ui-chart{position:relative;width:100%;min-width:0;--ui-chart-bg:var(--surface)}
+.ui-chart svg{display:block;max-width:100%;height:auto;overflow:visible}
+.ui-ch-ax{fill:var(--muted);font:500 11px var(--f-mono);font-variant-numeric:tabular-nums}
+.ui-ch-ax.is-hl{fill:var(--fg);font-weight:600}
+.ui-ch-grid{stroke:var(--line-soft);stroke-width:1}
+.ui-ch-base{stroke:var(--line);stroke-width:1}
+.ui-ch-area{opacity:.09}
+.ui-ch-ln{fill:none;stroke-width:1.75;stroke-linejoin:round;stroke-linecap:round}
+.ui-ch-ln.is-dashed{stroke-width:1.5;stroke-dasharray:5 4;opacity:.9}
+.ui-ch-target{stroke-dasharray:4 4;stroke-width:1.25;opacity:.7}
+.ui-ch-pt{stroke:var(--ui-chart-bg);stroke-width:2}
+.ui-ch-halo{opacity:.18}
+.ui-ch-anno-bg{fill:var(--ui-chart-bg);opacity:.9}
+.ui-ch-bar.is-dim{opacity:.55}
+.ui-chart-empty{padding:22px 12px;border:1px dashed var(--line);border-radius:var(--r-sm);text-align:center;font-size:var(--fs-xs);line-height:1.45;color:var(--muted)}
+.ui-chart-empty b{display:block;color:var(--fg);font-size:var(--fs-sm);font-weight:600;margin-bottom:2px}
+
+/* legenda: chave na cor da série */
+.ui-legend{display:flex;flex-wrap:wrap;gap:4px 14px;margin:0 0 8px;font-size:var(--fs-xs);font-weight:600;color:var(--muted)}
+.ui-legend span{display:inline-flex;align-items:center;gap:6px}
+.ui-legend-key{--tone:var(--accent);display:inline-block;flex:none;width:14px;height:2.5px;border-radius:2px;background:var(--tone)}
+.ui-legend-key--dash{background:linear-gradient(90deg,var(--tone) 0 5px,transparent 5px 9px,var(--tone) 9px 14px)}
+.ui-legend-key--box{width:9px;height:9px;border-radius:2px}
+.ui-legend-key--soft{width:9px;height:9px;border-radius:2px;background:color-mix(in srgb,var(--tone) 30%,transparent)}
+
+/* ---------- Spark ---------- */
+.ui-spark{display:block;flex:none;overflow:visible}
+.ui-spark-pt{stroke:var(--ui-chart-bg,var(--surface))}
+
+/* ---------- Heat (mapa de consistência) ---------- */
+.ui-heat{min-width:0}
+.ui-heat-grid{display:grid;grid-template-columns:14px repeat(var(--cols,12),minmax(0,1fr));gap:3px;align-items:center;max-width:calc(14px + var(--cols,12)*33px)}
+.ui-heat-month{font:500 var(--fs-2xs)/14px var(--f-mono);color:var(--muted);white-space:nowrap;overflow:visible;height:14px}
+.ui-heat-day{font:500 var(--fs-2xs)/1 var(--f-mono);color:var(--muted)}
+.ui-heat-cell{display:flex;align-items:center;justify-content:center;gap:7%;aspect-ratio:1;min-width:0;border-radius:4px;background:var(--track)}
+.ui-heat-cell.is-void{background:transparent}
+.ui-heat-cell.is-future{opacity:.4}
+.ui-heat-cell.is-today{outline:1.5px solid var(--accent);outline-offset:1px}
+.ui-heat-dot{display:block;flex:none;width:22%;aspect-ratio:1;border-radius:50%;background:var(--muted)}
+.ui-heat-dot--corrida{background:var(--c-corrida)}
+.ui-heat-dot--musc{background:var(--c-musc)}
+.ui-heat-dot--mob{background:var(--c-mob)}
+.ui-heat-legend{display:flex;flex-wrap:wrap;gap:4px 14px;margin-top:10px;padding-left:17px;font-size:var(--fs-xs);font-weight:600;color:var(--muted)}
+.ui-heat-legend span{display:inline-flex;align-items:center;gap:6px}
+.ui-heat-legend .ui-heat-dot{width:7px}
+
+/* ---------- IntensityChart (perfil do treino de corrida) ---------- */
+.ui-intensity svg{overflow:hidden}
+.ui-int-past{opacity:.32}
+.ui-int-cursor{stroke:var(--fg);stroke-width:2;stroke-linecap:round}
+
+/* ---------- TimerRing (contagem regressiva) ---------- */
+.ui-timer{--tone:var(--accent);--size:240px;position:relative;width:min(100%,var(--size));aspect-ratio:1;margin-inline:auto;flex:none}
+.ui-timer > svg{display:block;width:100%;height:100%;transform:rotate(-90deg)}
+.ui-timer-track{stroke:var(--track)}
+.ui-timer-fill{stroke:var(--tone)}
+.ui-timer-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;text-align:center;padding:13%}
+@media (prefers-reduced-motion:no-preference){.ui-timer-fill{transition:stroke-dashoffset .3s linear,stroke .2s,opacity .2s}}
+@media (prefers-reduced-motion:reduce){.ui-timer-fill,.ui-ring-fill,.ui-bar i{transition:none}}

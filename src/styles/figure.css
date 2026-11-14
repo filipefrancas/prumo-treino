@@ -1,0 +1,41 @@
+/* figure: o boneco das animações (src/ui/Figure.tsx + motor em src/rig). Cada primitiva do motor é desenhada com
+   currentColor; aqui cada classe recebe a sua cor pelos tokens --fig-*. Só tokens. */
+
+/* bloco 4:3; --fig-bg troca o fundo (e, junto, a cor dos recortes que separam partes sobrepostas) */
+.ui-fig{--fig-hl:var(--c-musc);--fig-fill:var(--fig-bg,var(--surface-2));position:relative;display:block;width:100%;aspect-ratio:4/3;border-radius:var(--r);background:var(--fig-fill);overflow:hidden;color:var(--fig-near);flex:none}
+.ui-fig svg{display:block;width:100%;height:100%}
+
+/* tom do destaque muscular */
+.ui-fig--musc{--fig-hl:var(--c-musc)}
+.ui-fig--corrida{--fig-hl:var(--c-corrida)}
+.ui-fig--mob{--fig-hl:var(--c-mob)}
+
+/* corpo */
+.ui-fig .f-near{color:var(--fig-near)}
+.ui-fig .f-far{color:var(--fig-far)}
+.ui-fig .f-torso{color:var(--fig-torso)}
+.ui-fig .f-head{color:var(--fig-head)}
+.ui-fig .f-short{color:var(--fig-short)}
+.ui-fig .f-short-far{color:var(--fig-short-far)}
+.ui-fig .f-shoe{color:var(--fig-shoe)}
+.ui-fig .f-shoe-far{color:var(--fig-shoe-far)}
+/* destaque (músculo trabalhado) e recorte na cor do fundo */
+.ui-fig .f-hl,.ui-fig .p-hl{color:var(--fig-hl)}
+.ui-fig .f-cut{color:var(--fig-fill)}
+/* cena */
+.ui-fig .f-ground{color:var(--fig-ground)}
+.ui-fig .f-shadow{color:var(--fig-shadow)}
+.ui-fig .f-arrow{color:var(--fig-arrow)}
+/* equipamentos */
+.ui-fig .p-eq{color:var(--fig-eq)}
+.ui-fig .p-eq2{color:var(--fig-eq2)}
+.ui-fig .p-soft{color:var(--fig-soft)}
+
+/* miniatura quadrada para listas */
+.ui-fig--thumb{width:64px;height:64px;aspect-ratio:1;border-radius:var(--r-sm)}
+/* sem fundo: assume que está sobre um cartão; --fig-bg informa outra cor de fundo para os recortes */
+.ui-fig--plain{--fig-fill:var(--fig-bg,var(--surface));background:transparent;border-radius:0}
+/* sem animação cadastrada: silhueta apagada dentro de uma moldura tracejada */
+.ui-fig--empty{border:1px dashed var(--line);background:transparent}
+.ui-fig--empty svg{opacity:.45}
+.ui-fig--empty.ui-fig--plain{border:0}

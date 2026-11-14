@@ -1,0 +1,74 @@
+/* Tokens do Prumo Treino. São os tokens do Prumo (escuro primeiro; claro por prefers-color-scheme ou
+   data-theme no :root), sem as cores de áreas que este app não usa, mais os tokens próprios marcados abaixo.
+   Nenhuma cor literal fora deste arquivo. */
+:root{
+  color-scheme:dark;
+  --bg:#0d1015; --surface:#141920; --surface-2:#1b212a; --surface-3:#232b36;
+  --line:#26303c; --line-soft:#1e2630;
+  --fg:#e8ecf1; --muted:#909bab; --faint:#7f8a9a;
+  --track:color-mix(in srgb,var(--fg) 9%,transparent);     /* trilhas (meter, anel, heat, toggle) */
+  --accent:#e2a93b; --accent-ink:#1a1204; --accent-soft:rgba(226,169,59,.14);
+  --good:#2fbf5f; --warn:#ec835a; --crit:#e66767;
+  --pill-ink:88%;                                           /* % da cor de status no texto das pills (resto = --fg) */
+  --c-peso:#3987e5; --c-corrida:#d95926; --c-musc:#9085e9;
+  --shadow:0 1px 0 rgba(255,255,255,.03) inset, 0 12px 32px -18px rgba(0,0,0,.6);
+  --shadow-up:0 -10px 30px -16px rgba(0,0,0,.6);
+  --f-display:"Barlow Condensed","Arial Narrow",system-ui,sans-serif;
+  --f-body:"Manrope",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  /* escala: 2xs só mono caps (eyebrow, tag, eixos, dias); xs rótulos/notas/pills; sm botões/banner; md corpo */
+  --fs-2xs:10.5px; --fs-xs:12px; --fs-sm:13px; --fs-md:14px;
+  --r-xs:8px; --r-sm:10px; --r:14px; --r-lg:18px;
+  --kb:0px;                                                 /* altura do teclado virtual, setada pela folha via visualViewport */
+  --tabs-h:64px;                                            /* altura da barra inferior sem a safe-area */
+
+  /* ---- próprios do Prumo Treino ---- */
+  --c-mob:#22a6a0;                                          /* área nova: mobilidade (alongamento, educativos, core, pés) */
+  /* níveis de intensidade dos passos de corrida (1 muito leve … 5 forte) */
+  --lv-1:#5b6779; --lv-2:#2f9e8f; --lv-3:#c9a227; --lv-4:#d95926; --lv-5:#e0453d;
+  /* boneco das animações */
+  --fig-near:#e8ecf1; --fig-far:#7d8898; --fig-torso:#cfd6df; --fig-head:#e8ecf1;
+  --fig-short:#3d4a5c; --fig-short-far:#313b49; --fig-shoe:#e2a93b; --fig-shoe-far:#9a7631;
+  --fig-eq:#566273; --fig-eq2:#3a4452; --fig-soft:#2a323d; --fig-ground:#313b48;
+  --fig-shadow:rgba(0,0,0,.35); --fig-arrow:#e2a93b;
+  /* kit de interface: véu atrás da folha e sombra curta (pastilha ativa do segmento) */
+  --veil:rgba(5,8,12,.55); --shadow-sm:0 1px 2px rgba(0,0,0,.2);
+}
+@media (prefers-color-scheme: light){ :root:not([data-theme="dark"]){
+  color-scheme:light;
+  --bg:#f3f4f6; --surface:#ffffff; --surface-2:#f1f3f6; --surface-3:#e4e7ec;
+  --line:#dde1e7; --line-soft:#e9ecf0;
+  --fg:#12161c; --muted:#5b6574; --faint:#6b7685;
+  --accent:#946200; --accent-ink:#ffffff; --accent-soft:rgba(148,98,0,.10);
+  --good:#178a3e; --warn:#c2532a; --crit:#c73636;
+  --pill-ink:68%;
+  --c-peso:#2a78d6; --c-corrida:#d4561f; --c-musc:#4a3aa7;
+  --shadow:0 1px 2px rgba(16,24,40,.04), 0 10px 28px -20px rgba(16,24,40,.25);
+  --shadow-up:0 -8px 24px -16px rgba(16,24,40,.25);
+  --c-mob:#0f7f7a;
+  --lv-1:#9aa4b2; --lv-2:#17897c; --lv-3:#a47c00; --lv-4:#d4561f; --lv-5:#c73636;
+  --fig-near:#1f2630; --fig-far:#8d97a5; --fig-torso:#36404d; --fig-head:#1f2630;
+  --fig-short:#5b6b80; --fig-short-far:#93a0b1; --fig-shoe:#b97c00; --fig-shoe-far:#d3aa5c;
+  --fig-eq:#9aa4b2; --fig-eq2:#c3cad4; --fig-soft:#dde1e7; --fig-ground:#cfd5dd;
+  --fig-shadow:rgba(16,24,40,.14); --fig-arrow:#946200;
+  --veil:rgba(16,24,40,.42); --shadow-sm:0 1px 2px rgba(16,24,40,.14);
+}}
+:root[data-theme="light"]{
+  color-scheme:light;
+  --bg:#f3f4f6; --surface:#ffffff; --surface-2:#f1f3f6; --surface-3:#e4e7ec;
+  --line:#dde1e7; --line-soft:#e9ecf0;
+  --fg:#12161c; --muted:#5b6574; --faint:#6b7685;
+  --accent:#946200; --accent-ink:#ffffff; --accent-soft:rgba(148,98,0,.10);
+  --good:#178a3e; --warn:#c2532a; --crit:#c73636;
+  --pill-ink:68%;
+  --c-peso:#2a78d6; --c-corrida:#d4561f; --c-musc:#4a3aa7;
+  --shadow:0 1px 2px rgba(16,24,40,.04), 0 10px 28px -20px rgba(16,24,40,.25);
+  --shadow-up:0 -8px 24px -16px rgba(16,24,40,.25);
+  --c-mob:#0f7f7a;
+  --lv-1:#9aa4b2; --lv-2:#17897c; --lv-3:#a47c00; --lv-4:#d4561f; --lv-5:#c73636;
+  --fig-near:#1f2630; --fig-far:#8d97a5; --fig-torso:#36404d; --fig-head:#1f2630;
+  --fig-short:#5b6b80; --fig-short-far:#93a0b1; --fig-shoe:#b97c00; --fig-shoe-far:#d3aa5c;
+  --fig-eq:#9aa4b2; --fig-eq2:#c3cad4; --fig-soft:#dde1e7; --fig-ground:#cfd5dd;
+  --fig-shadow:rgba(16,24,40,.14); --fig-arrow:#946200;
+  --veil:rgba(16,24,40,.42); --shadow-sm:0 1px 2px rgba(16,24,40,.14);
+}
