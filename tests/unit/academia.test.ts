@@ -82,11 +82,11 @@ describe('programa Maromba', () => {
   const p = programaPorId('maromba');
   const todos = (p?.fichas ?? []).flatMap((f) => f.exercicios);
 
-  it('é o único programa, com as 3 fichas e os 22 exercícios', () => {
+  it('é o único programa, com as 3 fichas e os 27 exercícios', () => {
     expect(PROGRAMAS).toHaveLength(1);
     expect(p).toMatchObject({ id: 'maromba', nome: 'Maromba', objetivo: 'Hipertrofia', fonte: 'Treino montado em nov/2026 para a Planet Sports' });
-    expect(p?.fichas.map((f) => `${f.id} ${f.nome} ${f.exercicios.length}`)).toEqual(['A Pernas 6', 'B Peito e costas 7', 'C Braços e ombros 9']);
-    expect(todos).toHaveLength(22);
+    expect(p?.fichas.map((f) => `${f.id} ${f.nome} ${f.exercicios.length}`)).toEqual(['A Pernas 9', 'B Peito e costas 9', 'C Braços e ombros 9']);
+    expect(todos).toHaveLength(27);
     expect(programaPorId('nao-existe')).toBeUndefined();
     expect(programaPorId(PROGRAMA_ANTIGO)).toBeUndefined(); // a ficha antiga saiu do app
   });
@@ -96,10 +96,13 @@ describe('programa Maromba', () => {
     expect(ficha('A').exercicios.map(linha)).toEqual([
       'agachamento-hack 1x12-15+4x8-10 120s',
       'leg-press-45 3x10-12 90s',
+      'elevacao-pelvica 3x8-12 90s',
       'cadeira-extensora 3x12-15 60s',
       'mesa-flexora 4x10-12 75s',
       'stiff-halteres 3x10-12 90s',
+      'cadeira-abdutora 3x12-15 60s',
       'panturrilha-em-pe-maquina 4x12-15 45s',
+      'panturrilha-sentado 3x12-15 45s',
     ]);
     expect(ficha('B').exercicios.map(linha)).toEqual([
       'supino-reto-barra 1x12-15+4x6-10 120s',
@@ -107,7 +110,9 @@ describe('programa Maromba', () => {
       'supino-inclinado-halteres 3x8-12 90s',
       'remada-curvada 4x8-10 120s',
       'crossover 3x12-15 60s',
+      'voador 3x12-15 60s',
       'remada-baixa 3x10-12 90s',
+      'pullover-polia 3x12-15 60s',
       'face-pull 3x12-15 60s',
     ]);
     expect(ficha('C').exercicios.map(linha)).toEqual([
@@ -123,10 +128,11 @@ describe('programa Maromba', () => {
     ]);
   });
 
-  it('ids novos em sequência, tudo principal, sem pares nem métodos', () => {
+  it('ids novos e permanentes, tudo principal, sem pares nem métodos', () => {
     for (const f of p?.fichas ?? []) {
-      f.exercicios.forEach((e, i) => {
-        expect(e.id).toBe(`m-${f.id}-${String(i + 1).padStart(2, '0')}`);
+      // Os ids não seguem a ordem da ficha: exercício que entra depois ganha o número seguinte e não renumera os outros.
+      expect(f.exercicios.map((e) => e.id).sort()).toEqual(f.exercicios.map((_, i) => `m-${f.id}-${String(i + 1).padStart(2, '0')}`));
+      f.exercicios.forEach((e) => {
         expect(e.anim).toMatch(/^[a-z0-9]+(-[a-z0-9]+)*$/);
         expect(e.equipamento).toBeTruthy();
         expect(e.tipo).toBe('principal');
@@ -135,8 +141,8 @@ describe('programa Maromba', () => {
         expect(e.instrucoes).toBeUndefined();
       });
     }
-    expect(new Set(todos.map((e) => e.id)).size).toBe(22);
-    expect(new Set(todos.map((e) => e.anim)).size).toBe(22); // nenhum exercício repetido entre as fichas
+    expect(new Set(todos.map((e) => e.id)).size).toBe(27);
+    expect(new Set(todos.map((e) => e.anim)).size).toBe(27); // nenhum exercício repetido entre as fichas
     for (const e of todos) expect(e.id in EXERCICIOS_ANTIGOS).toBe(false); // não colide com os ids da ficha antiga
     expect(METODO_TXT_EXERCICIO).toEqual({});
   });
@@ -303,7 +309,7 @@ describe('lerReps', () => {
 });
 
 describe('seriesPlanejadas', () => {
-  it('não quebra em nenhum exercício (os 22 do programa e os da ficha de teste) e numera de 1 em diante', () => {
+  it('não quebra em nenhum exercício (os 27 do programa e os da ficha de teste) e numera de 1 em diante', () => {
     let total = 0;
     for (const f of [...programaAtivo(ajustes()).fichas, FX]) {
       for (const e of f.exercicios) {
@@ -319,14 +325,14 @@ describe('seriesPlanejadas', () => {
         total++;
       }
     }
-    expect(total).toBe(22 + 13);
+    expect(total).toBe(27 + 13);
   });
 
   it('totais por ficha: séries planejadas e séries de trabalho', () => {
     const planejadas = (letra: string) => ficha(letra).exercicios.reduce((a, e) => a + seriesPlanejadas(e).length, 0);
-    expect([planejadas('A'), planejadas('B'), planejadas('C')]).toEqual([22, 25, 31]);
+    expect([planejadas('A'), planejadas('B'), planejadas('C')]).toEqual([31, 31, 31]);
     // a série leve do primeiro exercício não é série de trabalho
-    expect([totalSeriesDeTrabalho(ficha('A')), totalSeriesDeTrabalho(ficha('B')), totalSeriesDeTrabalho(ficha('C'))]).toEqual([21, 24, 30]);
+    expect([totalSeriesDeTrabalho(ficha('A')), totalSeriesDeTrabalho(ficha('B')), totalSeriesDeTrabalho(ficha('C'))]).toEqual([30, 30, 30]);
     // a contagem pela regra única bate com as linhas que não são de aquecimento
     for (const letra of ['A', 'B', 'C']) {
       const linhas = ficha(letra).exercicios.flatMap((e) => seriesPlanejadas(e)).filter((x) => !x.aquecimento).length;
@@ -398,7 +404,7 @@ describe('fichas ativas', () => {
     expect(A?.porque).toBe(ficha('A').porque); // o texto da ficha segue junto
     expect(ex('m-A-01').nome).toBe('Agachamento no hack');
     expect(ex('m-A-01').series[1]?.sets).toBe(4);
-    expect(totalSeriesDeTrabalho(A as Ficha)).toBe(22);
+    expect(totalSeriesDeTrabalho(A as Ficha)).toBe(31);
   });
 
   it('carga ajustada num bloco com drops remove os drops', () => {

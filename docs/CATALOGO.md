@@ -186,6 +186,11 @@ estão nas seções acima. Estes exercícios não têm animação: a coluna **mo
 | `cadeira-extensora` | Cadeira extensora | forca | pernas | foto | Sentado na cadeira extensora, costas no encosto, as duas pernas estendidas à frente com o rolo na frente dos tornozelos. |
 | `mesa-flexora` | Mesa flexora | forca | posterior | foto | Deitado de bruços na mesa flexora, quadril no banco, joelhos dobrados com o rolo perto dos glúteos. |
 | `stiff-halteres` | Stiff com halteres | forca | posterior | foto | Em pé, de lado, tronco inclinado à frente com as costas retas, quadril para trás, halteres na altura das canelas, rente às pernas. |
+| `elevacao-pelvica` | Elevação pélvica com barra | forca | gluteos | foto | Costas apoiadas na lateral do banco, barra sobre o quadril, quadril elevado até o tronco ficar reto. |
+| `cadeira-abdutora` | Cadeira abdutora | forca | gluteos | foto | Sentado na cadeira abdutora, pernas abertas empurrando as almofadas para fora. |
+| `panturrilha-sentado` | Panturrilha sentado | forca | panturrilha | foto | Sentado na máquina, almofadas sobre as coxas, calcanhares elevados na ponta dos pés. |
+| `voador` | Voador (peck deck) | forca | peito | foto | Sentado no voador, costas no encosto, braços fechados à frente do peito. |
+| `pullover-polia` | Pullover na polia | forca | costas | foto | Em pé de frente para a polia alta, braços estendidos descendo a barra em arco até as coxas. |
 | `panturrilha-em-pe-maquina` | Panturrilha em pé na máquina | forca | panturrilha | foto | Em pé na máquina de panturrilha, ombros sob as almofadas, na ponta dos pés sobre a borda do degrau. |
 | `supino-reto-barra` | Supino reto com barra | forca | peito | foto | Deitado no banco reto, pés no chão, barra perto do meio do peito, cotovelos a uns 45° do tronco. |
 | `puxada-frente` | Puxada na frente com pegada aberta | forca | costas | foto | Sentado na puxada alta, coxas sob o rolo, pegada aberta, barra na parte alta do peito e cotovelos apontando para baixo. |
