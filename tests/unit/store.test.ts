@@ -69,15 +69,15 @@ describe('estado inicial', () => {
     expect(s.settings.telaLigada).toBe(true);
     expect(s.settings.descansoPadrao).toBe(90);
     expect(s.settings.alongamentoSeg).toBe(60);
-    expect(s.settings.programa).toBe('hibrido');
+    expect(s.settings.programa).toBe('maromba');
     expect(s.settings.plano).toEqual({
       0: { tipo: 'corrida' },
-      1: { tipo: 'musc', ficha: 'B' },
-      2: { tipo: 'descanso' },
+      1: { tipo: 'musc', ficha: 'A' }, // segunda: Pernas
+      2: { tipo: 'descanso' }, // terça: alongamento (PROFILE.stretchDays)
       3: { tipo: 'corrida' },
-      4: { tipo: 'musc', ficha: 'C' },
+      4: { tipo: 'musc', ficha: 'B' }, // quinta: Peito e costas
       5: { tipo: 'corrida' },
-      6: { tipo: 'musc', ficha: 'A' },
+      6: { tipo: 'musc', ficha: 'C' }, // sábado: Braços e ombros
     });
     expect([s.runs, s.lifts, s.weights, s.mob]).toEqual([[], [], [], []]);
     expect(s.marcas).toEqual({});
@@ -252,6 +252,62 @@ describe('modo seed', () => {
     await store.flush();
     const bancos = await indexedDB.databases();
     expect(bancos.map((b) => b.name)).not.toContain('prumo-treino');
+  });
+});
+
+describe('troca de programa (ficha antiga → Maromba)', () => {
+  const antigo = {
+    v: 1,
+    criadoEm: 5,
+    settings: {
+      nome: 'Filipe',
+      programa: 'hibrido',
+      descansoPadrao: 75,
+      plano: {
+        0: { tipo: 'corrida' }, 1: { tipo: 'musc', ficha: 'B' }, 2: { tipo: 'descanso' }, 3: { tipo: 'corrida' },
+        4: { tipo: 'musc', ficha: 'C' }, 5: { tipo: 'ambos', ficha: 'A' }, 6: { tipo: 'musc', ficha: 'A' },
+      },
+      fichas: { 'h-A-09': { carga: 50 }, 'h-B-08': { series: 4 } },
+    },
+    lifts: [{ id: 'l1', data: '2026-11-07', ficha: 'A', treino: 'Costas e bíceps', programa: 'hibrido', concluido: true, sets: { 'h-A-09': { '1': { reps: 10, carga: 56.5, feito: true } } } }],
+  };
+
+  it('quem vinha da ficha antiga passa para o programa novo, com os dias fixos dele', async () => {
+    const store = await abrir();
+    const s = store.normalizarEstado(antigo);
+    expect(s.settings.programa).toBe('maromba');
+    // as letras mudaram de sentido: segunda = A, quinta = B, sábado = C
+    expect(s.settings.plano[1]).toEqual({ tipo: 'musc', ficha: 'A' });
+    expect(s.settings.plano[4]).toEqual({ tipo: 'musc', ficha: 'B' });
+    expect(s.settings.plano[6]).toEqual({ tipo: 'musc', ficha: 'C' });
+    // dia de musculação fora do plano inicial: fica na rotação, em vez de herdar uma letra que mudou de treino
+    expect(s.settings.plano[5]).toEqual({ tipo: 'ambos' });
+    expect(s.settings.plano[0]).toEqual({ tipo: 'corrida' });
+    expect(s.settings.plano[2]).toEqual({ tipo: 'descanso' });
+    // ajustes de carga da ficha antiga não valem para a nova; o resto dos ajustes fica
+    expect(s.settings.fichas).toBeUndefined();
+    expect(s.settings.descansoPadrao).toBe(75);
+  });
+
+  it('os treinos gravados com a ficha antiga ficam intactos', async () => {
+    const store = await abrir();
+    const s = store.normalizarEstado(antigo);
+    expect(s.lifts).toEqual(antigo.lifts);
+  });
+
+  it('quem já está no programa novo não é tocado', async () => {
+    const store = await abrir();
+    const novo = store.normalizarEstado({
+      settings: { programa: 'maromba', plano: { 1: { tipo: 'musc', ficha: 'C' }, 4: { tipo: 'descanso' } }, fichas: { 'm-A-02': { carga: 170 } } },
+    });
+    expect(novo.settings.programa).toBe('maromba');
+    expect(novo.settings.plano[1]).toEqual({ tipo: 'musc', ficha: 'C' });
+    expect(novo.settings.plano[4]).toEqual({ tipo: 'descanso' });
+    expect(novo.settings.plano[6]).toEqual({ tipo: 'musc', ficha: 'C' });
+    expect(novo.settings.fichas).toEqual({ 'm-A-02': { carga: 170 } });
+    // migrar duas vezes dá no mesmo
+    const s1 = store.normalizarEstado(antigo);
+    expect(store.normalizarEstado(s1).settings).toEqual(s1.settings);
   });
 });
 

@@ -205,3 +205,68 @@ describe('object URLs', () => {
     expect(await m.reterFoto('prancha')).toBeUndefined();
   });
 });
+
+/* ---------------- fotos embutidas (src/assets/fotos) ---------------- */
+
+describe('fotos embutidas', () => {
+  it('indexa os quadros de início e fim pelo nome do arquivo', async () => {
+    const { indexarFotos } = await import('../../src/lib/fotos.ts');
+    const indice = indexarFotos({
+      '../assets/fotos/supino-reto-barra-1.jpg': '/a/supino-fim.jpg',
+      '../assets/fotos/supino-reto-barra-0.jpg': '/a/supino-inicio.jpg',
+      '../assets/fotos/borboleta-0.jpg': '/a/borboleta.jpg',
+      '../assets/fotos/leg-press-45-0.webp': '/a/leg-0.webp',
+      '../assets/fotos/leg-press-45-1.webp': '/a/leg-1.webp',
+      '../assets/fotos/prancha.png': '/a/prancha.png',
+      '../assets/fotos/so-o-fim-1.jpg': '/a/fim.jpg',
+    });
+    expect(indice.get('supino-reto-barra')).toEqual(['/a/supino-inicio.jpg', '/a/supino-fim.jpg']); // sempre início, depois fim
+    expect(indice.get('borboleta')).toEqual(['/a/borboleta.jpg']); // posição parada: um quadro só
+    expect(indice.get('leg-press-45')).toEqual(['/a/leg-0.webp', '/a/leg-1.webp']); // o "45" é do id, não número de quadro
+    expect(indice.get('prancha')).toEqual(['/a/prancha.png']); // sem número vale como quadro 0
+    expect(indice.get('so-o-fim')).toEqual(['/a/fim.jpg']);
+    expect(indice.has('leg-press')).toBe(false);
+  });
+
+  it('o quadro numerado vence o arquivo sem número e nomes fora do padrão são ignorados', async () => {
+    const { indexarFotos } = await import('../../src/lib/fotos.ts');
+    const indice = indexarFotos({
+      '../assets/fotos/crossover.jpg': '/a/generica.jpg',
+      '../assets/fotos/crossover-0.jpg': '/a/inicio.jpg',
+      '../assets/fotos/Foto Nova.jpg': '/a/x.jpg',
+      '../assets/fotos/.gitkeep': '/a/gitkeep',
+      '../assets/fotos/notas.txt': '/a/notas.txt',
+      '../assets/fotos/vazia-0.jpg': '',
+    });
+    expect([...indice.keys()]).toEqual(['crossover']);
+    expect(indice.get('crossover')).toEqual(['/a/inicio.jpg']);
+    expect(indexarFotos({}).size).toBe(0); // pasta vazia: o app segue com o boneco ou as iniciais
+  });
+
+  it('as fotos do pacote pertencem a exercícios do catálogo, no máximo dois quadros cada', async () => {
+    const { fotosEmbutidas, idsComFotoEmbutida, temFotoEmbutida } = await import('../../src/lib/fotos.ts');
+    const { exById } = await import('../../src/data/ex/_index.ts');
+    for (const id of idsComFotoEmbutida()) {
+      expect(exById(id), id).toBeDefined();
+      const quadros = fotosEmbutidas(id);
+      expect(quadros.length).toBeGreaterThanOrEqual(1);
+      expect(quadros.length).toBeLessThanOrEqual(2);
+      for (const url of quadros) expect(typeof url).toBe('string');
+      expect(temFotoEmbutida(id)).toBe(true);
+    }
+    expect(fotosEmbutidas(undefined)).toEqual([]);
+    expect(fotosEmbutidas('nao-existe')).toEqual([]);
+    expect(temFotoEmbutida('nao-existe')).toBe(false);
+  });
+
+  it('sem foto nem animação, o quadro neutro mostra as iniciais do exercício', async () => {
+    const { iniciais } = await import('../../src/ui/Figure.tsx');
+    expect(iniciais('Remada curvada com barra')).toBe('RC');
+    expect(iniciais('Tríceps na polia com corda')).toBe('TP');
+    expect(iniciais('Leg press 45°')).toBe('LP');
+    expect(iniciais('Elevação de panturrilha')).toBe('EP');
+    expect(iniciais('Prancha')).toBe('P');
+    expect(iniciais('Leg press 45° (pés afastados)')).toBe('LP');
+    expect(iniciais('')).toBe('');
+  });
+});

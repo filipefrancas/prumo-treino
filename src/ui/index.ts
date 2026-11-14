@@ -12,6 +12,7 @@ export { Screen, type ScreenProps } from './Screen.tsx';
 export { TabBar, type TabBarProps, type TabItem } from './TabBar.tsx';
 export { Card, Section, type Area, type CardProps, type SectionProps } from './Card.tsx';
 export { List, Row, type RowProps } from './Row.tsx';
+export { PorQue, type PorQueProps } from './PorQue.tsx';
 export { Empty, type EmptyProps } from './Empty.tsx';
 
 // Ação

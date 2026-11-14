@@ -36,6 +36,54 @@ const TXT = {
 
 const TIPS_LONGO = ['Leve água se passar de 40 minutos ou se estiver calor.', 'Os primeiros 10 minutos são sempre os mais pesados: comece devagar.'];
 
+/**
+ * "Por que assim": o raciocínio de cada treino, por data. Aparece sempre na tela do treino. Liga o treino ao
+ * roteiro (do retorno aos longos de 15 a 18 km) e à musculação da semana: pernas na segunda, peito e costas na
+ * quinta, braços e ombros no sábado.
+ */
+const PORQUE: Record<string, string> = {
+  '2026-11-13':
+    'É o penúltimo treino que o seu treinador deixou, e ele fica porque 25 minutos com estímulos de 30 segundos acordam a perna sem somar volume. Você vem de quase três semanas parado, então o forte aqui é esforço 7 de 10, não tiro. Sexta é um bom dia para isso: sobra o sábado inteiro antes do longo de domingo.',
+  '2026-11-15':
+    'Domingo é o dia do longo, e este de 35 minutos é o ponto de partida do caminho até os 15 a 18 km. Vai por sensação porque, na volta, o relógio ainda cobra o seu ritmo antigo. No sábado você treina só braços e ombros, então a perna chega descansada. Na segunda vem o treino de pernas, com dois dias inteiros até a próxima corrida.',
+  '2026-11-18':
+    'Quarta vem dois dias depois do treino de pernas de segunda, quando a coxa ainda pode estar pesada. Por isso a primeira corrida da semana é a mais leve: 15 minutos em ritmo de conversa, só para a perna voltar a rodar. Na quinta o treino é de peito e costas, então a perna descansa de novo antes de sexta.',
+  '2026-11-20':
+    'Sexta fica um dia depois de peito e costas, que não cansam a perna. É o dia de correr 15 minutos seguidos sem caminhar, ainda na faixa leve de frequência cardíaca. Nesta primeira semana a ideia é juntar três corridas curtas, não fazer uma corrida boa. No sábado só os braços trabalham, e a perna se guarda para o longo.',
+  '2026-11-22':
+    'O longo é o treino que mais importa para chegar aos 15 a 18 km, e ele cresce de 5 em 5 minutos. Trinta minutos é menos do que você já fez, de propósito: a primeira semana do bloco é para reencontrar a corrida. Sábado é dia de braços e ombros, então a perna chega inteira. Segunda tem pernas, e a corrida seguinte é só na quarta.',
+  '2026-11-25':
+    'São 20 minutos contínuos, cinco a mais que na semana passada, porque o corpo aceita bem esse passo pequeno. A frequência cardíaca tem teto para o treino de pernas de segunda não virar uma corrida forçada na quarta. Se a coxa ainda estiver pesada, corra no piso da faixa. Na quinta você treina só o tronco.',
+  '2026-11-27':
+    'Entram os primeiros estímulos moderados, de 1 minuto, com caminhada entre eles. Servem para lembrar a perna de um ritmo mais alto sem o custo de um treino forte, que ainda é cedo. Sexta é o dia certo: a perna descansou na quinta, que foi de peito e costas, e o sábado de braços não atrapalha o longo.',
+  '2026-11-29':
+    'Mais cinco minutos no longo: 35 agora, rumo aos 50 do fim de dezembro. O ritmo é de conversa porque o que se treina aqui é tempo em movimento, e isso é o que os longos de 15 a 18 km vão pedir. O sábado de braços e ombros deixa a perna livre. A segunda de pernas fica longe o bastante para você recuperar.',
+  '2026-12-02':
+    'O contínuo sobe para 25 minutos. É a corrida que constrói o ritmo confortável que você vai levar para os longos maiores. Fica na quarta porque já passaram dois dias desde o treino de pernas, e a frequência cardíaca segura o passo se a coxa ainda reclamar. Quinta é dia de peito e costas, com a perna parada.',
+  '2026-12-04':
+    'É o primeiro treino com trechos fortes do bloco, depois de três semanas só de base. Ele fica na sexta porque é o dia em que a perna está mais descansada: a última carga pesada nela foi na segunda, e na quinta você treinou só o tronco. O forte é controlado, esforço 8 de 10. No sábado vêm os braços, e a perna se recupera para o longo.',
+  '2026-12-06':
+    'Quarenta minutos: o longo já passa de 6 km e começa a parecer com o que você gosta de correr. Depois do Fartlek de sexta ele vai bem leve e com água, para somar tempo sem somar desgaste. O sábado foi de braços, então a perna vem só com a corrida de sexta. Segunda tem pernas e depois dois dias sem correr.',
+  '2026-12-09':
+    'Esta é a semana de alívio: depois de três semanas subindo, o corpo precisa de uma mais leve para absorver o treino. Por isso a quarta volta aos 15 minutos leves, e não vale compensar correndo mais forte. Na segunda de pernas, tire uma série de cada exercício nesta semana. A quinta segue só com o tronco.',
+  '2026-12-11':
+    'Vinte minutos contínuos, os mesmos de duas semanas atrás, e isso é de propósito. Na semana de alívio você mantém o hábito das três corridas e corta o volume. Sexta vem depois de peito e costas, com a perna descansada, então ele deve sair fácil. Se sair fácil, o bloco está funcionando.',
+  '2026-12-13':
+    'O longo recua de 40 para 35 minutos para fechar a semana de alívio. É esse passo atrás que deixa você pronto para a semana mais puxada do bloco, que começa amanhã. Ritmo de conversa do começo ao fim. Sábado foi de braços e ombros, e a segunda de pernas volta ao normal.',
+  '2026-12-16':
+    'Dois blocos contínuos somam 25 minutos de corrida firme, o segundo um pouco mais forte. É o ensaio para sustentar ritmo por mais tempo, que é o que os longos de 15 km vão cobrar. Na quarta a perna já teve dois dias desde o treino de segunda. Se ela estiver pesada, faça o segundo bloco no ritmo do primeiro.',
+  '2026-12-18':
+    'É o primeiro intervalado: seis repetições de 2 minutos fortes. Ele só entra agora, na quinta semana, porque a base das semanas anteriores é o que protege de lesão num treino assim. Sexta é o dia com a perna mais descansada, um dia depois de peito e costas. O sábado de braços dá o intervalo antes do longo.',
+  '2026-12-20':
+    'Quarenta e cinco minutos com dois trechos moderados no meio. Além do tempo em movimento, você treina mudar de marcha e voltar para o leve sem parar, o que ajuda muito nos longos maiores. Vem dois dias depois do intervalado, então o resto é bem leve. Sábado foi só de braços, e segunda a perna trabalha na academia.',
+  '2026-12-23':
+    'Trinta minutos contínuos: o dobro do que você correu na primeira quarta do bloco. É a prova de que a base voltou. Fica na quarta, dois dias depois do treino de pernas, com a frequência cardíaca como freio. Quinta é dia de peito e costas, e a perna descansa para o Fartlek.',
+  '2026-12-25':
+    'Os trechos fortes agora duram 2 minutos, mais longos que os do primeiro Fartlek, porque a perna já aguenta. É o último treino forte do bloco e fica na sexta, com a perna descansada pela quinta de tronco. Se o Natal apertar, faça no sábado: o treino de braços troca de dia sem prejuízo, e o longo continua no domingo.',
+  '2026-12-27':
+    'Cinquenta minutos, cerca de 8 km: é a meta do bloco de retorno e a porta de entrada da próxima fase, em que o longo sobe 1 km por semana até os 12 a 13 km. Ritmo de conversa, com água. Sábado foi de braços e ombros, então a perna chega inteira. Anote como foi, porque é com esse treino que o próximo bloco é montado.',
+};
+
 interface Spec {
   date: string;
   title: string;
@@ -60,6 +108,7 @@ const w = (s: Spec): RunWorkout => ({
   description: s.description,
   blocks: s.blocks,
   tips: s.tips,
+  porque: PORQUE[s.date],
   source: s.source ?? 'claude',
   onWatch: true,
 });

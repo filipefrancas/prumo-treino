@@ -212,7 +212,7 @@ export function Dados() {
           <Row
             leading={<Icon name="enviar" />}
             title="Importar fotos dos exercícios"
-            sub={fotos > 0 ? `${plural(fotos, 'foto', 'fotos')} neste aparelho. Ficam só aqui.` : 'Pacote de fotos do treinador. Ficam só neste aparelho.'}
+            sub={fotos > 0 ? `${plural(fotos, 'foto', 'fotos')} neste aparelho. Ficam só aqui.` : 'Pacote de fotos extras, para exercícios sem foto no app. Ficam só neste aparelho.'}
             chevron
             onClick={() => void importarFotos()}
           />

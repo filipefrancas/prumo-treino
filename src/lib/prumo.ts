@@ -4,6 +4,7 @@
  * o estado é quem chama.
  */
 import type { AppState, ISODate, Lift, Pr, RunLog, RunTipo, SerieFeita, WeightLog } from '../types.ts';
+import { nomeDoExercicio } from './academia.ts';
 
 const RE_ISO = /^\d{4}-\d{2}-\d{2}$/;
 const RUN_TIPOS: readonly RunTipo[] = ['Rodagem', 'Longão', 'Intervalado', 'Tempo run', 'Regenerativo', 'Prova'];
@@ -140,7 +141,7 @@ function prsDoPrumo(v: unknown): Pr[] | undefined {
     const exId = idDe(p.exId);
     if (!exId) continue;
     out.push({
-      exId, nome: texto(p.nome) ?? exId, e1rm: num(p.e1rm) ?? 0, carga: num(p.carga) ?? 0, reps: num(p.reps) ?? 0,
+      exId, nome: texto(p.nome) ?? nomeDoExercicio(exId), e1rm: num(p.e1rm) ?? 0, carga: num(p.carga) ?? 0, reps: num(p.reps) ?? 0,
       anterior: num(p.anterior) ?? 0, medida: p.medida === 'reps' ? 'reps' : 'e1rm',
     });
   }

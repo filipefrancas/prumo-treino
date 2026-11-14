@@ -70,7 +70,8 @@ describe('backup: ida e volta', () => {
       d.settings.nome = 'Filipe F.';
       d.settings.pesoMeta = 80;
       d.runs.push({ id: 'r1', data: '2026-11-18', tipo: 'Rodagem', km: 6.2, min: 38, pse: 5, fonte: 'treino', treinoId: 's01-qua' });
-      d.lifts.push({ id: 'l1', data: '2026-11-16', ficha: 'B', treino: 'Inferiores', programa: 'hibrido', sets: { 'h-B-05': { '1': { reps: 10, carga: 40, feito: true } } } });
+      d.lifts.push({ id: 'l1', data: '2026-11-16', ficha: 'A', treino: 'Pernas', programa: 'maromba', sets: { 'm-A-02': { '1': { reps: 10, carga: 160, feito: true } } } });
+      d.lifts.push({ id: 'l0', data: '2026-11-07', ficha: 'B', treino: 'Inferiores', programa: 'hibrido', sets: { 'h-B-08': { '1': { reps: 10, carga: 200, feito: true } } } }); // treino da ficha antiga: volta igual
       d.weights.push({ id: 'w1', data: '2026-11-17', kg: 82.5 });
       d.mob.push({ id: 'm1', data: '2026-11-18', rotina: 'pos-corrida', nome: 'Pós-corrida', seg: 480, completo: true });
       d.marcas['s01-qua'] = 'feito';

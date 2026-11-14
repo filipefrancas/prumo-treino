@@ -310,3 +310,6 @@ html[data-ui-sheet] .ui-toast-host{bottom:auto;top:calc(14px + var(--safe-top))}
   @keyframes ui-up{from{transform:translateY(40px)}to{transform:none}}
   @keyframes ui-toast{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 }
+
+/* "Por que assim": o raciocínio do treinador, em texto corrido */
+.ui-porque-txt{margin:0;font-size:var(--fs-md);line-height:1.6;color:var(--fg);text-wrap:pretty;overflow-wrap:anywhere}

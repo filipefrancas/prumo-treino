@@ -186,6 +186,7 @@ export function resumoParaTreinador(state: AppState, dias = 14, ate: ISODate = h
   let planejados = 0, feitos = 0;
   for (let d = inicio; d <= ate; d = addDias(d, 1)) {
     for (const item of agendaDoDiaEm(state, d, ate)) {
+      if (item.tipo === 'mob') continue; // o alongamento da terça aparece em MOBILIDADE, não na conta de treinos
       planejados += 1;
       if (item.feito) feitos += 1;
     }

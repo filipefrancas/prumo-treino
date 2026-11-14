@@ -1,4 +1,7 @@
 /**
+ * FERRAMENTA ANTIGA: servia à ficha usada até nov/2026 (programa "hibrido"), que saiu do app. As fotos agora são
+ * embutidas (src/assets/fotos, ver src/lib/fotos.ts). Fica aqui só como referência do formato do pacote de fotos.
+ *
  * Pacote PRIVADO de fotos dos exercícios, montado com as miniaturas da ficha do treinador.
  *
  * Uso (a partir da raiz do projeto):  npx tsx tools/gen-fotos.ts [--dados <pasta>] [--saida <arquivo>]

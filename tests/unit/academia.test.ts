@@ -1,25 +1,27 @@
+import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
-import { METODO_TXT_EXERCICIO, PROGRAMAS, programaPorId } from '../../src/data/fichas.ts';
+import { exById } from '../../src/data/ex/_index.ts';
+import { EXERCICIOS_ANTIGOS, METODO_TXT_EXERCICIO, PROGRAMAS, PROGRAMA_ANTIGO, programaPorId } from '../../src/data/fichas.ts';
 import {
-  METODO_ROTULO, METODO_TXT, acharExercicio, aplicarAjuste, blocosDaFicha, concluirSessao, contaComoFeito, descansoDe,
-  desmarcarSerie, duracaoDoLift, e1rm, ehPrincipal, esquemaDaSerie, exerciciosPreparacao, exerciciosPrincipais, fichaDoDia,
-  fichaPorLetra, fichasAtivas, historicoEx, iniciarSessao, lerReps, liftsFeitos, marcarSerie, metodoTexto, paresCombinados,
-  parceiroDe, programaAtivo, proximaFicha, prsDoLift, pularExercicio, resumoSemanaMusc, rotacaoFichas, serieConta,
-  seriesDeTrabalho, seriesFeitas, seriesMarcadas, seriesPlanejadas, sessaoAberta, sugestao, totalSeriesDeTrabalho,
-  ultimaVez, volumeDoLift,
+  METODO_ROTULO, METODO_TXT, acharExercicio, aplicarAjuste, blocosDaFicha, catalogoDoExercicio, concluirSessao, contaComoFeito,
+  descansoDe, desmarcarSerie, duracaoDoLift, e1rm, ehPreparacaoAntiga, ehPrincipal, esquemaDaSerie, exerciciosPreparacao,
+  exerciciosPrincipais, fichaDoDia, fichaPorLetra, fichasAtivas, historicoEx, iniciarSessao, lerReps, liftsFeitos, marcarSerie,
+  metodoTexto, nomeDoExercicio, paresCombinados, parceiroDe, programaAtivo, proximaFicha, prsDoLift, pularExercicio,
+  resumoSemanaMusc, rotacaoFichas, serieConta, serieGravadaConta, seriesDeTrabalho, seriesFeitas, seriesMarcadas,
+  seriesPlanejadas, sessaoAberta, sugestao, totalSeriesDeTrabalho, ultimaVez, volumeDoLift,
 } from '../../src/lib/academia.ts';
 import type { Ficha, FichaExercicio, Lift, SerieFeita, Settings } from '../../src/types.ts';
 
 /* ---------------- apoio ---------------- */
 
-/** Ajustes do estado inicial (SPEC §4): seg B, ter descanso, qua corrida, qui C, sex corrida, sáb A, dom corrida. Chave 0 = domingo. */
+/** Ajustes do estado inicial: seg A, ter descanso (alongamento), qua corrida, qui B, sex corrida, sáb C, dom corrida. Chave 0 = domingo. */
 function ajustes(over: Partial<Settings> = {}): Settings {
   return {
     nome: 'Filipe', tema: 'auto', som: true, voz: true, vibrar: true, telaLigada: true, descansoPadrao: 90, alongamentoSeg: 60,
-    fcMax: 192, zonas: [], programa: 'hibrido',
+    fcMax: 192, zonas: [], programa: 'maromba',
     plano: {
-      0: { tipo: 'corrida' }, 1: { tipo: 'musc', ficha: 'B' }, 2: { tipo: 'descanso' }, 3: { tipo: 'corrida' },
-      4: { tipo: 'musc', ficha: 'C' }, 5: { tipo: 'corrida' }, 6: { tipo: 'musc', ficha: 'A' },
+      0: { tipo: 'corrida' }, 1: { tipo: 'musc', ficha: 'A' }, 2: { tipo: 'descanso' }, 3: { tipo: 'corrida' },
+      4: { tipo: 'musc', ficha: 'B' }, 5: { tipo: 'corrida' }, 6: { tipo: 'musc', ficha: 'C' },
     },
     ...over,
   };
@@ -46,70 +48,222 @@ let seq = 0;
 function lift(data: string, letra: string, sets: Record<string, [number, number][]> = {}, over: Partial<Lift> = {}): Lift {
   const f = ficha(letra), s: Record<string, Record<string, SerieFeita>> = {};
   for (const [exId, pares] of Object.entries(sets)) s[exId] = feitas(pares);
-  return { id: `l${++seq}`, data, ficha: letra, treino: f.nome, programa: 'hibrido', concluido: true, emAndamento: false, sets: s, ...over };
+  return { id: `l${++seq}`, data, ficha: letra, treino: f.nome, programa: 'maromba', concluido: true, emAndamento: false, sets: s, ...over };
 }
-/** Exercício fora do catálogo, para os ramos que o programa híbrido não tem. */
+/** Exercício fora do catálogo, para os ramos que o programa atual não usa (métodos, pares, preparação, tempo). */
 function avulso(over: Partial<FichaExercicio>): FichaExercicio {
   return { id: 'x-1', anim: 'x', nome: 'Avulso', grupo: 'teste', tipo: 'principal', series: [], ...over };
 }
 
+/**
+ * Ficha de teste com tudo o que o motor aceita e o programa atual não tem: preparação (alongamento, mobilidade,
+ * aquecimento), pares combinados, cluster-set, rest-pause, super-set, drop-set, peso do corpo e série por tempo.
+ */
+const X = {
+  alongA: avulso({ id: 'x-01', tipo: 'alongamento', combinado: 'c1', series: [{ sets: 2, reps: '45 s', carga: 0, intervalo: 45 }] }),
+  alongB: avulso({ id: 'x-02', tipo: 'alongamento', combinado: 'c1', series: [{ sets: 2, reps: '45 s', carga: 0, intervalo: 30 }] }),
+  mob: avulso({ id: 'x-03', tipo: 'mobilidade', series: [{ sets: 1, reps: '10', carga: null, intervalo: null }] }),
+  aq: avulso({ id: 'x-04', tipo: 'aquecimento', combinado: 'c2', series: [{ sets: 2, reps: '15-20', carga: 0, intervalo: null }] }),
+  ombro: avulso({ id: 'x-05', combinado: 'c2', series: [{ sets: 2, reps: '10-15', carga: 15, intervalo: null }] }),
+  remada: avulso({ id: 'x-06', series: [{ sets: 1, reps: '10-15', carga: 25, intervalo: 60, nota: 'aquecimento' }, { sets: 3, reps: '8-12', carga: 40, intervalo: 90 }] }),
+  cluster: avulso({ id: 'x-07', metodo: 'cluster-set', series: [{ sets: 3, reps: '4-4-4', carga: 35, intervalo: 90 }] }),
+  rest: avulso({ id: 'x-08', metodo: 'rest-pause', series: [{ sets: 3, reps: '8-12', carga: 40, intervalo: 90 }] }),
+  superA: avulso({ id: 'x-09', metodo: 'super-set', combinado: 'c4', series: [{ sets: 4, reps: '15-20', carga: 7, intervalo: null }] }),
+  superB: avulso({ id: 'x-10', metodo: 'super-set', combinado: 'c4', series: [{ sets: 4, reps: '8-12', carga: 16, intervalo: 30 }] }),
+  drop: avulso({ id: 'x-11', metodo: 'drop-set', series: [{ sets: 2, reps: '10-15', carga: 96, intervalo: 90, drops: [96, 52, 38] }] }),
+  corpo: avulso({ id: 'x-12', equipamento: 'banco', series: [{ sets: 3, reps: '10-15', carga: 0, intervalo: 90 }] }),
+  elastico: avulso({ id: 'x-13', tipo: 'aquecimento', series: [{ sets: 2, reps: '20/20', carga: null, intervalo: null, nota: 'elástico azul' }] }),
+};
+const FX: Ficha = { id: 'X', nome: 'Avulsa', exercicios: Object.values(X) };
+
 /* ---------------- catálogo ---------------- */
 
-describe('fichas do programa híbrido', () => {
-  const p = programaPorId('hibrido');
+describe('programa Maromba', () => {
+  const p = programaPorId('maromba');
+  const todos = (p?.fichas ?? []).flatMap((f) => f.exercicios);
 
-  it('tem o programa com as 3 fichas e os 36 exercícios', () => {
+  it('é o único programa, com as 3 fichas e os 22 exercícios', () => {
     expect(PROGRAMAS).toHaveLength(1);
-    expect(p).toMatchObject({ id: 'hibrido', nome: 'Atleta Híbrido', objetivo: 'Condicionamento físico', fonte: 'Treinador Fabiano · ficha de ago/2025' });
-    expect(p?.fichas.map((f) => `${f.id} ${f.nome} ${f.exercicios.length}`)).toEqual(['A Costas e bíceps 13', 'B Inferiores 13', 'C Peito, ombro e braço 10']);
+    expect(p).toMatchObject({ id: 'maromba', nome: 'Maromba', objetivo: 'Hipertrofia', fonte: 'Treino montado em nov/2026 para a Planet Sports' });
+    expect(p?.fichas.map((f) => `${f.id} ${f.nome} ${f.exercicios.length}`)).toEqual(['A Pernas 6', 'B Peito e costas 7', 'C Braços e ombros 9']);
+    expect(todos).toHaveLength(22);
     expect(programaPorId('nao-existe')).toBeUndefined();
+    expect(programaPorId(PROGRAMA_ANTIGO)).toBeUndefined(); // a ficha antiga saiu do app
   });
 
-  it('ids permanentes em sequência, anim e equipamento em todos, sem foto', () => {
+  it('exercícios, séries e descansos são os do plano aprovado', () => {
+    const linha = (e: FichaExercicio): string => `${e.anim} ${e.series.map((b) => `${b.sets}x${b.reps}`).join('+')} ${e.series[e.series.length - 1]?.intervalo}s`;
+    expect(ficha('A').exercicios.map(linha)).toEqual([
+      'agachamento-hack 1x12-15+4x8-10 120s',
+      'leg-press-45 3x10-12 90s',
+      'cadeira-extensora 3x12-15 60s',
+      'mesa-flexora 4x10-12 75s',
+      'stiff-halteres 3x10-12 90s',
+      'panturrilha-em-pe-maquina 4x12-15 45s',
+    ]);
+    expect(ficha('B').exercicios.map(linha)).toEqual([
+      'supino-reto-barra 1x12-15+4x6-10 120s',
+      'puxada-frente 4x8-12 90s',
+      'supino-inclinado-halteres 3x8-12 90s',
+      'remada-curvada 4x8-10 120s',
+      'crossover 3x12-15 60s',
+      'remada-baixa 3x10-12 90s',
+      'face-pull 3x12-15 60s',
+    ]);
+    expect(ficha('C').exercicios.map(linha)).toEqual([
+      'desenvolvimento-halteres 1x12-15+3x8-12 90s',
+      'elevacao-lateral 4x12-15 45s',
+      'rosca-direta-barra 4x8-10 75s',
+      'triceps-testa 4x8-10 75s',
+      'rosca-banco-inclinado 3x10-12 60s',
+      'triceps-frances-polia 3x10-12 60s',
+      'rosca-martelo 3x10-12 60s',
+      'triceps-corda 3x12-15 60s',
+      'abdominal-maquina 3x12-15 60s',
+    ]);
+  });
+
+  it('ids novos em sequência, tudo principal, sem pares nem métodos', () => {
     for (const f of p?.fichas ?? []) {
       f.exercicios.forEach((e, i) => {
-        expect(e.id).toBe(`h-${f.id}-${String(i + 1).padStart(2, '0')}`);
+        expect(e.id).toBe(`m-${f.id}-${String(i + 1).padStart(2, '0')}`);
         expect(e.anim).toMatch(/^[a-z0-9]+(-[a-z0-9]+)*$/);
         expect(e.equipamento).toBeTruthy();
-        expect(e.series.length).toBeGreaterThan(0);
-        expect(Object.keys(e)).not.toContain('img');
-        expect(Object.keys(e)).not.toContain('imgArquivo');
+        expect(e.tipo).toBe('principal');
+        expect(e.combinado).toBeUndefined();
+        expect(e.metodo).toBeUndefined();
+        expect(e.instrucoes).toBeUndefined();
       });
     }
-    expect(ex('h-B-10').equipamento).toBe('banco nórdico');
-    expect(ex('h-A-01').anim).toBe('alongamento-peitoral-espaldar');
-    expect(ex('h-C-01').anim).toBe('alongamento-peitoral-espaldar');
-    expect(ex('h-C-02').anim).toBe(ex('h-A-05').anim);
-    expect(ex('h-B-13').anim).toBe('dorsiflexao-halter');
-    expect(ex('h-C-10').anim).toBe('abdominal-maquina');
+    expect(new Set(todos.map((e) => e.id)).size).toBe(22);
+    expect(new Set(todos.map((e) => e.anim)).size).toBe(22); // nenhum exercício repetido entre as fichas
+    for (const e of todos) expect(e.id in EXERCICIOS_ANTIGOS).toBe(false); // não colide com os ids da ficha antiga
+    expect(METODO_TXT_EXERCICIO).toEqual({});
   });
 
-  it('guarda blocos, métodos, instruções e drops como no catálogo', () => {
-    expect(ex('h-A-07').series).toEqual([
-      { sets: 1, reps: '10-15', rir: '1-3', iso: '2 s', carga: 25, intervalo: 60, nota: 'aquecimento' },
-      { sets: 3, reps: '8-12', rir: '1-3', iso: null, carga: 40, intervalo: 90 },
-    ]);
-    expect(ex('h-B-09')).toMatchObject({ metodo: 'drop-set', series: [{ sets: 2, carga: 96, drops: [96, 52, 38] }] });
-    expect(ex('h-B-05').series[0]).toMatchObject({ reps: '20/20', carga: null, nota: 'elástico azul' });
-    expect(ex('h-A-11')).toMatchObject({ metodo: 'super-set', combinado: 'c4', instrucoes: 'Super-set 1' });
-    expect(ex('h-C-09').instrucoes).toBe('Combinar com abdômen bi articular, ao lado.');
-    const comMetodo = PROGRAMAS.flatMap((x) => x.fichas).flatMap((f) => f.exercicios).filter((e) => e.metodo);
-    expect(comMetodo.map((e) => e.id).sort()).toEqual(Object.keys(METODO_TXT_EXERCICIO).sort());
+  it('a primeira série do primeiro exercício é leve; as demais deixam 1 a 2 repetições de folga', () => {
+    for (const f of p?.fichas ?? []) {
+      f.exercicios.forEach((e, i) => {
+        const trabalho = e.series[e.series.length - 1];
+        expect(trabalho).toMatchObject({ rir: '1-2' });
+        expect(trabalho?.nota).toBeUndefined();
+        expect(trabalho?.carga).toBeGreaterThan(0);
+        expect(trabalho?.intervalo).toBeGreaterThan(0);
+        if (i === 0) {
+          expect(e.series).toHaveLength(2);
+          expect(e.series[0]).toMatchObject({ sets: 1, reps: '12-15', nota: 'aquecimento' });
+          const fracao = (e.series[0]?.carga ?? 0) / (trabalho?.carga ?? 1);
+          expect(fracao).toBeGreaterThanOrEqual(0.4);
+          expect(fracao).toBeLessThanOrEqual(0.6); // cerca de metade da carga de trabalho
+        } else {
+          expect(e.series).toHaveLength(1);
+        }
+      });
+    }
   });
 
+  it('cargas de partida conhecidas', () => {
+    const carga = (id: string): number | null | undefined => ex(id).series[ex(id).series.length - 1]?.carga;
+    expect(carga('m-A-02')).toBe(160); // leg press: 200 era otimista para 10-12 depois da pausa
+    expect(carga('m-C-02')).toBe(10); // elevação lateral
+    expect(carga('m-C-05')).toBe(14); // rosca no banco inclinado
+    expect(carga('m-B-07')).toBe(15); // face pull
+    expect(carga('m-C-09')).toBe(20); // abdominal
+  });
+
+  it('cada ficha traz o "Por que assim" e cada exercício tem texto na biblioteca', () => {
+    for (const f of p?.fichas ?? []) {
+      expect(f.porque?.length ?? 0).toBeGreaterThan(300);
+      expect(f.porque).not.toMatch(/—|Fabiano|Elevação em Y/);
+      for (const e of f.exercicios) {
+        expect(exById(e.anim)?.name, e.anim).toBe(e.nome);
+      }
+    }
+    expect(ficha('A').porque).toMatch(/^Segunda é o dia mais longe do longo de domingo/);
+    expect(ficha('B').porque).toMatch(/^Quinta fica entre a corrida de quarta e a de sexta/);
+    expect(ficha('C').porque).toMatch(/O abdominal encerra a semana\.$/);
+  });
+
+  it('sem pares combinados nem preparação: cada exercício é um bloco', () => {
+    for (const letra of ['A', 'B', 'C']) {
+      const f = ficha(letra);
+      expect(paresCombinados(f)).toEqual([]);
+      expect(exerciciosPreparacao(f)).toEqual([]);
+      expect(exerciciosPrincipais(f).map((e) => e.id)).toEqual(f.exercicios.map((e) => e.id));
+      expect(blocosDaFicha(f).map((b) => b.map((e) => e.id).join('+'))).toEqual(f.exercicios.map((e) => e.id));
+    }
+  });
+});
+
+describe('ficha antiga no histórico', () => {
+  it('a tabela cobre os 36 ids antigos e dá nome a cada um', () => {
+    expect(Object.keys(EXERCICIOS_ANTIGOS)).toHaveLength(36);
+    for (const [id, e] of Object.entries(EXERCICIOS_ANTIGOS)) {
+      expect(id).toMatch(/^h-[ABC]-\d{2}$/);
+      expect(e.nome.length).toBeGreaterThan(5);
+      expect(exById(e.anim), e.anim).toBeDefined();
+    }
+  });
+
+  it('nome e catálogo de um exercício gravado: ficha atual, ficha antiga ou texto neutro (nunca o id)', () => {
+    expect(nomeDoExercicio('m-A-01')).toBe('Agachamento no hack');
+    expect(nomeDoExercicio('h-A-07')).toBe('Remada cavalinho (pegada neutra)');
+    expect(nomeDoExercicio('z-9')).toBe('Exercício de uma ficha antiga');
+    expect(catalogoDoExercicio('m-B-07')).toBe('face-pull');
+    expect(catalogoDoExercicio('h-C-03')).toBe('supino-reto-maquina');
+    expect(catalogoDoExercicio('z-9')).toBeUndefined();
+  });
+
+  it('séries de trabalho dos treinos antigos seguem a regra que a ficha tinha', () => {
+    expect(serieGravadaConta('h-A-05', 1)).toBe(false); // preparação
+    expect(serieGravadaConta('h-A-07', 1)).toBe(false); // aquecimento dentro do exercício
+    expect(serieGravadaConta('h-A-07', 2)).toBe(true);
+    expect(serieGravadaConta('h-C-03', 2)).toBe(false);
+    expect(serieGravadaConta('h-C-03', 3)).toBe(true);
+    expect(serieGravadaConta('h-A-09', 1)).toBe(true);
+    expect(serieGravadaConta('m-A-01', 1)).toBe(false); // ficha atual: a série leve
+    expect(serieGravadaConta('m-A-01', 2)).toBe(true);
+    expect(serieGravadaConta('z-9', 1)).toBe(true); // desconhecido conta
+    expect(ehPreparacaoAntiga('h-B-03')).toBe(true);
+    expect(ehPreparacaoAntiga('h-B-08')).toBe(false);
+    expect(ehPreparacaoAntiga('m-A-01')).toBe(false);
+  });
+
+  it('treinos gravados com a ficha antiga não quebram nada e não entram na rotação da nova', () => {
+    const bruto = JSON.parse(readFileSync(new URL('../fixtures/musc.json', import.meta.url), 'utf8')) as { lifts: Lift[] };
+    const antigos = bruto.lifts;
+    expect(antigos.length).toBeGreaterThan(3);
+    expect(antigos.every((l) => l.programa === PROGRAMA_ANTIGO)).toBe(true);
+    const s = ajustes();
+    for (const l of antigos) {
+      expect(volumeDoLift(l)).toBeGreaterThanOrEqual(0);
+      expect(seriesFeitas(l)).toBeLessThanOrEqual(seriesMarcadas(l));
+      expect(() => prsDoLift(antigos, l)).not.toThrow();
+      for (const exId of Object.keys(l.sets ?? {})) {
+        expect(nomeDoExercicio(exId), exId).not.toMatch(/^h-|ficha antiga/);
+        expect(() => historicoEx(antigos, exId)).not.toThrow();
+      }
+    }
+    // a letra A da ficha antiga era outro treino: a rotação da nova começa do zero
+    expect(proximaFicha(s, antigos).id).toBe('A');
+    expect(rotacaoFichas(s, antigos)).toEqual({ ultimas: [], ultima: null, proxima: 'A' });
+    expect(fichaDoDia(s, antigos, '2026-11-16')?.id).toBe('A');
+    for (const e of ficha('A').exercicios) expect(sugestao(s, antigos, e).tipo).toMatch(/^(ficha|aquecimento)$/);
+    // um estado ainda com o id do programa antigo cai no programa atual
+    expect(programaAtivo(ajustes({ programa: PROGRAMA_ANTIGO })).id).toBe('maromba');
+  });
+});
+
+describe('pares, preparação e métodos (ficha de teste)', () => {
   it('pares combinados, treino principal e preparação', () => {
-    const A = ficha('A'), B = ficha('B'), C = ficha('C');
-    expect(paresCombinados(A).map(([a, b]) => `${a.id}+${b.id}`)).toEqual(['h-A-01+h-A-02', 'h-A-03+h-A-04', 'h-A-05+h-A-06', 'h-A-11+h-A-12']);
-    expect(paresCombinados(B)).toHaveLength(3);
-    expect(paresCombinados(C)).toHaveLength(2);
-    expect(parceiroDe(A, 'h-A-12')?.id).toBe('h-A-11');
-    expect(parceiroDe(A, 'h-A-07')).toBeUndefined();
+    expect(paresCombinados(FX).map(([a, b]) => `${a.id}+${b.id}`)).toEqual(['x-01+x-02', 'x-04+x-05', 'x-09+x-10']);
+    expect(parceiroDe(FX, 'x-10')?.id).toBe('x-09');
+    expect(parceiroDe(FX, 'x-06')).toBeUndefined();
     // o aquecimento que faz par com um principal vai para o treino principal (cartão duplo)
-    expect(exerciciosPrincipais(A).map((e) => e.id)).toEqual(['h-A-05', 'h-A-06', 'h-A-07', 'h-A-08', 'h-A-09', 'h-A-10', 'h-A-11', 'h-A-12', 'h-A-13']);
-    expect(exerciciosPreparacao(A).map((e) => e.id)).toEqual(['h-A-01', 'h-A-02', 'h-A-03', 'h-A-04']);
-    expect(exerciciosPreparacao(B).map((e) => e.id)).toEqual(['h-B-01', 'h-B-02', 'h-B-03', 'h-B-04']);
-    expect(blocosDaFicha(A).map((b) => b.map((e) => e.id).join('+'))).toEqual(['h-A-05+h-A-06', 'h-A-07', 'h-A-08', 'h-A-09', 'h-A-10', 'h-A-11+h-A-12', 'h-A-13']);
-    expect(blocosDaFicha(C).map((b) => b.length)).toEqual([1, 1, 1, 1, 1, 1, 2]);
+    expect(exerciciosPrincipais(FX).map((e) => e.id)).toEqual(['x-04', 'x-05', 'x-06', 'x-07', 'x-08', 'x-09', 'x-10', 'x-11', 'x-12']);
+    expect(exerciciosPreparacao(FX).map((e) => e.id)).toEqual(['x-01', 'x-02', 'x-03', 'x-13']);
+    expect(blocosDaFicha(FX).map((b) => b.map((e) => e.id).join('+'))).toEqual(['x-04+x-05', 'x-06', 'x-07', 'x-08', 'x-09+x-10', 'x-11', 'x-12']);
+    expect(totalSeriesDeTrabalho(FX)).toBe(2 + 3 + 3 + 3 + 4 + 4 + 2 + 3);
   });
 
   it('métodos têm rótulo e texto', () => {
@@ -118,9 +272,9 @@ describe('fichas do programa híbrido', () => {
       expect(METODO_ROTULO[m]).toBeTruthy();
       expect(METODO_TXT[m].length).toBeGreaterThan(20);
     }
-    expect(metodoTexto(ex('h-B-09'))).toContain('96 kg');
-    expect(metodoTexto(ex('h-A-10'))).toBe(METODO_TXT['rest-pause']);
-    expect(metodoTexto(ex('h-A-07'))).toBeUndefined();
+    expect(metodoTexto(X.drop)).toBe(METODO_TXT['drop-set']);
+    expect(metodoTexto(X.rest)).toBe(METODO_TXT['rest-pause']);
+    expect(metodoTexto(ex('m-A-01'))).toBeUndefined();
   });
 });
 
@@ -149,9 +303,9 @@ describe('lerReps', () => {
 });
 
 describe('seriesPlanejadas', () => {
-  it('não quebra em nenhum dos 36 exercícios e numera de 1 em diante', () => {
+  it('não quebra em nenhum exercício (os 22 do programa e os da ficha de teste) e numera de 1 em diante', () => {
     let total = 0;
-    for (const f of programaAtivo(ajustes()).fichas) {
+    for (const f of [...programaAtivo(ajustes()).fichas, FX]) {
       for (const e of f.exercicios) {
         const sp = seriesPlanejadas(e);
         expect(sp.length).toBe(e.series.reduce((a, b) => a + b.sets, 0));
@@ -165,13 +319,14 @@ describe('seriesPlanejadas', () => {
         total++;
       }
     }
-    expect(total).toBe(36);
+    expect(total).toBe(22 + 13);
   });
 
   it('totais por ficha: séries planejadas e séries de trabalho', () => {
     const planejadas = (letra: string) => ficha(letra).exercicios.reduce((a, e) => a + seriesPlanejadas(e).length, 0);
-    expect([planejadas('A'), planejadas('B'), planejadas('C')]).toEqual([38, 32, 29]);
-    expect([totalSeriesDeTrabalho(ficha('A')), totalSeriesDeTrabalho(ficha('B')), totalSeriesDeTrabalho(ficha('C'))]).toEqual([27, 22, 23]);
+    expect([planejadas('A'), planejadas('B'), planejadas('C')]).toEqual([22, 25, 31]);
+    // a série leve do primeiro exercício não é série de trabalho
+    expect([totalSeriesDeTrabalho(ficha('A')), totalSeriesDeTrabalho(ficha('B')), totalSeriesDeTrabalho(ficha('C'))]).toEqual([21, 24, 30]);
     // a contagem pela regra única bate com as linhas que não são de aquecimento
     for (const letra of ['A', 'B', 'C']) {
       const linhas = ficha(letra).exercicios.flatMap((e) => seriesPlanejadas(e)).filter((x) => !x.aquecimento).length;
@@ -179,44 +334,45 @@ describe('seriesPlanejadas', () => {
     }
   });
 
-  it('n cumulativo entre blocos: Remada Cavalinho e Supino Reto', () => {
-    expect(seriesPlanejadas(ex('h-A-07'))).toEqual([
-      { n: 1, bloco: 0, reps: '10-15', faixa: [10, 15], segundos: null, carga: 25, intervalo: 60, aquecimento: true },
-      { n: 2, bloco: 1, reps: '8-12', faixa: [8, 12], segundos: null, carga: 40, intervalo: 90, aquecimento: false },
-      { n: 3, bloco: 1, reps: '8-12', faixa: [8, 12], segundos: null, carga: 40, intervalo: 90, aquecimento: false },
-      { n: 4, bloco: 1, reps: '8-12', faixa: [8, 12], segundos: null, carga: 40, intervalo: 90, aquecimento: false },
+  it('n cumulativo entre blocos: Agachamento no hack e Supino reto', () => {
+    const trabalho = (n: number) => ({ n, bloco: 1, reps: '8-10', faixa: [8, 10], segundos: null, carga: 80, intervalo: 120, aquecimento: false });
+    expect(seriesPlanejadas(ex('m-A-01'))).toEqual([
+      { n: 1, bloco: 0, reps: '12-15', faixa: [12, 15], segundos: null, carga: 40, intervalo: 60, aquecimento: true },
+      trabalho(2), trabalho(3), trabalho(4), trabalho(5),
     ]);
-    const supino = seriesPlanejadas(ex('h-C-03'));
-    expect(supino.map((x) => [x.n, x.bloco, x.carga, x.aquecimento])).toEqual([[1, 0, 30, true], [2, 1, 40, true], [3, 2, 80, false], [4, 2, 80, false], [5, 2, 80, false]]);
+    const supino = seriesPlanejadas(ex('m-B-01'));
+    expect(supino.map((x) => [x.n, x.bloco, x.carga, x.aquecimento])).toEqual([[1, 0, 30, true], [2, 1, 60, false], [3, 1, 60, false], [4, 1, 60, false], [5, 1, 60, false]]);
   });
 
   it('tempo, carga não numérica e exercícios de preparação', () => {
-    expect(seriesPlanejadas(ex('h-A-01'))[0]).toMatchObject({ reps: '45 s', faixa: null, segundos: 45, carga: 0, intervalo: 45, aquecimento: true });
-    expect(seriesPlanejadas(ex('h-A-02'))[0]).toMatchObject({ segundos: 45, intervalo: 30 });
-    expect(seriesPlanejadas(ex('h-B-05'))[0]).toMatchObject({ reps: '20/20', faixa: [20, 20], carga: null, intervalo: null, aquecimento: true });
-    expect(seriesPlanejadas(ex('h-A-08'))[0]).toMatchObject({ reps: '4-4-4', faixa: [4, 4], segundos: null });
+    expect(seriesPlanejadas(X.alongA)[0]).toMatchObject({ reps: '45 s', faixa: null, segundos: 45, carga: 0, intervalo: 45, aquecimento: true });
+    expect(seriesPlanejadas(X.alongB)[0]).toMatchObject({ segundos: 45, intervalo: 30 });
+    expect(seriesPlanejadas(X.elastico)[0]).toMatchObject({ reps: '20/20', faixa: [20, 20], carga: null, intervalo: null, aquecimento: true });
+    expect(seriesPlanejadas(X.cluster)[0]).toMatchObject({ reps: '4-4-4', faixa: [4, 4], segundos: null });
     expect(seriesPlanejadas(avulso({}))).toEqual([]);
   });
 
   it('série de trabalho: regra única', () => {
-    expect(ehPrincipal(ex('h-A-07'))).toBe(true);
-    expect(ehPrincipal(ex('h-A-05'))).toBe(false);
-    expect(serieConta(ex('h-A-07'), 1)).toBe(false);
-    expect(serieConta(ex('h-A-07'), 2)).toBe(true);
-    expect(serieConta(ex('h-A-07'), 9)).toBe(true); // série extra cai no último bloco
-    expect(serieConta(ex('h-A-05'), 1)).toBe(false);
+    expect(ehPrincipal(ex('m-A-01'))).toBe(true);
+    expect(ehPrincipal(X.aq)).toBe(false);
+    expect(serieConta(ex('m-A-01'), 1)).toBe(false); // a série leve
+    expect(serieConta(ex('m-A-01'), 2)).toBe(true);
+    expect(serieConta(ex('m-A-01'), 9)).toBe(true); // série extra cai no último bloco
+    expect(serieConta(ex('m-A-02'), 1)).toBe(true); // só o primeiro exercício tem série leve
+    expect(serieConta(X.aq, 1)).toBe(false);
     expect(serieConta(undefined, 1)).toBe(true); // exercício desconhecido conta
-    expect(seriesDeTrabalho(ex('h-C-03'))).toBe(3);
-    expect(seriesDeTrabalho(ex('h-A-01'))).toBe(0);
-    expect(seriesDeTrabalho(ex('h-B-09'))).toBe(2); // drop-set: 1 série por rodada
+    expect(seriesDeTrabalho(ex('m-B-01'))).toBe(4);
+    expect(seriesDeTrabalho(X.alongA)).toBe(0);
+    expect(seriesDeTrabalho(X.drop)).toBe(2); // drop-set: 1 série por rodada
   });
 
   it('esquema de cada série', () => {
-    expect(esquemaDaSerie(ex('h-A-08'), 1)).toBe('cluster-set');
-    expect(esquemaDaSerie(ex('h-B-09'), 2)).toBe('drop-set');
-    expect(esquemaDaSerie(ex('h-A-01'), 1)).toBe('tempo');
-    expect(esquemaDaSerie(ex('h-A-10'), 1)).toBeNull(); // rest-pause progride normalmente
-    expect(esquemaDaSerie(ex('h-B-05'), 1)).toBeNull();
+    expect(esquemaDaSerie(X.cluster, 1)).toBe('cluster-set');
+    expect(esquemaDaSerie(X.drop, 2)).toBe('drop-set');
+    expect(esquemaDaSerie(X.alongA, 1)).toBe('tempo');
+    expect(esquemaDaSerie(X.rest, 1)).toBeNull(); // rest-pause progride normalmente
+    expect(esquemaDaSerie(X.elastico, 1)).toBeNull();
+    for (const e of PROGRAMAS.flatMap((p) => p.fichas).flatMap((f) => f.exercicios)) expect(esquemaDaSerie(e, 1)).toBeNull(); // tudo faixa normal
     expect(esquemaDaSerie(avulso({ metodo: 'dead-stop', series: [{ sets: 3, reps: '5 + 10', carga: 100 }] }), 1)).toBe('dead-stop');
     expect(esquemaDaSerie(avulso({ series: [{ sets: 3, reps: '5 + 10', carga: 100 }] }), 1)).toBe('soma');
   });
@@ -225,31 +381,37 @@ describe('seriesPlanejadas', () => {
 /* ---------------- programa e ajustes do usuário ---------------- */
 
 describe('fichas ativas', () => {
-  it('programa desconhecido cai no híbrido', () => {
-    expect(programaAtivo(ajustes({ programa: 'xyz' })).id).toBe('hibrido');
+  it('programa desconhecido cai no Maromba', () => {
+    expect(programaAtivo(ajustes({ programa: 'xyz' })).id).toBe('maromba');
+    expect(programaAtivo(ajustes({ programa: '' })).id).toBe('maromba');
     expect(fichasAtivas(ajustes()).map((f) => f.id)).toEqual(['A', 'B', 'C']);
     expect(fichaPorLetra(ajustes(), 'D')).toBeUndefined();
   });
 
   it('aplica settings.fichas sem alterar o catálogo', () => {
-    const s = ajustes({ fichas: { 'h-A-07': { nome: 'Remada T', series: 4, intervalo: 120 }, 'h-B-09': { carga: 80 }, 'h-A-09': { carga: 50 } } });
+    const s = ajustes({ fichas: { 'm-A-01': { nome: 'Hack 45', series: 5, intervalo: 150 }, 'm-B-02': { carga: 55 } } });
     const A = fichaPorLetra(s, 'A'), B = fichaPorLetra(s, 'B');
-    const remada = A?.exercicios.find((e) => e.id === 'h-A-07');
-    expect(remada?.nome).toBe('Remada T');
-    expect(remada?.series.map((b) => [b.sets, b.intervalo])).toEqual([[1, 120], [4, 120]]); // "series" vale para o bloco de trabalho
-    expect(A?.exercicios.find((e) => e.id === 'h-A-09')?.series[0]?.carga).toBe(50);
-    const extensora = B?.exercicios.find((e) => e.id === 'h-B-09');
-    expect(extensora?.series[0]).toMatchObject({ carga: 80 });
-    expect(extensora?.series[0]?.drops).toBeUndefined(); // o usuário assumiu a carga
-    expect(ex('h-A-07').nome).toBe('Remada Cavalinho (Pegada Neutra)');
-    expect(ex('h-B-09').series[0]?.drops).toEqual([96, 52, 38]);
-    expect(totalSeriesDeTrabalho(A as Ficha)).toBe(28);
+    const hack = A?.exercicios.find((e) => e.id === 'm-A-01');
+    expect(hack?.nome).toBe('Hack 45');
+    expect(hack?.series.map((b) => [b.sets, b.intervalo])).toEqual([[1, 150], [5, 150]]); // "series" vale para o bloco de trabalho
+    expect(B?.exercicios.find((e) => e.id === 'm-B-02')?.series[0]?.carga).toBe(55);
+    expect(A?.porque).toBe(ficha('A').porque); // o texto da ficha segue junto
+    expect(ex('m-A-01').nome).toBe('Agachamento no hack');
+    expect(ex('m-A-01').series[1]?.sets).toBe(4);
+    expect(totalSeriesDeTrabalho(A as Ficha)).toBe(22);
+  });
+
+  it('carga ajustada num bloco com drops remove os drops', () => {
+    const ajustado = aplicarAjuste(X.drop, { carga: 80 });
+    expect(ajustado.series[0]).toMatchObject({ carga: 80 });
+    expect(ajustado.series[0]?.drops).toBeUndefined(); // o usuário assumiu a carga
+    expect(X.drop.series[0]?.drops).toEqual([96, 52, 38]);
   });
 
   it('ajuste vazio ou inválido não muda nada e aplicar duas vezes dá no mesmo', () => {
-    expect(aplicarAjuste(ex('h-A-07'), undefined)).toEqual(ex('h-A-07'));
-    expect(aplicarAjuste(ex('h-A-07'), { nome: '  ', series: 0, carga: -5, intervalo: 0 })).toEqual(ex('h-A-07'));
-    const uma = aplicarAjuste(ex('h-C-03'), { series: 5, carga: 70 });
+    expect(aplicarAjuste(ex('m-A-01'), undefined)).toEqual(ex('m-A-01'));
+    expect(aplicarAjuste(ex('m-A-01'), { nome: '  ', series: 0, carga: -5, intervalo: 0 })).toEqual(ex('m-A-01'));
+    const uma = aplicarAjuste(ex('m-B-01'), { series: 5, carga: 70 });
     expect(aplicarAjuste(uma, { series: 5, carga: 70 })).toEqual(uma);
   });
 });
@@ -272,24 +434,31 @@ describe('e1rm', () => {
 });
 
 describe('volume e contagem de séries', () => {
-  const l = lift('2026-11-14', 'A', { 'h-A-05': [[0, 20], [0, 20]], 'h-A-07': [[25, 12], [40, 12], [40, 10], [40, 9]], 'h-A-09': [[56.5, 10]] });
+  const l = lift('2026-11-16', 'A', { 'm-A-01': [[40, 15], [80, 10], [80, 9], [80, 8]], 'm-A-02': [[160, 12]] });
+  const antigo = lift('2026-11-07', 'A', { 'h-A-05': [[0, 20], [0, 20]], 'h-A-07': [[25, 12], [40, 12], [40, 10], [40, 9]], 'h-A-09': [[56.5, 10]] }, { programa: PROGRAMA_ANTIGO, treino: 'Costas e bíceps' });
 
   it('volume = Σ reps × carga das séries feitas', () => {
-    expect(volumeDoLift(l)).toBe(25 * 12 + 40 * 31 + 565);
-    const desmarcada = desmarcarSerie(l, 'h-A-09', 1);
-    expect(volumeDoLift(desmarcada)).toBe(25 * 12 + 40 * 31);
+    expect(volumeDoLift(l)).toBe(40 * 15 + 80 * 27 + 160 * 12);
+    const desmarcada = desmarcarSerie(l, 'm-A-02', 1);
+    expect(volumeDoLift(desmarcada)).toBe(40 * 15 + 80 * 27);
+    expect(volumeDoLift(antigo)).toBe(25 * 12 + 40 * 31 + 565);
   });
   it('registro sem séries usa o volume gravado', () => {
-    expect(volumeDoLift({ id: 'm', data: '2026-11-01', ficha: 'A', treino: 'Costas e bíceps', programa: 'hibrido', volume: 5200 })).toBe(5200);
-    expect(volumeDoLift({ id: 'm', data: '2026-11-01', ficha: 'A', treino: 'Costas e bíceps', programa: 'hibrido' })).toBe(0);
+    expect(volumeDoLift({ id: 'm', data: '2026-11-01', ficha: 'A', treino: 'Pernas', programa: 'maromba', volume: 5200 })).toBe(5200);
+    expect(volumeDoLift({ id: 'm', data: '2026-11-01', ficha: 'A', treino: 'Pernas', programa: 'maromba' })).toBe(0);
   });
   it('séries feitas contam só as de trabalho', () => {
-    expect(seriesFeitas(l)).toBe(4); // 3 da remada + 1 da puxada
-    expect(seriesFeitas(l, 'h-A-07')).toBe(3);
-    expect(seriesFeitas(l, 'h-A-05')).toBe(0);
-    expect(seriesMarcadas(l)).toBe(7);
-    expect(seriesMarcadas(l, 'h-A-05')).toBe(2);
-    expect(seriesMarcadas(l, 'h-A-13')).toBe(0);
+    expect(seriesFeitas(l)).toBe(4); // 3 do hack (a primeira é leve) + 1 do leg press
+    expect(seriesFeitas(l, 'm-A-01')).toBe(3);
+    expect(seriesMarcadas(l)).toBe(5);
+    expect(seriesMarcadas(l, 'm-A-01')).toBe(4);
+    expect(seriesMarcadas(l, 'm-A-06')).toBe(0);
+  });
+  it('treino da ficha antiga: preparação e aquecimento continuam fora da conta', () => {
+    expect(seriesFeitas(antigo)).toBe(4); // 3 da remada + 1 da puxada
+    expect(seriesFeitas(antigo, 'h-A-07')).toBe(3);
+    expect(seriesFeitas(antigo, 'h-A-05')).toBe(0);
+    expect(seriesMarcadas(antigo)).toBe(7);
   });
   it('duração: min gravado ou fim − início', () => {
     expect(duracaoDoLift({ ...l, min: 52 })).toBe(52);
@@ -301,11 +470,11 @@ describe('volume e contagem de séries', () => {
 /* ---------------- feito, sessão aberta, última vez, histórico ---------------- */
 
 describe('registros', () => {
-  const a = lift('2026-11-02', 'A', { 'h-A-09': [[50, 12], [50, 11]] });
-  const b = lift('2026-11-09', 'A', { 'h-A-09': [[52.5, 10], [52.5, 9]] });
-  const aberto = lift('2026-11-14', 'A', { 'h-A-09': [[55, 8]] }, { emAndamento: true, concluido: false, inicio: '18:00' });
-  const descartado = lift('2026-11-12', 'A', { 'h-A-09': [[60, 8]] }, { emAndamento: false, concluido: false });
-  const antigo: Lift = { id: 'antigo', data: '2026-10-20', ficha: 'B', treino: 'Inferiores', programa: 'hibrido' };
+  const a = lift('2026-11-05', 'B', { 'm-B-02': [[50, 12], [50, 11]] });
+  const b = lift('2026-11-12', 'B', { 'm-B-02': [[52.5, 10], [52.5, 9]] });
+  const aberto = lift('2026-11-19', 'B', { 'm-B-02': [[55, 8]] }, { emAndamento: true, concluido: false, inicio: '18:00' });
+  const descartado = lift('2026-11-14', 'B', { 'm-B-02': [[60, 8]] }, { emAndamento: false, concluido: false });
+  const antigo: Lift = { id: 'antigo', data: '2026-10-20', ficha: 'A', treino: 'Pernas', programa: 'maromba' };
   const todos = [aberto, b, descartado, a, antigo];
 
   it('contaComoFeito e liftsFeitos em ordem crescente', () => {
@@ -327,24 +496,24 @@ describe('registros', () => {
   });
 
   it('ultimaVez: só sessões feitas, com o número de cada série', () => {
-    expect(ultimaVez(todos, 'h-A-09')).toEqual({ data: '2026-11-09', sets: [{ n: 1, reps: 10, carga: 52.5, feito: true, t: '18:00' }, { n: 2, reps: 9, carga: 52.5, feito: true, t: '18:00' }] });
-    expect(ultimaVez(todos, 'h-A-13')).toBeUndefined();
-    expect(ultimaVez(todos, 'h-A-09', b)?.data).toBe('2026-11-02'); // antes da sessão b
-    expect(ultimaVez(todos, 'h-A-09', aberto)?.data).toBe('2026-11-09');
-    expect(ultimaVez(todos, 'h-A-09', a)).toBeUndefined();
+    expect(ultimaVez(todos, 'm-B-02')).toEqual({ data: '2026-11-12', sets: [{ n: 1, reps: 10, carga: 52.5, feito: true, t: '18:00' }, { n: 2, reps: 9, carga: 52.5, feito: true, t: '18:00' }] });
+    expect(ultimaVez(todos, 'm-B-07')).toBeUndefined();
+    expect(ultimaVez(todos, 'm-B-02', b)?.data).toBe('2026-11-05'); // antes da sessão b
+    expect(ultimaVez(todos, 'm-B-02', aberto)?.data).toBe('2026-11-12');
+    expect(ultimaVez(todos, 'm-B-02', a)).toBeUndefined();
   });
 
   it('ultimaVez ignora séries desmarcadas', () => {
-    const l = desmarcarSerie(desmarcarSerie(b, 'h-A-09', 1), 'h-A-09', 2);
-    expect(ultimaVez([a, l], 'h-A-09')?.data).toBe('2026-11-02');
+    const l = desmarcarSerie(desmarcarSerie(b, 'm-B-02', 1), 'm-B-02', 2);
+    expect(ultimaVez([a, l], 'm-B-02')?.data).toBe('2026-11-05');
   });
 
   it('historicoEx por sessão', () => {
-    expect(historicoEx(todos, 'h-A-09')).toEqual([
-      { data: '2026-11-02', e1rm: 70, cargaMax: 50, repsMax: 12 },
-      { data: '2026-11-09', e1rm: 70, cargaMax: 52.5, repsMax: 10 },
+    expect(historicoEx(todos, 'm-B-02')).toEqual([
+      { data: '2026-11-05', e1rm: 70, cargaMax: 50, repsMax: 12 },
+      { data: '2026-11-12', e1rm: 70, cargaMax: 52.5, repsMax: 10 },
     ]);
-    expect(historicoEx(todos, 'h-C-03')).toEqual([]);
+    expect(historicoEx(todos, 'm-A-01')).toEqual([]);
   });
 });
 
@@ -352,21 +521,22 @@ describe('registros', () => {
 
 describe('sugestao', () => {
   const s = ajustes();
+  const PUXADA = 'm-B-02'; // 4 × 8-12 a 50 kg
 
   it('sem histórico: carga e base da ficha', () => {
-    const sg = sugestao(s, [], ex('h-A-09'));
-    expect(sg).toMatchObject({ tipo: 'ficha', carga: 56.5, reps: '8', motivo: 'Primeira vez: carga da ficha' });
-    expect(sg.series).toEqual([1, 2, 3, 4].map((n) => ({ n, carga: 56.5, reps: 8 })));
+    const sg = sugestao(s, [], ex(PUXADA));
+    expect(sg).toMatchObject({ tipo: 'ficha', carga: 50, reps: '8', motivo: 'Primeira vez: carga da ficha' });
+    expect(sg.series).toEqual([1, 2, 3, 4].map((n) => ({ n, carga: 50, reps: 8 })));
   });
 
   it('bateu o topo em todas, abaixo de 60 kg: +2,5 kg e volta à base', () => {
-    const sg = sugestao(s, [lift('2026-11-07', 'A', { 'h-A-09': [[56.5, 12], [56.5, 12], [56.5, 12], [56.5, 13]] })], ex('h-A-09'));
-    expect(sg).toMatchObject({ tipo: 'sobe', carga: 59, reps: '8', motivo: 'Bateu 12 em todas: suba para 59 kg' });
-    expect(sg.series.every((x) => x.carga === 59 && x.reps === 8)).toBe(true);
+    const sg = sugestao(s, [lift('2026-11-12', 'B', { [PUXADA]: [[50, 12], [50, 12], [50, 12], [50, 13]] })], ex(PUXADA));
+    expect(sg).toMatchObject({ tipo: 'sobe', carga: 52.5, reps: '8', motivo: 'Bateu 12 em todas: suba para 52,5 kg' });
+    expect(sg.series.every((x) => x.carga === 52.5 && x.reps === 8)).toBe(true);
   });
 
   it('bateu o topo a partir de 60 kg: +5% arredondado a 0,5 kg', () => {
-    const com = (carga: number) => sugestao(s, [lift('2026-11-07', 'A', { 'h-A-09': [[carga, 12], [carga, 12], [carga, 12], [carga, 12]] })], ex('h-A-09'));
+    const com = (carga: number) => sugestao(s, [lift('2026-11-12', 'B', { [PUXADA]: [[carga, 12], [carga, 12], [carga, 12], [carga, 12]] })], ex(PUXADA));
     expect(com(60).carga).toBe(63);
     expect(com(62.5).carga).toBe(65.5); // 65,625 → 65,5
     expect(com(80)).toMatchObject({ tipo: 'sobe', carga: 84 });
@@ -375,75 +545,78 @@ describe('sugestao', () => {
   });
 
   it('não bateu o topo em todas: repete a carga e mira +1 repetição', () => {
-    const sg = sugestao(s, [lift('2026-11-07', 'A', { 'h-A-09': [[56.5, 12], [56.5, 10], [56.5, 9], [56.5, 9]] })], ex('h-A-09'));
-    expect(sg).toMatchObject({ tipo: 'repete', carga: 56.5, reps: '10', motivo: 'Faltou chegar a 12 em todas: repita 56,5 kg e mire 10' });
+    const sg = sugestao(s, [lift('2026-11-12', 'B', { [PUXADA]: [[50, 12], [50, 10], [50, 9], [50, 9]] })], ex(PUXADA));
+    expect(sg).toMatchObject({ tipo: 'repete', carga: 50, reps: '10', motivo: 'Faltou chegar a 12 em todas: repita 50 kg e mire 10' });
     // abaixo da base: mira a base
-    const baixo = sugestao(s, [lift('2026-11-07', 'A', { 'h-A-09': [[56.5, 6], [56.5, 5]] })], ex('h-A-09'));
+    const baixo = sugestao(s, [lift('2026-11-12', 'B', { [PUXADA]: [[50, 6], [50, 5]] })], ex(PUXADA));
     expect(baixo).toMatchObject({ tipo: 'repete', reps: '8' });
   });
 
   it('usa a sessão feita mais recente e ignora a em andamento', () => {
     const lifts = [
-      lift('2026-11-01', 'A', { 'h-A-09': [[50, 12], [50, 12]] }),
-      lift('2026-11-08', 'A', { 'h-A-09': [[52.5, 9], [52.5, 8]] }),
-      lift('2026-11-14', 'A', { 'h-A-09': [[70, 12]] }, { emAndamento: true, concluido: false }),
+      lift('2026-11-05', 'B', { [PUXADA]: [[45, 12], [45, 12]] }),
+      lift('2026-11-12', 'B', { [PUXADA]: [[47.5, 9], [47.5, 8]] }),
+      lift('2026-11-19', 'B', { [PUXADA]: [[70, 12]] }, { emAndamento: true, concluido: false }),
     ];
-    expect(sugestao(s, lifts, ex('h-A-09'))).toMatchObject({ tipo: 'repete', carga: 52.5, reps: '9' });
+    expect(sugestao(s, lifts, ex(PUXADA))).toMatchObject({ tipo: 'repete', carga: 47.5, reps: '9' });
   });
 
   it('séries de trabalho = carga com mais séries; a série isolada mais pesada fica fora', () => {
-    const sg = sugestao(s, [lift('2026-11-07', 'A', { 'h-A-09': [[60, 6], [50, 12], [50, 12], [50, 12]] })], ex('h-A-09'));
+    const sg = sugestao(s, [lift('2026-11-12', 'B', { [PUXADA]: [[60, 6], [50, 12], [50, 12], [50, 12]] })], ex(PUXADA));
     expect(sg).toMatchObject({ tipo: 'sobe', carga: 52.5 });
     // empate no número de séries: vale a mais pesada
-    const empate = sugestao(s, [lift('2026-11-07', 'A', { 'h-A-09': [[50, 12], [50, 12], [55, 9], [55, 9]] })], ex('h-A-09'));
+    const empate = sugestao(s, [lift('2026-11-12', 'B', { [PUXADA]: [[50, 12], [50, 12], [55, 9], [55, 9]] })], ex(PUXADA));
     expect(empate).toMatchObject({ tipo: 'repete', carga: 55, reps: '10' });
   });
 
-  it('progressão por bloco: aquecimento repete, trabalho progride (Supino Reto)', () => {
-    const sg = sugestao(s, [lift('2026-11-05', 'C', { 'h-C-03': [[30, 15], [42.5, 10], [80, 12], [80, 12], [80, 12]] })], ex('h-C-03'));
-    expect(sg).toMatchObject({ tipo: 'sobe', carga: 84, reps: '8' });
+  it('progressão por bloco: a série leve repete, o trabalho progride (Supino reto)', () => {
+    const sg = sugestao(s, [lift('2026-11-12', 'B', { 'm-B-01': [[30, 15], [60, 10], [60, 10], [60, 10], [60, 10]] })], ex('m-B-01'));
+    expect(sg).toMatchObject({ tipo: 'sobe', carga: 63, reps: '6', motivo: 'Bateu 10 em todas: suba para 63 kg' });
     expect(sg.series).toEqual([
-      { n: 1, carga: 30, reps: 15 }, { n: 2, carga: 42.5, reps: 10 },
-      { n: 3, carga: 84, reps: 8 }, { n: 4, carga: 84, reps: 8 }, { n: 5, carga: 84, reps: 8 },
+      { n: 1, carga: 30, reps: 15 },
+      { n: 2, carga: 63, reps: 6 }, { n: 3, carga: 63, reps: 6 }, { n: 4, carga: 63, reps: 6 }, { n: 5, carga: 63, reps: 6 },
     ]);
-    // só o aquecimento feito: o bloco de trabalho segue a ficha
-    const soAq = sugestao(s, [lift('2026-11-05', 'C', { 'h-C-03': [[30, 15]] })], ex('h-C-03'));
-    expect(soAq).toMatchObject({ tipo: 'ficha', carga: 80, reps: '8' });
-    expect(soAq.series[1]).toEqual({ n: 2, carga: 40, reps: 8 });
+    // a série leve bater 15 não faz a carga de trabalho subir quando o trabalho não bateu o topo
+    const faltou = sugestao(s, [lift('2026-11-12', 'B', { 'm-B-01': [[30, 15], [60, 10], [60, 9], [60, 8], [60, 8]] })], ex('m-B-01'));
+    expect(faltou).toMatchObject({ tipo: 'repete', carga: 60, reps: '9' });
+    // só a série leve feita: o bloco de trabalho segue a ficha
+    const soAq = sugestao(s, [lift('2026-11-12', 'B', { 'm-B-01': [[30, 15]] })], ex('m-B-01'));
+    expect(soAq).toMatchObject({ tipo: 'ficha', carga: 60, reps: '6' });
+    expect(soAq.series[1]).toEqual({ n: 2, carga: 60, reps: 6 });
   });
 
   it('exercício de aquecimento: como na ficha', () => {
-    expect(sugestao(s, [], ex('h-A-05'))).toMatchObject({ tipo: 'aquecimento', carga: 0, reps: '15', motivo: 'Aquecimento: como na ficha' });
-    const sg = sugestao(s, [lift('2026-11-07', 'A', { 'h-A-05': [[2, 20], [2, 18]] })], ex('h-A-05'));
+    expect(sugestao(s, [], X.aq)).toMatchObject({ tipo: 'aquecimento', carga: 0, reps: '15', motivo: 'Aquecimento: como na ficha' });
+    const sg = sugestao(s, [lift('2026-11-07', 'A', { 'x-04': [[2, 20], [2, 18]] })], X.aq);
     expect(sg).toMatchObject({ tipo: 'aquecimento', carga: 2, reps: '18' });
   });
 
   it('peso do corpo progride por repetições', () => {
-    const bateu = sugestao(s, [lift('2026-11-09', 'B', { 'h-B-11': [[0, 15], [0, 15], [0, 16]] })], ex('h-B-11'));
+    const bateu = sugestao(s, [lift('2026-11-09', 'B', { 'x-12': [[0, 15], [0, 15], [0, 16]] })], X.corpo);
     expect(bateu).toMatchObject({ tipo: 'reps', carga: 0, reps: '16', motivo: 'Peso do corpo: bateu 15 em todas, tente 16' });
-    const faltou = sugestao(s, [lift('2026-11-09', 'B', { 'h-B-11': [[0, 13], [0, 12], [0, 11]] })], ex('h-B-11'));
+    const faltou = sugestao(s, [lift('2026-11-09', 'B', { 'x-12': [[0, 13], [0, 12], [0, 11]] })], X.corpo);
     expect(faltou).toMatchObject({ tipo: 'repete', carga: 0, reps: '12', motivo: 'Peso do corpo: faltou chegar a 15, mire 12' });
     // com carga registrada, o mesmo exercício volta à progressão por carga
-    const comCarga = sugestao(s, [lift('2026-11-09', 'B', { 'h-B-11': [[10, 15], [10, 15], [10, 15]] })], ex('h-B-11'));
+    const comCarga = sugestao(s, [lift('2026-11-09', 'B', { 'x-12': [[10, 15], [10, 15], [10, 15]] })], X.corpo);
     expect(comCarga).toMatchObject({ tipo: 'sobe', carga: 12.5, reps: '10' });
   });
 
   it('última vez sem carga num exercício com carga na ficha: volta à ficha', () => {
-    const sg = sugestao(s, [lift('2026-11-07', 'A', { 'h-A-09': [[0, 12], [0, 12]] })], ex('h-A-09'));
-    expect(sg).toMatchObject({ tipo: 'ficha', carga: 56.5, reps: '8', motivo: 'Última vez sem carga registrada: carga da ficha' });
+    const sg = sugestao(s, [lift('2026-11-12', 'B', { [PUXADA]: [[0, 12], [0, 12]] })], ex(PUXADA));
+    expect(sg).toMatchObject({ tipo: 'ficha', carga: 50, reps: '8', motivo: 'Última vez sem carga registrada: carga da ficha' });
   });
 
   it('cluster-set repete o esquema da ficha', () => {
-    expect(sugestao(s, [], ex('h-A-08'))).toMatchObject({ tipo: 'ficha', carga: 35, reps: '12' });
-    const sg = sugestao(s, [lift('2026-11-07', 'A', { 'h-A-08': [[37.5, 12], [37.5, 12], [37.5, 12]] })], ex('h-A-08'));
+    expect(sugestao(s, [], X.cluster)).toMatchObject({ tipo: 'ficha', carga: 35, reps: '12' });
+    const sg = sugestao(s, [lift('2026-11-07', 'A', { 'x-07': [[37.5, 12], [37.5, 12], [37.5, 12]] })], X.cluster);
     expect(sg).toMatchObject({ tipo: 'repete', carga: 37.5, reps: '12', motivo: 'Cluster-set: siga o esquema 4-4-4 (12 por série)' });
     expect(sg.series).toEqual([1, 2, 3].map((n) => ({ n, carga: 37.5, reps: 12 })));
   });
 
   it('drop-set repete as cargas da ficha', () => {
-    const sg = sugestao(s, [lift('2026-11-09', 'B', { 'h-B-09': [[96, 15], [96, 15]] })], ex('h-B-09'));
+    const sg = sugestao(s, [lift('2026-11-09', 'B', { 'x-11': [[96, 15], [96, 15]] })], X.drop);
     expect(sg).toMatchObject({ tipo: 'repete', carga: 96, reps: '15', motivo: 'Drop-set: siga as cargas da ficha (96 → 52 → 38 kg)' });
-    expect(sugestao(s, [], ex('h-B-09'))).toMatchObject({ tipo: 'ficha', carga: 96, reps: '10' });
+    expect(sugestao(s, [], X.drop)).toMatchObject({ tipo: 'ficha', carga: 96, reps: '10' });
   });
 
   it('dead stop e tempo repetem o esquema da ficha', () => {
@@ -458,7 +631,7 @@ describe('sugestao', () => {
   });
 
   it('rest-pause e super-set progridem como faixa normal', () => {
-    const sg = sugestao(s, [lift('2026-11-07', 'A', { 'h-A-10': [[40, 12], [40, 12], [40, 12]] })], ex('h-A-10'));
+    const sg = sugestao(s, [lift('2026-11-07', 'A', { 'x-08': [[40, 12], [40, 12], [40, 12]] })], X.rest);
     expect(sg).toMatchObject({ tipo: 'sobe', carga: 42.5 });
   });
 
@@ -472,9 +645,17 @@ describe('sugestao', () => {
   });
 
   it('aplica o ajuste de carga do usuário quando não há histórico', () => {
-    const sg = sugestao(ajustes({ fichas: { 'h-A-09': { carga: 45, series: 3 } } }), [], ex('h-A-09'));
+    const sg = sugestao(ajustes({ fichas: { [PUXADA]: { carga: 45, series: 3 } } }), [], ex(PUXADA));
     expect(sg).toMatchObject({ tipo: 'ficha', carga: 45 });
     expect(sg.series).toHaveLength(3);
+  });
+
+  it('todo exercício do programa, sem histórico, sugere a carga de partida da ficha', () => {
+    for (const e of PROGRAMAS.flatMap((p) => p.fichas).flatMap((f) => f.exercicios)) {
+      const sg = sugestao(s, [], e), trabalho = e.series[e.series.length - 1];
+      expect(sg, e.id).toMatchObject({ tipo: 'ficha', carga: trabalho?.carga, reps: String(lerReps(trabalho?.reps ?? '').faixa?.[0]) });
+      expect(sg.series).toHaveLength(seriesPlanejadas(e).length);
+    }
   });
 });
 
@@ -483,87 +664,89 @@ describe('sugestao', () => {
 describe('descansoDe', () => {
   it('intervalo do bloco que cobre a série', () => {
     const s = ajustes();
-    expect(descansoDe(s, ex('h-A-07'), 1)).toBe(60);
-    expect(descansoDe(s, ex('h-A-07'), 2)).toBe(90);
-    expect(descansoDe(s, ex('h-A-07'), 9)).toBe(90); // além do total: último bloco
-    expect(descansoDe(s, ex('h-B-07'), 1)).toBe(30);
+    expect(descansoDe(s, ex('m-A-01'), 1)).toBe(60);
+    expect(descansoDe(s, ex('m-A-01'), 2)).toBe(120);
+    expect(descansoDe(s, ex('m-A-01'), 9)).toBe(120); // além do total: último bloco
+    expect(descansoDe(s, ex('m-A-06'), 1)).toBe(45);
+    expect(descansoDe(s, ex('m-C-03'), 1)).toBe(75);
   });
   it('sem intervalo na ficha: padrão do usuário, depois 90 s', () => {
-    expect(descansoDe(ajustes({ descansoPadrao: 75 }), ex('h-A-06'), 1)).toBe(75);
-    expect(descansoDe(ajustes({ descansoPadrao: 0 }), ex('h-A-06'), 1)).toBe(90);
-    expect(descansoDe(ajustes({ descansoPadrao: Number.NaN }), ex('h-B-06'), 2)).toBe(90);
-    expect(descansoDe(ajustes({ descansoPadrao: 75 }), ex('h-A-07'), 2)).toBe(90); // o da ficha vence o padrão
+    expect(descansoDe(ajustes({ descansoPadrao: 75 }), X.ombro, 1)).toBe(75);
+    expect(descansoDe(ajustes({ descansoPadrao: 0 }), X.ombro, 1)).toBe(90);
+    expect(descansoDe(ajustes({ descansoPadrao: Number.NaN }), X.ombro, 2)).toBe(90);
+    expect(descansoDe(ajustes({ descansoPadrao: 75 }), ex('m-A-01'), 2)).toBe(120); // o da ficha vence o padrão
   });
   it('par combinado: vale o maior dos dois intervalos', () => {
     const s = ajustes({ descansoPadrao: 75 });
-    expect(descansoDe(s, ex('h-A-11'), 1, ex('h-A-12'))).toBe(30); // null + 30
-    expect(descansoDe(s, ex('h-A-12'), 1, ex('h-A-11'))).toBe(30);
-    expect(descansoDe(s, ex('h-C-09'), 1, ex('h-C-10'))).toBe(90); // 60 + 90
-    expect(descansoDe(s, ex('h-C-10'), 3, ex('h-C-09'))).toBe(90);
-    expect(descansoDe(s, ex('h-B-10'), 2, ex('h-B-11'))).toBe(90);
-    expect(descansoDe(s, ex('h-A-05'), 1, ex('h-A-06'))).toBe(75); // nenhum dos dois prescreve: padrão
-    expect(descansoDe(s, ex('h-A-11'), 1)).toBe(75); // parceiro pulado: só o próprio, que cai no padrão
+    const p60 = avulso({ id: 'x-60', series: [{ sets: 3, reps: '8-12', carga: 85, intervalo: 60 }] });
+    const p90 = avulso({ id: 'x-90', series: [{ sets: 3, reps: '8-12', carga: 20, intervalo: 90 }] });
+    expect(descansoDe(s, X.superA, 1, X.superB)).toBe(30); // null + 30
+    expect(descansoDe(s, X.superB, 1, X.superA)).toBe(30);
+    expect(descansoDe(s, p60, 1, p90)).toBe(90); // 60 + 90
+    expect(descansoDe(s, p90, 3, p60)).toBe(90);
+    expect(descansoDe(s, X.aq, 1, X.ombro)).toBe(75); // nenhum dos dois prescreve: padrão
+    expect(descansoDe(s, X.superA, 1)).toBe(75); // parceiro pulado: só o próprio, que cai no padrão
   });
   it('respeita o intervalo ajustado pelo usuário', () => {
-    expect(descansoDe(ajustes({ fichas: { 'h-A-07': { intervalo: 120 } } }), ex('h-A-07'), 2)).toBe(120);
+    expect(descansoDe(ajustes({ fichas: { 'm-A-01': { intervalo: 150 } } }), ex('m-A-01'), 2)).toBe(150);
   });
 });
 
 /* ---------------- recordes ---------------- */
 
 describe('prsDoLift', () => {
-  const base = lift('2026-11-02', 'A', { 'h-A-09': [[50, 10], [50, 10]], 'h-A-13': [[25, 10]] }, { inicio: '18:00' });
+  const base = lift('2026-11-05', 'B', { 'm-B-02': [[50, 10], [50, 10]], 'm-B-06': [[45, 10]] }, { inicio: '18:00' });
 
   it('a primeira vez de um exercício não é recorde', () => {
     expect(prsDoLift([], base)).toEqual([]);
-    const novo = lift('2026-11-09', 'A', { 'h-A-10': [[40, 12]] });
+    const novo = lift('2026-11-12', 'B', { 'm-B-04': [[40, 10]] });
     expect(prsDoLift([base], novo)).toEqual([]);
   });
 
   it('e1RM maior que o melhor anterior é recorde', () => {
-    const l = lift('2026-11-09', 'A', { 'h-A-09': [[50, 12], [52.5, 10]], 'h-A-13': [[25, 10]] });
+    const l = lift('2026-11-12', 'B', { 'm-B-02': [[50, 12], [52.5, 10]], 'm-B-06': [[45, 10]] });
     expect(prsDoLift([base, l], l)).toEqual([
-      { exId: 'h-A-09', nome: 'Puxada supinada', e1rm: 70, carga: 50, reps: 12, anterior: 66.7, medida: 'e1rm' },
+      { exId: 'm-B-02', nome: 'Puxada na frente com pegada aberta', e1rm: 70, carga: 50, reps: 12, anterior: 66.7, medida: 'e1rm' },
     ]);
   });
 
   it('igualar não é recorde; mais repetições na mesma carga é', () => {
-    expect(prsDoLift([base], lift('2026-11-09', 'A', { 'h-A-09': [[50, 10]] }))).toEqual([]);
-    expect(prsDoLift([base], lift('2026-11-09', 'A', { 'h-A-09': [[50, 11]] }))).toHaveLength(1);
+    expect(prsDoLift([base], lift('2026-11-12', 'B', { 'm-B-02': [[50, 10]] }))).toEqual([]);
+    expect(prsDoLift([base], lift('2026-11-12', 'B', { 'm-B-02': [[50, 11]] }))).toHaveLength(1);
   });
 
   it('compara com TODAS as sessões anteriores, não só a última', () => {
-    const fraca = lift('2026-11-09', 'A', { 'h-A-09': [[40, 8]] });
-    const l = lift('2026-11-12', 'A', { 'h-A-09': [[45, 10]] }); // melhor que a fraca, pior que a base
+    const fraca = lift('2026-11-12', 'B', { 'm-B-02': [[40, 8]] });
+    const l = lift('2026-11-19', 'B', { 'm-B-02': [[45, 10]] }); // melhor que a fraca, pior que a base
     expect(prsDoLift([base, fraca], l)).toEqual([]);
   });
 
   it('só valem sessões feitas e anteriores', () => {
-    const aberta = lift('2026-11-05', 'A', { 'h-A-09': [[80, 10]] }, { emAndamento: true, concluido: false });
-    const futura = lift('2026-11-20', 'A', { 'h-A-09': [[90, 10]] });
-    const l = lift('2026-11-09', 'A', { 'h-A-09': [[55, 10]] });
-    expect(prsDoLift([base, aberta, futura, l], l).map((p) => p.exId)).toEqual(['h-A-09']);
+    const aberta = lift('2026-11-08', 'B', { 'm-B-02': [[80, 10]] }, { emAndamento: true, concluido: false });
+    const futura = lift('2026-11-26', 'B', { 'm-B-02': [[90, 10]] });
+    const l = lift('2026-11-12', 'B', { 'm-B-02': [[55, 10]] });
+    expect(prsDoLift([base, aberta, futura, l], l).map((p) => p.exId)).toEqual(['m-B-02']);
   });
 
   it('segunda sessão do mesmo dia compara com a primeira', () => {
-    const tarde = lift('2026-11-02', 'A', { 'h-A-09': [[55, 10]] }, { inicio: '20:00' });
+    const tarde = lift('2026-11-05', 'B', { 'm-B-02': [[55, 10]] }, { inicio: '20:00' });
     expect(prsDoLift([base], tarde)).toHaveLength(1);
     expect(prsDoLift([tarde], base)).toEqual([]); // a de mais cedo não enxerga a de mais tarde
   });
 
-  it('peso do corpo compara repetições máximas', () => {
-    const antes = lift('2026-11-02', 'B', { 'h-B-11': [[0, 12], [0, 11]] });
-    const l = lift('2026-11-09', 'B', { 'h-B-11': [[0, 14], [0, 12]] });
+  it('peso do corpo compara repetições máximas (treino da ficha antiga, com o nome dela)', () => {
+    const antes = lift('2026-11-02', 'B', { 'h-B-11': [[0, 12], [0, 11]] }, { programa: PROGRAMA_ANTIGO });
+    const l = lift('2026-11-09', 'B', { 'h-B-11': [[0, 14], [0, 12]] }, { programa: PROGRAMA_ANTIGO });
     expect(prsDoLift([antes], l)).toEqual([
-      { exId: 'h-B-11', nome: 'Hiperextensão de Lombar', e1rm: 0, carga: 0, reps: 14, anterior: 0, repsAnterior: 12, medida: 'reps' },
+      { exId: 'h-B-11', nome: 'Hiperextensão de lombar', e1rm: 0, carga: 0, reps: 14, anterior: 0, repsAnterior: 12, medida: 'reps' },
     ]);
     expect(prsDoLift([antes], lift('2026-11-09', 'B', { 'h-B-11': [[0, 12]] }))).toEqual([]);
   });
 
-  it('exercício fora do catálogo usa o id como nome', () => {
+  it('exercício que o app não conhece ganha um nome neutro, nunca o id', () => {
     const antes = { ...lift('2026-11-02', 'A'), sets: { 'z-9': feitas([[10, 10]]) } };
     const l = { ...lift('2026-11-09', 'A'), sets: { 'z-9': feitas([[12, 10]]) } };
-    expect(prsDoLift([antes], l)[0]).toMatchObject({ exId: 'z-9', nome: 'z-9', medida: 'e1rm' });
+    expect(prsDoLift([antes], l)[0]).toMatchObject({ exId: 'z-9', nome: 'Exercício de uma ficha antiga', medida: 'e1rm' });
   });
 });
 
@@ -586,12 +769,14 @@ describe('proximaFicha e rotação', () => {
     expect(proximaFicha(s, [lift('2026-11-08', 'C'), lift('2026-11-06', 'B'), lift('2026-11-09', 'A')]).id).toBe('B');
   });
 
-  it('em andamento, descartada e de outro programa não contam; registro antigo casa pelo nome', () => {
+  it('em andamento, descartada e de outro programa não contam; registro sem letra casa pelo nome', () => {
     const aberta = lift('2026-11-10', 'A', {}, { emAndamento: true, concluido: false });
     const descartada = lift('2026-11-10', 'A', {}, { concluido: false });
     const outro = lift('2026-11-10', 'A', {}, { programa: 'bodybuilder' });
-    expect(proximaFicha(s, [aberta, descartada, outro]).id).toBe('A');
-    const porNome: Lift = { id: 'n', data: '2026-11-03', ficha: '', treino: 'Costas e bíceps', programa: 'hibrido' };
+    const daFichaAntiga = lift('2026-11-10', 'A', {}, { programa: PROGRAMA_ANTIGO, treino: 'Costas e bíceps' });
+    expect(proximaFicha(s, [aberta, descartada, outro, daFichaAntiga]).id).toBe('A');
+    expect(rotacaoFichas(s, [outro, daFichaAntiga]).ultimas).toEqual([]);
+    const porNome: Lift = { id: 'n', data: '2026-11-03', ficha: '', treino: 'Pernas', programa: 'maromba' };
     expect(proximaFicha(s, [porNome]).id).toBe('B');
   });
 
@@ -605,14 +790,34 @@ describe('proximaFicha e rotação', () => {
 describe('fichaDoDia', () => {
   const s = ajustes();
 
-  it('usa 0 = domingo: 14/11/2026 é sábado (chave 6)', () => {
+  it('dias fixos: segunda = A (Pernas), quinta = B (Peito e costas), sábado = C (Braços e ombros)', () => {
     expect(new Date(2026, 10, 14).getDay()).toBe(6);
-    expect(fichaDoDia(s, [], '2026-11-14')?.id).toBe('A'); // sábado: ficha fixa A
-    expect(fichaDoDia(s, [], '2026-11-16')?.id).toBe('B'); // segunda (chave 1): ficha fixa B
-    expect(fichaDoDia(s, [], '2026-11-19')?.id).toBe('C'); // quinta (chave 4)
+    expect(fichaDoDia(s, [], '2026-11-16')).toMatchObject({ id: 'A', nome: 'Pernas' }); // segunda (chave 1)
+    expect(fichaDoDia(s, [], '2026-11-19')).toMatchObject({ id: 'B', nome: 'Peito e costas' }); // quinta (chave 4)
+    expect(fichaDoDia(s, [], '2026-11-14')).toMatchObject({ id: 'C', nome: 'Braços e ombros' }); // sábado (chave 6)
     expect(fichaDoDia(s, [], '2026-11-15')).toBeUndefined(); // domingo (chave 0): corrida
-    expect(fichaDoDia(s, [], '2026-11-17')).toBeUndefined(); // terça: descanso
+    expect(fichaDoDia(s, [], '2026-11-17')).toBeUndefined(); // terça: alongamento, sem musculação
     expect(fichaDoDia(s, [], '2026-11-18')).toBeUndefined(); // quarta: corrida
+    expect(fichaDoDia(s, [], '2026-11-20')).toBeUndefined(); // sexta: corrida
+  });
+
+  it('o dia fixo não sai do lugar, qualquer que seja o histórico', () => {
+    const baguncado = [
+      lift('2026-11-16', 'C'), // fez braços na segunda
+      lift('2026-11-19', 'A'), // e pernas na quinta
+      lift('2026-11-21', 'A'),
+      lift('2026-11-23', 'B'),
+    ];
+    for (let semana = 0; semana < 8; semana++) {
+      const dia = (d: number): string => {
+        const data = new Date(2026, 10, 23 + semana * 7 + d);
+        return `${data.getFullYear()}-${String(data.getMonth() + 1).padStart(2, '0')}-${String(data.getDate()).padStart(2, '0')}`;
+      };
+      expect(fichaDoDia(s, baguncado, dia(0))?.id, dia(0)).toBe('A'); // segunda
+      expect(fichaDoDia(s, baguncado, dia(3))?.id, dia(3)).toBe('B'); // quinta
+      expect(fichaDoDia(s, baguncado, dia(5))?.id, dia(5)).toBe('C'); // sábado
+      for (const d of [1, 2, 4, 6]) expect(fichaDoDia(s, baguncado, dia(d)), dia(d)).toBeUndefined();
+    }
   });
 
   it('a chave 0 é o domingo, não a segunda', () => {
@@ -635,8 +840,8 @@ describe('fichaDoDia', () => {
   });
 
   it('devolve a ficha com os ajustes do usuário', () => {
-    const f = fichaDoDia(ajustes({ fichas: { 'h-A-09': { carga: 50 } } }), [], '2026-11-14');
-    expect(f?.exercicios.find((e) => e.id === 'h-A-09')?.series[0]?.carga).toBe(50);
+    const f = fichaDoDia(ajustes({ fichas: { 'm-C-02': { carga: 12 } } }), [], '2026-11-14');
+    expect(f?.exercicios.find((e) => e.id === 'm-C-02')?.series[0]?.carga).toBe(12);
   });
 });
 
@@ -644,65 +849,72 @@ describe('fichaDoDia', () => {
 
 describe('sessão guiada', () => {
   const s = ajustes();
-  const inicio = new Date(2026, 10, 14, 18, 0, 0);
-  const anterior = lift('2026-11-07', 'A', { 'h-A-07': [[25, 12], [40, 10], [40, 10], [40, 9]], 'h-A-09': [[56.5, 10]] });
+  const inicio = new Date(2026, 10, 16, 18, 0, 0); // segunda
+  const anterior = lift('2026-11-09', 'A', { 'm-A-01': [[40, 15], [80, 8], [80, 8], [80, 8], [80, 8]], 'm-A-02': [[160, 10]] });
 
   it('fluxo completo: iniciar → marcar → desmarcar → pular → concluir', () => {
     const l0 = iniciarSessao(s, ficha('A'), inicio);
-    expect(l0).toMatchObject({ data: '2026-11-14', ficha: 'A', treino: 'Costas e bíceps', programa: 'hibrido', inicio: '18:00', emAndamento: true, concluido: false, sets: {}, inicioMs: inicio.getTime() });
+    expect(l0).toMatchObject({ data: '2026-11-16', ficha: 'A', treino: 'Pernas', programa: 'maromba', inicio: '18:00', emAndamento: true, concluido: false, sets: {}, inicioMs: inicio.getTime() });
     expect(l0.id).toBeTruthy();
     expect(contaComoFeito(l0)).toBe(false);
     expect(sessaoAberta([anterior, l0])?.id).toBe(l0.id);
 
-    let l = marcarSerie(l0, 'h-A-05', 1, { reps: 20, carga: 0 }, new Date(2026, 10, 14, 18, 2));
-    l = marcarSerie(l, 'h-A-07', 1, { reps: 12, carga: 25 }, new Date(2026, 10, 14, 18, 5));
-    l = marcarSerie(l, 'h-A-07', 2, { reps: 12, carga: 40 }, new Date(2026, 10, 14, 18, 8));
-    l = marcarSerie(l, 'h-A-07', 3, { reps: 12, carga: 40 }, new Date(2026, 10, 14, 18, 11));
-    l = marcarSerie(l, 'h-A-07', 4, { reps: 11, carga: 40 }, new Date(2026, 10, 14, 18, 14));
-    l = marcarSerie(l, 'h-A-09', 1, { reps: 9, carga: 56.5 }, new Date(2026, 10, 14, 18, 20));
+    let l = marcarSerie(l0, 'm-A-01', 1, { reps: 15, carga: 40 }, new Date(2026, 10, 16, 18, 2));
+    l = marcarSerie(l, 'm-A-01', 2, { reps: 10, carga: 80 }, new Date(2026, 10, 16, 18, 5));
+    l = marcarSerie(l, 'm-A-01', 3, { reps: 10, carga: 80 }, new Date(2026, 10, 16, 18, 8));
+    l = marcarSerie(l, 'm-A-01', 4, { reps: 10, carga: 80 }, new Date(2026, 10, 16, 18, 11));
+    l = marcarSerie(l, 'm-A-01', 5, { reps: 9, carga: 80 }, new Date(2026, 10, 16, 18, 14));
+    l = marcarSerie(l, 'm-A-02', 1, { reps: 11, carga: 160 }, new Date(2026, 10, 16, 18, 20));
     expect(l0.sets).toEqual({}); // o argumento não muda
-    expect(l.sets?.['h-A-07']?.['2']).toEqual({ reps: 12, carga: 40, feito: true, t: '18:08' });
-    expect(Object.keys(l.sets?.['h-A-07'] ?? {})).toEqual(['1', '2', '3', '4']);
-    expect(seriesFeitas(l)).toBe(4);
+    expect(l.sets?.['m-A-01']?.['2']).toEqual({ reps: 10, carga: 80, feito: true, t: '18:05' });
+    expect(Object.keys(l.sets?.['m-A-01'] ?? {})).toEqual(['1', '2', '3', '4', '5']);
+    expect(seriesFeitas(l)).toBe(5); // a série leve não conta
     expect(seriesMarcadas(l)).toBe(6);
 
     // tocar de novo desmarca: os valores ficam, a série deixa de contar
-    const semUltima = desmarcarSerie(l, 'h-A-09', 1);
-    expect(semUltima.sets?.['h-A-09']?.['1']).toEqual({ reps: 9, carga: 56.5, feito: false, t: '18:20' });
-    expect(seriesFeitas(semUltima)).toBe(3);
-    expect(l.sets?.['h-A-09']?.['1']?.feito).toBe(true);
-    expect(desmarcarSerie(l, 'h-A-13', 1).sets).toEqual(l.sets);
+    const semUltima = desmarcarSerie(l, 'm-A-02', 1);
+    expect(semUltima.sets?.['m-A-02']?.['1']).toEqual({ reps: 11, carga: 160, feito: false, t: '18:20' });
+    expect(seriesFeitas(semUltima)).toBe(4);
+    expect(l.sets?.['m-A-02']?.['1']?.feito).toBe(true);
+    expect(desmarcarSerie(l, 'm-A-06', 1).sets).toEqual(l.sets);
     // marcar de novo sem valores aproveita o que estava gravado
-    expect(marcarSerie(semUltima, 'h-A-09', 1, {}, new Date(2026, 10, 14, 18, 22)).sets?.['h-A-09']?.['1']).toEqual({ reps: 9, carga: 56.5, feito: true, t: '18:22' });
+    expect(marcarSerie(semUltima, 'm-A-02', 1, {}, new Date(2026, 10, 16, 18, 22)).sets?.['m-A-02']?.['1']).toEqual({ reps: 11, carga: 160, feito: true, t: '18:22' });
 
-    l = pularExercicio(l, 'h-A-08', true);
-    l = pularExercicio(l, 'h-A-08', true);
-    l = pularExercicio(l, 'h-A-10', true);
-    expect(l.pulados).toEqual(['h-A-08', 'h-A-10']);
-    l = pularExercicio(l, 'h-A-10', false);
-    expect(l.pulados).toEqual(['h-A-08']);
+    l = pularExercicio(l, 'm-A-03', true);
+    l = pularExercicio(l, 'm-A-03', true);
+    l = pularExercicio(l, 'm-A-04', true);
+    expect(l.pulados).toEqual(['m-A-03', 'm-A-04']);
+    l = pularExercicio(l, 'm-A-04', false);
+    expect(l.pulados).toEqual(['m-A-03']);
 
-    const fim = new Date(2026, 10, 14, 18, 47, 30);
+    const fim = new Date(2026, 10, 16, 18, 47, 30);
     const feito = concluirSessao([anterior, l], l, { intensidade: 4, obs: '  bom treino ' }, fim);
-    expect(feito).toMatchObject({ concluido: true, emAndamento: false, fim: '18:47', min: 47.5, intensidade: 4, obs: 'bom treino', pulados: ['h-A-08'] });
-    expect(feito.volume).toBe(25 * 12 + 40 * 35 + 56.5 * 9); // 2208,5
+    expect(feito).toMatchObject({ concluido: true, emAndamento: false, fim: '18:47', min: 47.5, intensidade: 4, obs: 'bom treino', pulados: ['m-A-03'] });
+    expect(feito.volume).toBe(40 * 15 + 80 * 39 + 160 * 11); // 5480
     expect(feito.prs).toEqual([
-      { exId: 'h-A-07', nome: 'Remada Cavalinho (Pegada Neutra)', e1rm: 56, carga: 40, reps: 12, anterior: 53.3, medida: 'e1rm' },
+      { exId: 'm-A-01', nome: 'Agachamento no hack', e1rm: 106.7, carga: 80, reps: 10, anterior: 101.3, medida: 'e1rm' },
+      { exId: 'm-A-02', nome: 'Leg press 45°', e1rm: 218.7, carga: 160, reps: 11, anterior: 213.3, medida: 'e1rm' },
     ]);
     expect(contaComoFeito(feito)).toBe(true);
     expect(l.emAndamento).toBe(true); // o argumento não muda
     expect(sessaoAberta([anterior, feito])).toBeUndefined();
     expect(proximaFicha(s, [anterior, feito]).id).toBe('B');
-    expect(ultimaVez([anterior, feito], 'h-A-07')?.data).toBe('2026-11-14');
-    // depois do treino: a remada não bateu 12 em todas, repete e mira 12
-    expect(sugestao(s, [anterior, feito], ex('h-A-07'))).toMatchObject({ tipo: 'repete', carga: 40, reps: '12' });
+    expect(ultimaVez([anterior, feito], 'm-A-01')?.data).toBe('2026-11-16');
+    // depois do treino: o hack não bateu 10 em todas, repete a carga e mira 10
+    expect(sugestao(s, [anterior, feito], ex('m-A-01'))).toMatchObject({ tipo: 'repete', carga: 80, reps: '10' });
+    // o leg press ficou em 11 de 12: repete e mira 12
+    expect(sugestao(s, [anterior, feito], ex('m-A-02'))).toMatchObject({ tipo: 'repete', carga: 160, reps: '12' });
   });
 
   it('concluir sem séries conta como treino feito, com volume 0 e sem recordes', () => {
     const l = iniciarSessao(s, ficha('B'), inicio);
-    const feito = concluirSessao([], l, {}, new Date(2026, 10, 14, 18, 30));
+    const feito = concluirSessao([], l, {}, new Date(2026, 10, 16, 18, 30));
     expect(feito).toMatchObject({ concluido: true, emAndamento: false, min: 30, volume: 0, prs: [], obs: '' });
     expect(feito.intensidade).toBeUndefined();
+  });
+
+  it('a sessão sempre grava o programa em uso, mesmo com um id antigo nos ajustes', () => {
+    expect(iniciarSessao(ajustes({ programa: PROGRAMA_ANTIGO }), ficha('C'), inicio).programa).toBe('maromba');
   });
 
   it('sem cronômetro, a duração sai de início e fim', () => {
@@ -713,8 +925,8 @@ describe('sessão guiada', () => {
 
   it('sessão esquecida de outro dia: o fim é a hora da última série marcada', () => {
     let l = iniciarSessao(s, ficha('A'), new Date(2026, 10, 12, 19, 0));
-    l = marcarSerie(l, 'h-A-07', 2, { reps: 10, carga: 40 }, new Date(2026, 10, 12, 19, 10));
-    l = marcarSerie(l, 'h-A-09', 1, { reps: 10, carga: 56.5 }, new Date(2026, 10, 12, 19, 35));
+    l = marcarSerie(l, 'm-A-01', 2, { reps: 10, carga: 80 }, new Date(2026, 10, 12, 19, 10));
+    l = marcarSerie(l, 'm-A-02', 1, { reps: 10, carga: 160 }, new Date(2026, 10, 12, 19, 35));
     const feito = concluirSessao([], l, { intensidade: 3 }, new Date(2026, 10, 14, 9, 0));
     expect(feito).toMatchObject({ data: '2026-11-12', fim: '19:35', min: 35, concluido: true });
     // sem nenhuma série marcada não há como saber: fica sem fim e sem duração
@@ -729,20 +941,20 @@ describe('sessão guiada', () => {
 describe('resumoSemanaMusc', () => {
   const s = ajustes();
   const lifts = [
-    lift('2026-11-08', 'C', { 'h-C-07': [[50, 10]] }), // domingo da semana anterior
-    lift('2026-11-09', 'B', { 'h-B-08': [[200, 10], [200, 10]], 'h-B-01': [[0, 0]] }), // segunda
-    lift('2026-11-14', 'A', { 'h-A-07': [[25, 12], [40, 10]] }), // sábado
-    lift('2026-11-15', 'C', { 'h-C-07': [[53, 10]] }), // domingo: ainda é a mesma semana
-    lift('2026-11-13', 'A', { 'h-A-09': [[50, 10]] }, { emAndamento: true, concluido: false }),
-    lift('2026-11-16', 'B', { 'h-B-08': [[200, 10]] }), // segunda seguinte
+    lift('2026-11-08', 'C', { 'm-C-02': [[10, 15]] }), // domingo da semana anterior
+    lift('2026-11-09', 'A', { 'm-A-02': [[160, 10], [160, 10]], 'm-A-01': [[40, 15]] }), // segunda: a série leve do hack não conta
+    lift('2026-11-14', 'C', { 'm-C-01': [[8, 15], [16, 10]] }), // sábado
+    lift('2026-11-15', 'B', { 'm-B-02': [[50, 10]] }), // domingo: ainda é a mesma semana
+    lift('2026-11-13', 'B', { 'm-B-02': [[50, 10]] }, { emAndamento: true, concluido: false }),
+    lift('2026-11-16', 'A', { 'm-A-02': [[160, 10]] }), // segunda seguinte
   ];
 
   it('semana de segunda a domingo, só treinos feitos e séries de trabalho', () => {
-    const esperado = { treinos: 3, planejados: 3, volume: 4000 + 300 + 400 + 530, series: 2 + 1 + 1 };
+    const esperado = { treinos: 3, planejados: 3, volume: 3200 + 600 + 120 + 160 + 500, series: 2 + 1 + 1 };
     expect(resumoSemanaMusc(s, lifts, '2026-11-14')).toEqual(esperado);
     expect(resumoSemanaMusc(s, lifts, '2026-11-09')).toEqual(esperado);
     expect(resumoSemanaMusc(s, lifts, '2026-11-15')).toEqual(esperado);
-    expect(resumoSemanaMusc(s, lifts, '2026-11-16')).toMatchObject({ treinos: 1, volume: 2000, series: 1 });
+    expect(resumoSemanaMusc(s, lifts, '2026-11-16')).toMatchObject({ treinos: 1, volume: 1600, series: 1 });
   });
 
   it('planejados conta os dias "musc" e "ambos"', () => {

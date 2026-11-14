@@ -295,7 +295,7 @@ export function ExerciseScreen({ id }: { id: string }) {
                 {fx.metodo ? <p class="ui-note">{metodoTexto(fx)}</p> : null}
                 {fx.instrucoes ? (
                   <p class="ui-note">
-                    <b>Instruções do Fabiano:</b> {fx.instrucoes}
+                    <b>Instruções da ficha:</b> {fx.instrucoes}
                   </p>
                 ) : null}
               </div>

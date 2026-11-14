@@ -5,13 +5,16 @@ import {
   METODO_ROTULO,
   acharExercicio,
   blocosDaFicha,
+  catalogoDoExercicio,
   duracaoDoLift,
+  ehPreparacaoAntiga,
   ehPrincipal,
   exerciciosPreparacao,
   fichaDoDia,
   fichaPorLetra,
   fichasAtivas,
   liftsFeitos,
+  nomeDoExercicio,
   programaAtivo,
   proximaFicha,
   resumoSemanaMusc,
@@ -29,7 +32,7 @@ import { fmtMin, num, plural } from '../../lib/format.ts';
 import { go } from '../../lib/router.ts';
 import { update, useStore } from '../../lib/store.ts';
 import type { Ficha, FichaExercicio, ISODate, Lift, Settings } from '../../types.ts';
-import { Button, Card, Empty, Icon, List, Pill, Row, Screen, Section, Sheet, Stat, StatRow, cx, toast } from '../../ui/index.ts';
+import { Button, Card, Empty, Icon, List, Pill, PorQue, Row, Screen, Section, Sheet, Stat, StatRow, cx, toast } from '../../ui/index.ts';
 import {
   Letra,
   Mini,
@@ -49,6 +52,12 @@ import {
 /* Peças comuns                                                        */
 /* ------------------------------------------------------------------ */
 
+/** Nome de um recorde gravado: o nome atual do exercício quando o app o conhece; senão, o que foi gravado. */
+function nomeGravado(exId: string, gravado: string): string {
+  if (acharExercicio(exId)) return nomeDoExercicio(exId);
+  return gravado && gravado !== exId ? gravado : nomeDoExercicio(exId);
+}
+
 function comecar(letra: string): void {
   destravarAudio();
   go(`/musculacao/sessao?ficha=${encodeURIComponent(letra)}`);
@@ -65,10 +74,7 @@ function RecadoCard({ recado }: { recado: RecadoForca }) {
       <p class="mu-recado-txt">{recado.texto}</p>
       <div class="ui-inline ui-mt-sm">
         <Pill tone="musc" icon="alvo">
-          folga de {recado.rir} reps
-        </Pill>
-        <Pill tone={recado.metodos ? 'good' : 'muted'} icon={recado.metodos ? 'check' : false}>
-          {recado.metodos ? 'métodos liberados' : 'séries normais, sem métodos'}
+          folga de {recado.rir} repetições
         </Pill>
       </div>
     </Card>
@@ -129,7 +135,7 @@ export function MusculacaoScreen() {
   const rot = rotacaoFichas(settings, lifts);
   const fichas = fichasAtivas(settings);
   const programa = programaAtivo(settings);
-  const ultima = ultimoDaFicha(lifts, ficha.id);
+  const ultima = ultimoDaFicha(lifts, ficha.id, programa.id);
   const principais = ficha.exercicios.filter(ehPrincipal);
   const decorrido = abertaHoje?.inicioMs !== undefined ? Math.max(0, Math.floor((agora - abertaHoje.inicioMs) / 60000)) : undefined;
 
@@ -224,12 +230,12 @@ export function MusculacaoScreen() {
           <Card>
             <List>
               {prs.map((p) => {
-                const anim = acharExercicio(p.exId)?.ex.anim;
+                const anim = catalogoDoExercicio(p.exId);
                 return (
                   <Row
                     key={`${p.exId}-${p.data}`}
                     leading={<Icon name="trofeu" />}
-                    title={p.nome}
+                    title={nomeGravado(p.exId, p.nome)}
                     sub={`${fmtData(p.data)} · ${p.medida === 'reps' ? `${p.reps} repetições` : `${num(p.carga, 2)} kg × ${p.reps}`}`}
                     right={
                       p.medida === 'reps' ? undefined : (
@@ -254,7 +260,7 @@ export function MusculacaoScreen() {
         <Card>
           <List>
             {fichas.map((f) => {
-              const u = ultimoDaFicha(lifts, f.id);
+              const u = ultimoDaFicha(lifts, f.id, programa.id);
               return (
                 <Row
                   key={f.id}
@@ -274,7 +280,7 @@ export function MusculacaoScreen() {
         <Card>
           <List>
             <Row leading={<Icon name="calendario" />} title="Histórico" sub={feitos.length > 0 ? plural(feitos.length, 'treino feito', 'treinos feitos') : 'Nenhum treino feito ainda'} href="/musculacao/historico" />
-            <Row leading={<Icon name="buscar" />} title="Exercícios" sub="Como fazer cada um, com animação" href="/exercicios" />
+            <Row leading={<Icon name="buscar" />} title="Exercícios" sub="Como fazer cada um, com foto e passo a passo" href="/exercicios" />
           </List>
         </Card>
       </Section>
@@ -384,7 +390,7 @@ export function FichaScreen({ id }: { id: string }) {
   const recado = recadoForca(inicioSemana(dia));
   const preparo = gruposDaPreparacao(exerciciosPreparacao(ficha));
   const blocos = blocosDaFicha(ficha);
-  const ultima = ultimoDaFicha(lifts, ficha.id);
+  const ultima = ultimoDaFicha(lifts, ficha.id, programa.id);
   const resto = { lifts, settings, recado };
 
   return (
@@ -426,6 +432,8 @@ export function FichaScreen({ id }: { id: string }) {
         </div>
       ) : null}
 
+      <PorQue texto={ficha.porque} area="musc" />
+
       {preparo.length > 0 ? (
         <Section title="Preparação">
           <Card>
@@ -456,9 +464,6 @@ export function FichaScreen({ id }: { id: string }) {
 /* #/musculacao/historico                                              */
 /* ------------------------------------------------------------------ */
 
-function nomeDoEx(exId: string): string {
-  return acharExercicio(exId)?.ex.nome ?? exId;
-}
 
 function TreinoFeito({ lift, aberto, onToggle, onApagar }: { lift: Lift; aberto: boolean; onToggle: () => void; onApagar: () => void }) {
   const dur = duracaoDoLift(lift);
@@ -475,7 +480,7 @@ function TreinoFeito({ lift, aberto, onToggle, onApagar }: { lift: Lift; aberto:
       ex: acharExercicio(exId)?.ex,
       sets: Object.entries(m).filter(([, s]) => s.feito).sort((a, b) => Number(a[0]) - Number(b[0])).map(([, s]) => s),
     }))
-    .filter((e) => e.sets.length > 0 && (!e.ex || ehPrincipal(e.ex)))
+    .filter((e) => e.sets.length > 0 && (e.ex ? ehPrincipal(e.ex) : !ehPreparacaoAntiga(e.exId)))
     .sort((a, b) => a.exId.localeCompare(b.exId));
   const prDe = new Set((lift.prs ?? []).map((p) => p.exId));
   return (
@@ -500,7 +505,7 @@ function TreinoFeito({ lift, aberto, onToggle, onApagar }: { lift: Lift; aberto:
           {exs.map((e) => (
             <p key={e.exId} class="mu-hist-ex">
               <b>
-                {e.ex?.nome ?? nomeDoEx(e.exId)}
+                {nomeDoExercicio(e.exId)}
                 {prDe.has(e.exId) ? <Icon name="trofeu" size={14} class="mu-hist-pr" /> : null}
               </b>
               <span class="num">{resumoDasSeries(e.sets)}</span>

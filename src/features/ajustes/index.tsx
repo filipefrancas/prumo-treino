@@ -1,6 +1,6 @@
 /* Ajustes (SPEC 8.6): perfil, plano da semana, treino, aparência, dados e app. */
 import { useState } from 'preact/hooks';
-import { ZONES } from '../../data/profile.ts';
+import { PROFILE, ZONES } from '../../data/profile.ts';
 import { fichasAtivas } from '../../lib/academia.ts';
 import { DIAS_LONGOS } from '../../lib/dates.ts';
 import { update, useStore } from '../../lib/store.ts';
@@ -48,11 +48,12 @@ const TIPOS: { v: PlanoTipo; l: string }[] = [
 
 const ROTACAO = 'rotacao';
 
-function resumoDoDia(d: DiaPlano): string {
+function resumoDoDia(d: DiaPlano, dia?: number): string {
   const ficha = d.ficha ? `ficha ${d.ficha}` : 'próxima ficha da rotação';
   if (d.tipo === 'musc') return `Musculação · ${ficha}`;
   if (d.tipo === 'ambos') return `Corrida e musculação · ${ficha}`;
   if (d.tipo === 'corrida') return 'Corrida';
+  if (dia !== undefined && (PROFILE.stretchDays as number[]).includes(dia)) return 'Alongamento';
   return 'Descanso';
 }
 
@@ -194,7 +195,7 @@ export function AjustesScreen() {
                   key={d}
                   leading={<Marcas tipo={plano.tipo} />}
                   title={maiuscula(DIAS_LONGOS[d] ?? '')}
-                  sub={resumoDoDia(plano)}
+                  sub={resumoDoDia(plano, d)}
                   tone={plano.tipo === 'descanso' ? 'muted' : 'default'}
                   chevron
                   onClick={() => setDiaAberto(d)}
@@ -320,7 +321,9 @@ export function AjustesScreen() {
               <p class="ui-note">
                 {dia.tipo === 'corrida'
                   ? 'Dia de corrida: o treino vem do plano do treinador.'
-                  : 'Dia livre. Se quiser se mexer, um alongamento leve cai bem.'}
+                  : (PROFILE.stretchDays as number[]).includes(diaAberto)
+                    ? 'Dia de alongamento: sem corrida nem musculação, o app mostra o alongamento completo em Hoje.'
+                    : 'Dia livre. Se quiser se mexer, um alongamento leve cai bem.'}
               </p>
             )}
           </div>

@@ -4,13 +4,13 @@
  *
  * Convenções (iguais às do Prumo):
  * - A série n (a partir de 1, chave de `Lift.sets[exId]`) pertence ao bloco de `ex.series` pela soma cumulativa de
- *   `sets` (Remada Cavalinho: série 1 → aquecimento, 2 a 4 → trabalho); além do total, vale o último bloco.
+ *   `sets` (Agachamento no hack: série 1 → aquecimento, 2 a 5 → trabalho); além do total, vale o último bloco.
  * - "Série" na interface é a série de TRABALHO: ficam fora os exercícios de alongamento, mobilidade e aquecimento e
  *   as séries que caem num bloco marcado como aquecimento dentro de um exercício principal.
  * - Um treino só conta como feito quando `emAndamento !== true` e `concluido !== false`.
  * - Diferença em relação ao Prumo: `settings.plano` aqui usa 0 = domingo (o Prumo usa 0 = segunda).
  */
-import { METODO_TXT_EXERCICIO, PROGRAMAS, programaPorId } from '../data/fichas.ts';
+import { EXERCICIOS_ANTIGOS, METODO_TXT_EXERCICIO, PROGRAMAS, programaPorId } from '../data/fichas.ts';
 import type {
   Ficha, FichaAjuste, FichaExercicio, ISODate, Lift, Metodo, Pr, Programa, SerieBloco, SerieFeita, Settings,
 } from '../types.ts';
@@ -221,7 +221,7 @@ function itemPrincipal(itens: Item[]): Item | undefined {
 /* Programa e fichas                                                   */
 /* ------------------------------------------------------------------ */
 
-/** Programa em uso; id desconhecido ou vazio → o primeiro do catálogo (Atleta Híbrido). */
+/** Programa em uso; id desconhecido, antigo ou vazio → o primeiro do catálogo (Maromba). */
 export function programaAtivo(s: Settings): Programa {
   const p = programaPorId(s.programa) ?? PROGRAMAS[0];
   if (!p) throw new Error('Nenhum programa de musculação no catálogo.');
@@ -265,13 +265,43 @@ export function fichaPorLetra(s: Settings, letra: string): Ficha | undefined {
 
 let indice: Map<string, { programa: Programa; ficha: Ficha; ex: FichaExercicio }> | null = null;
 
-/** Exercício do catálogo (todos os programas, sem os ajustes do usuário) pelo id permanente ("h-A-07"). */
+/** Exercício do catálogo (todos os programas, sem os ajustes do usuário) pelo id permanente ("m-A-01"). */
 export function acharExercicio(exId: string): { programa: Programa; ficha: Ficha; ex: FichaExercicio } | undefined {
   if (!indice) {
     indice = new Map();
     for (const programa of PROGRAMAS) for (const ficha of programa.fichas) for (const ex of ficha.exercicios) indice.set(ex.id, { programa, ficha, ex });
   }
   return indice.get(exId);
+}
+
+/**
+ * Nome para mostrar de um exercício gravado em um treino: o da ficha atual, o da ficha anterior (treinos antigos,
+ * ids "h-…") ou, sem nenhum dos dois, um texto neutro. Nunca devolve o id cru.
+ */
+export function nomeDoExercicio(exId: string): string {
+  return acharExercicio(exId)?.ex.nome ?? EXERCICIOS_ANTIGOS[exId]?.nome ?? 'Exercício de uma ficha antiga';
+}
+
+/** id do catálogo (foto e textos) de um exercício gravado, da ficha atual ou da anterior; desconhecido → undefined. */
+export function catalogoDoExercicio(exId: string): string | undefined {
+  return acharExercicio(exId)?.ex.anim ?? EXERCICIOS_ANTIGOS[exId]?.anim;
+}
+
+/**
+ * A série n de um exercício GRAVADO conta como série de trabalho? Vale a ficha atual; para os ids da ficha
+ * anterior, a regra que ela tinha (preparação e séries de aquecimento ficam fora); id desconhecido conta.
+ */
+export function serieGravadaConta(exId: string, n: number): boolean {
+  const atual = acharExercicio(exId)?.ex;
+  if (atual) return serieConta(atual, n);
+  const aq = EXERCICIOS_ANTIGOS[exId]?.aquecimento;
+  if (aq === 'todas') return false;
+  return typeof aq === 'number' ? n > aq : true;
+}
+
+/** Exercício gravado que era só preparação na ficha anterior (alongamento, mobilidade, aquecimento). */
+export function ehPreparacaoAntiga(exId: string): boolean {
+  return !acharExercicio(exId) && EXERCICIOS_ANTIGOS[exId]?.aquecimento === 'todas';
 }
 
 export function ehPrincipal(ex: FichaExercicio): boolean {
@@ -299,7 +329,7 @@ export function parceiroDe(ficha: Ficha, exId: string): FichaExercicio | undefin
 
 /**
  * Treino principal da sessão: os exercícios `principal` E o parceiro combinado de cada um (cartão duplo), mesmo
- * quando o parceiro é aquecimento (Manguito + Elevação Y).
+ * quando o parceiro é aquecimento.
  */
 export function exerciciosPrincipais(ficha: Ficha): FichaExercicio[] {
   return ficha.exercicios.filter((ex) => { const p = parceiroDe(ficha, ex.id); return ehPrincipal(ex) || (!!p && ehPrincipal(p)); });
@@ -456,7 +486,7 @@ export function volumeDoLift(l: Lift): number {
  * inteiro ou só em `exId`. Para contar tudo o que foi marcado, use `seriesMarcadas`.
  */
 export function seriesFeitas(l: Lift, exId?: string): number {
-  return setsFeitos(l).filter((s) => (exId == null || s.exId === exId) && serieConta(acharExercicio(s.exId)?.ex, s.n)).length;
+  return setsFeitos(l).filter((s) => (exId == null || s.exId === exId) && serieGravadaConta(s.exId, s.n)).length;
 }
 
 /** Todas as séries marcadas como feitas (inclusive aquecimento e preparação), no treino inteiro ou só em `exId`. */
@@ -532,7 +562,7 @@ export function prsDoLift(anteriores: Lift[], l: Lift): PrDaSessao[] {
   for (const [exId, b] of porEx) {
     const h = melhorHistorico(antes, exId);
     if (!h) continue;
-    const nome = acharExercicio(exId)?.ex.nome ?? exId;
+    const nome = nomeDoExercicio(exId);
     if (b.e1rm > h.e1rm) out.push({ exId, nome, e1rm: b.e1rm, carga: b.carga, reps: b.reps, anterior: h.e1rm, medida: 'e1rm' });
     else if (b.e1rm === 0 && h.e1rm === 0 && b.repsMax > h.repsMax) {
       out.push({ exId, nome, e1rm: 0, carga: 0, reps: b.repsMax, anterior: 0, repsAnterior: h.repsMax, medida: 'reps' });
@@ -564,10 +594,10 @@ export function historicoEx(lifts: Lift[], exId: string): { data: ISODate; e1rm:
  * A → B → C). Sessões em andamento, descartadas e de outro programa não contam.
  */
 export function proximaFicha(s: Settings, lifts: Lift[]): Ficha {
-  const fichas = fichasAtivas(s);
+  const fichas = fichasAtivas(s), prog = programaAtivo(s).id;
   const ultima = new Map<string, ISODate>();
   for (const l of lifts) {
-    if (!l.data || !contaComoFeito(l) || (l.programa && s.programa && l.programa !== s.programa)) continue;
+    if (!l.data || !contaComoFeito(l) || (l.programa && l.programa !== prog)) continue;
     const f = fichas.find((x) => x.id === l.ficha || x.nome === l.treino);
     if (!f) continue;
     const d = ultima.get(f.id);
@@ -584,10 +614,10 @@ export function proximaFicha(s: Settings, lifts: Lift[]): Ficha {
 
 /** Letras das últimas 6 fichas feitas (cronológicas), a última e a seguinte na ordem A → B → C → A. */
 export function rotacaoFichas(s: Settings, lifts: Lift[]): { ultimas: string[]; ultima: string | null; proxima: string } {
-  const fichas = fichasAtivas(s), letras = fichas.map((f) => f.id);
+  const fichas = fichasAtivas(s), letras = fichas.map((f) => f.id), prog = programaAtivo(s).id;
   const seq: string[] = [];
   for (const l of liftsFeitos(lifts)) {
-    if (s.programa && l.programa && l.programa !== s.programa) continue;
+    if (l.programa && l.programa !== prog) continue;
     const k = l.ficha || fichas.find((f) => f.nome === l.treino)?.id;
     if (k) seq.push(k);
   }
@@ -732,7 +762,7 @@ function novoId(agora: Date): string {
 /** Cria o registro da sessão: em andamento, sem séries, com data e hora locais de `agora`. */
 export function iniciarSessao(s: Settings, ficha: Ficha, agora: Date = new Date()): Lift {
   return {
-    id: novoId(agora), data: isoLocal(agora), ficha: ficha.id, treino: ficha.nome, programa: s.programa || programaAtivo(s).id,
+    id: novoId(agora), data: isoLocal(agora), ficha: ficha.id, treino: ficha.nome, programa: programaAtivo(s).id,
     inicio: horaMin(agora), emAndamento: true, concluido: false, sets: {}, inicioMs: agora.getTime(),
   };
 }

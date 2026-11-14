@@ -1,6 +1,5 @@
 /* Musculação: textos, formatos e pequenos componentes usados por mais de uma tela da feature. */
 import type { ComponentChildren } from 'preact';
-import { FATOR_RETORNO } from '../../data/coach.ts';
 import { exById } from '../../data/ex/_index.ts';
 import {
   METODO_ROTULO,
@@ -145,19 +144,15 @@ export function serieCurta(carga: number | undefined, reps: number | undefined):
 /** Carga arredondada para o meio quilo. */
 export const r05 = (x: number): number => Math.round(x * 2) / 2;
 
-/** Carga inicial na volta: a da ficha × 0,75, arredondada para 0,5 kg. */
-export function cargaDeRetorno(cargaDaFicha: number): number {
-  return r05(cargaDaFicha * FATOR_RETORNO);
-}
-
-export const LEGENDA_RETORNO = 'Sugestão do treinador: 75% da ficha (as cargas são de ago/2025)';
+/** Legenda da primeira vez de um exercício: a carga da ficha é só o ponto de partida. */
+export const LEGENDA_PRIMEIRA_VEZ = 'Primeira vez: carga de partida. Ajuste na hora.';
 
 /** A frase da sugestão para a interface e o tom dela. `primeiraVez` = sem histórico do exercício. */
 export function fraseDaSugestao(sug: Sugestao, primeiraVez: boolean, ex: FichaExercicio): { texto: string; tom: 'good' | 'accent' | 'muted' } | undefined {
   if (!ehPrincipal(ex)) return undefined;
   if (primeiraVez) {
     const temCarga = ex.series.some((b) => typeof b.carga === 'number' && b.carga > 0);
-    return temCarga ? { texto: LEGENDA_RETORNO, tom: 'accent' } : { texto: 'Primeira vez: comece leve e anote o que fez', tom: 'muted' };
+    return temCarga ? { texto: LEGENDA_PRIMEIRA_VEZ, tom: 'accent' } : { texto: 'Primeira vez: comece leve e anote o que fez', tom: 'muted' };
   }
   if (sug.tipo === 'sobe' || sug.tipo === 'reps') return { texto: sug.motivo, tom: 'good' };
   if (sug.tipo === 'repete') return { texto: sug.motivo, tom: 'muted' };
@@ -175,9 +170,9 @@ export function minutosEstimados(ficha: Ficha, s: Settings): number {
   return Math.max(5, Math.round(seg / 60 / 5) * 5);
 }
 
-/** Último treino feito da ficha (pela letra). */
-export function ultimoDaFicha(lifts: Lift[], letra: string, antesDe?: Lift): Lift | undefined {
-  const feitos = liftsFeitos(lifts).filter((l) => l.ficha === letra && l.id !== antesDe?.id);
+/** Último treino feito da ficha (pela letra) no programa `programa`: a letra A de uma ficha antiga é outro treino. */
+export function ultimoDaFicha(lifts: Lift[], letra: string, programa: string, antesDe?: Lift): Lift | undefined {
+  const feitos = liftsFeitos(lifts).filter((l) => l.ficha === letra && (!l.programa || l.programa === programa) && l.id !== antesDe?.id);
   return feitos[feitos.length - 1];
 }
 

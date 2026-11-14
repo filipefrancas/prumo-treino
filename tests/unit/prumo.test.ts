@@ -35,6 +35,11 @@ const treinos: Lift[] = [
   { id: 'l2', data: '2026-11-14', ficha: 'A', treino: 'Costas e bíceps', programa: 'hibrido', inicio: '09:00', emAndamento: true, concluido: false, sets: {} },
   { id: 'l3', data: '2026-11-09', ficha: 'B', treino: 'Inferiores', programa: 'hibrido', concluido: false, emAndamento: false }, // descartado
   { id: 'l4', data: '2026-11-05', ficha: 'B', treino: 'Inferiores', programa: 'hibrido', min: 60, cardio: 10, hora: '19:00' }, // registro manual antigo
+  // treino da ficha nova (programa "maromba"): vai para o Prumo com os ids novos
+  {
+    id: 'l5', data: '2026-11-13', ficha: 'A', treino: 'Pernas', programa: 'maromba', inicio: '18:00', fim: '18:55', emAndamento: false, concluido: true, min: 55, volume: 4680,
+    sets: { 'm-A-01': { '1': { reps: 15, carga: 40, feito: true, t: '18:04' }, '2': { reps: 10, carga: 80, feito: true, t: '18:08' } }, 'm-A-02': { '1': { reps: 12, carga: 160, feito: true, t: '18:20' } } },
+  },
 ];
 const cheio = estado({ weights: pesos, runs: corridas, lifts: treinos });
 const agora = new Date('2026-11-14T16:00:00.000Z');
@@ -74,13 +79,15 @@ describe('toPrumoBackup', () => {
   });
 
   it('musculação: só treinos feitos, sem os campos extras deste app', () => {
-    expect(b.data.lifts.map((l) => l.id)).toEqual(['l1', 'l4']);
+    expect(b.data.lifts.map((l) => l.id)).toEqual(['l1', 'l4', 'l5']);
     const l1 = b.data.lifts[0];
     expect(l1).not.toHaveProperty('inicioMs');
     expect(l1).not.toHaveProperty('trocas');
     const { inicioMs: _i, trocas: _t, ...esperado } = treinos[0] as Lift;
     expect(l1).toEqual(esperado);
     expect(b.data.lifts[1]).toEqual(treinos[3]);
+    expect(b.data.lifts[2]).toEqual(treinos[4]); // ficha nova: programa e ids novos vão como estão
+    expect(b.data.lifts[2]).toMatchObject({ programa: 'maromba', ficha: 'A', treino: 'Pernas' });
   });
 
   it('estado vazio gera coleções vazias e não altera o estado', () => {
@@ -98,7 +105,7 @@ describe('fromPrumoBackup', () => {
     const res = fromPrumoBackup(json, vazio);
     expect(res.ok).toBe(true);
     expect(res.error).toBeUndefined();
-    expect(res.added).toBe(2 + 3 + 2);
+    expect(res.added).toBe(2 + 3 + 3);
     expect(vazio).toEqual(estado()); // o argumento não muda
     const novo = res.state as AppState;
     expect(novo.weights).toEqual(pesos);
@@ -108,7 +115,7 @@ describe('fromPrumoBackup', () => {
       { id: 'r4', data: '2025-06-01', tipo: 'Prova', km: 21.1, min: 118, fonte: 'manual' },
     ]);
     const { inicioMs: _i, trocas: _t, ...l1 } = treinos[0] as Lift;
-    expect(novo.lifts).toEqual([l1, treinos[3]]);
+    expect(novo.lifts).toEqual([l1, treinos[3], treinos[4]]);
     expect(novo.settings).toEqual(vazio.settings);
     // exportar de novo dá o mesmo backup
     expect(toPrumoBackup(novo, agora)).toBe(json);
@@ -119,7 +126,7 @@ describe('fromPrumoBackup', () => {
     const primeira = fromPrumoBackup(json, estado());
     const segunda = fromPrumoBackup(json, primeira.state as AppState);
     expect(segunda).toMatchObject({ ok: true, added: 0 });
-    expect(segunda.state?.lifts).toHaveLength(2);
+    expect(segunda.state?.lifts).toHaveLength(3);
     // no próprio app de origem só não entra nada: tudo já existe
     const naOrigem = fromPrumoBackup(json, cheio);
     expect(naOrigem.added).toBe(0);
@@ -130,7 +137,7 @@ describe('fromPrumoBackup', () => {
   it('mantém o que já existe e junta o que é novo', () => {
     const local = estado({ weights: [{ id: 'w1', data: '2026-11-10', kg: 99 }], runs: [{ id: 'meu', data: '2026-11-01', tipo: 'Rodagem', min: 30, fonte: 'treino' }] });
     const res = fromPrumoBackup(toPrumoBackup(cheio, agora), local);
-    expect(res.added).toBe(1 + 3 + 2);
+    expect(res.added).toBe(1 + 3 + 3);
     expect(res.state?.weights).toEqual([{ id: 'w1', data: '2026-11-10', kg: 99 }, pesos[1]]); // o w1 local vence
     expect(res.state?.runs.map((r) => r.id)).toEqual(['meu', 'r1', 'r3', 'r4']);
   });
@@ -164,7 +171,8 @@ describe('fromPrumoBackup', () => {
       { id: 'd', data: '2026-10-30', tipo: 'Rodagem', km: 5, fonte: 'manual' },
     ]);
     expect(res.state?.lifts[0]?.sets).toEqual({ 'h-A-07': { '1': { reps: 12, carga: 25, feito: true, t: '18:05' }, '2': { reps: 10, carga: 42.5, feito: true } } });
-    expect(res.state?.lifts[0]?.prs?.[0]).toMatchObject({ nome: 'h-A-07', e1rm: 56.7 });
+    // recorde sem nome no arquivo: o app dá o nome do exercício (aqui, da ficha antiga), nunca o id
+    expect(res.state?.lifts[0]?.prs?.[0]).toMatchObject({ exId: 'h-A-07', nome: 'Remada cavalinho (pegada neutra)', e1rm: 56.7 });
     expect(res.state?.lifts[1]).toEqual({ id: 'g', data: '2026-10-20', ficha: 'B', treino: 'Inferiores', programa: 'hibrido', min: 55, concluido: true });
     expect(res.state?.settings.plano).toEqual({}); // os ajustes do Prumo não entram
   });

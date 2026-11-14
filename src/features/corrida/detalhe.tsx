@@ -7,7 +7,7 @@ import { fmtMin, fmtPace, num, pace } from '../../lib/format.ts';
 import { go, useRoute } from '../../lib/router.ts';
 import { useStore } from '../../lib/store.ts';
 import type { RunBlock, RunLog, RunStep } from '../../types.ts';
-import { Button, Card, Empty, Icon, IntensityChart, Pill, Screen, Section, Stat, StatRow, Tag, toast } from '../../ui/index.ts';
+import { Button, Card, Empty, Icon, IntensityChart, Pill, PorQue, Screen, Section, Stat, StatRow, Tag, toast } from '../../ui/index.ts';
 import { FAMILIA_ROTULO, NIVEL_ROTULO, PASSO_ROTULO, SENSACAO_ROTULO, SituacaoPill, alvo, contarPassos, corDoNivel, dataComAno, fmtPasso } from './comum.tsx';
 import { sessaoGuiada } from './guiada.tsx';
 import { RegistroSheet } from './registro.tsx';
@@ -196,6 +196,8 @@ export function RunDetailScreen({ id }: { id: string }) {
           </Button>
         </div>
       ) : null}
+
+      <PorQue texto={w.porque} area="corrida" />
 
       <Section title="Intensidade">
         <Card>

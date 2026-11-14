@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'preact/hooks';
 import { animById } from '../data/anim/_index.ts';
+import { exById } from '../data/ex/_index.ts';
 import { FigurePlayer } from '../rig/dom.ts';
 import type { RigDef } from '../rig/types.ts';
 
@@ -22,6 +23,17 @@ export interface FigureProps {
   /** Texto alternativo. Sem ele a figura é decorativa. */
   label?: string;
   class?: string;
+}
+
+const PALAVRAS_CURTAS = new Set(['a', 'o', 'e', 'de', 'da', 'do', 'das', 'dos', 'na', 'no', 'nas', 'nos', 'em', 'com', 'para', 'ao']);
+
+/** Iniciais para o quadro neutro: as duas primeiras palavras que importam ("Remada curvada com barra" → "RC"). */
+export function iniciais(nome: string): string {
+  const palavras = nome
+    .replace(/\([^)]*\)/g, ' ')
+    .split(/[^\p{L}\p{N}]+/u)
+    .filter((p) => p !== '' && !PALAVRAS_CURTAS.has(p.toLowerCase()));
+  return palavras.slice(0, 2).map((p) => p.charAt(0).toUpperCase()).join('');
 }
 
 const reducedMotion = (): boolean => typeof matchMedia === 'function' && matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -80,12 +92,13 @@ export function Figure({ id, def, play = 'visible', paused = false, tone = 'musc
 
   const a11y = label ? ({ role: 'img', 'aria-label': label } as const) : ({ 'aria-hidden': true } as const);
   if (!rig) {
+    // sem foto nem animação: quadro neutro com as iniciais do exercício (nunca um erro, nunca um boneco genérico)
+    const nome = (id ? exById(id)?.name : undefined) ?? label?.replace(/^(Animação|Foto):\s*/, '') ?? id?.replace(/-/g, ' ') ?? '';
     return (
       <div class={`ui-fig ui-fig--empty ui-fig--${tone} ${cls ?? ''}`} {...a11y}>
-        <svg viewBox="0 0 240 180" aria-hidden="true">
-          <circle cx="120" cy="62" r="13" class="f-far" fill="currentColor" />
-          <path d="M120 80v44M96 96h48M120 124l-18 34M120 124l18 34" class="f-far" stroke="currentColor" stroke-width="9" stroke-linecap="round" fill="none" />
-        </svg>
+        <span class="ui-fig-ini" aria-hidden="true">
+          {iniciais(nome) || '·'}
+        </span>
       </div>
     );
   }

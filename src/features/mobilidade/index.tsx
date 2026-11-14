@@ -57,7 +57,7 @@ interface Sugestao {
   motivo: string;
 }
 
-/** A rotina que mais combina com o dia: aquecer antes da corrida, alongar depois, cuidar dos pés no dia de força. */
+/** A rotina que mais combina com o dia: aquecer antes da corrida, alongar depois. Em dia de musculação, nenhuma. */
 function sugestaoDoDia(state: AppState, dia: string): Sugestao | undefined {
   const feitasHoje = new Set(state.mob.filter((m) => m.data === dia).map((m) => m.rotina));
   const escolher = (id: string, motivo: string): Sugestao | undefined => {
@@ -65,10 +65,13 @@ function sugestaoDoDia(state: AppState, dia: string): Sugestao | undefined {
     return rotina && !feitasHoje.has(id) ? { rotina, motivo } : undefined;
   };
   const itens = agendaDoDia(state, dia);
+  // Dia de musculação: o treino já é o dia inteiro, sem alongamento, mobilidade ou aquecimento sugerido.
+  if (itens.some((i) => i.tipo === 'musc')) return undefined;
   const corrida = itens.find((i) => i.tipo === 'corrida');
   if (corrida?.feito) return escolher('pos-corrida', 'Você correu hoje: alongue enquanto o corpo ainda está quente.');
   if (corrida && corrida.situacao === 'hoje') return escolher('aquecimento-corrida', 'Hoje tem corrida: cinco minutos para soltar quadril e tornozelo antes de sair.');
-  if (itens.some((i) => i.tipo === 'musc')) return escolher('fortalecimento-dos-pes', 'Dia de musculação: feche o treino cuidando dos pés.');
+  const mob = itens.find((i) => i.tipo === 'mob');
+  if (mob?.rotina) return escolher(mob.rotina.id, 'Hoje é dia de alongamento: é o único dia sem corrida nem musculação.');
   return escolher('alongamento-completo', 'Dia sem treino: bom momento para o alongamento completo, sem pressa.');
 }
 

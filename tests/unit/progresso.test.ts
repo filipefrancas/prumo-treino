@@ -45,7 +45,7 @@ function corrida(data: string, over: Partial<RunLog> = {}): RunLog {
   return { id: novoId('r'), data, tipo: 'Rodagem', fonte: 'manual', ...over };
 }
 function lift(data: string, ficha = 'A', over: Partial<Lift> = {}): Lift {
-  return { id: novoId('l'), data, ficha, treino: '', programa: 'hibrido', ...over };
+  return { id: novoId('l'), data, ficha, treino: '', programa: 'maromba', ...over };
 }
 function mob(data: string, seg: number, nome = 'Alongamento pós-corrida'): MobilityLog {
   return { id: novoId('m'), data, rotina: 'pos-corrida', nome, seg, completo: true };
@@ -239,12 +239,12 @@ describe('resumoParaTreinador', () => {
       ],
       marcas: { 'c-2026-11-13': 'feito', 'c-2026-11-20': 'feito', 'c-2026-11-15': 'pulado' },
       lifts: [
-        lift('2026-11-09', 'B', {
-          treino: 'Inferiores', min: 62, volume: 8450, intensidade: 4,
-          prs: [{ exId: 'h-B-05', nome: 'Agachamento', e1rm: 101.3, carga: 80, reps: 8, anterior: 96, medida: 'e1rm' }],
+        lift('2026-11-09', 'A', {
+          treino: 'Pernas', min: 62, volume: 8450, intensidade: 4,
+          prs: [{ exId: 'm-A-01', nome: 'Agachamento no hack', e1rm: 101.3, carga: 80, reps: 8, anterior: 96, medida: 'e1rm' }],
         }),
-        lift('2026-11-12', 'C', { treino: 'Peito, ombro e braço', emAndamento: true }),
-        lift('2026-11-02', 'A', { treino: 'Costas e bíceps', min: 50 }),
+        lift('2026-11-12', 'B', { treino: 'Peito e costas', emAndamento: true }),
+        lift('2026-11-02', 'C', { treino: 'Costas e bíceps', min: 50, programa: 'hibrido' }),
       ],
       mob: [mob('2026-11-13', 480), mob('2026-11-20', 480), mob('2026-11-21', 360, 'Educativos'), mob('2026-11-01', 999)],
       weights: [peso('2026-11-21', 82.6), peso('2026-11-10', 83.4), peso('2026-11-15', 83), peso('2026-11-01', 85)],
@@ -263,7 +263,7 @@ describe('resumoParaTreinador', () => {
       "qua 18 nov · Regenerativo 25' · não fez",
       '',
       'MUSCULAÇÃO: 1 treino',
-      'seg 9 nov · Ficha B: Inferiores · 1 h 02 · volume 8450 kg · intensidade 4 de 5 · recordes: Agachamento (80 kg × 8)',
+      'seg 9 nov · Ficha A: Pernas · 1 h 02 · volume 8450 kg · intensidade 4 de 5 · recordes: Agachamento no hack (80 kg × 8)',
       '',
       'MOBILIDADE: 3 rotinas · 22 min',
       'Alongamento pós-corrida · 2× · 16 min',

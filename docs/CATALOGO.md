@@ -1,9 +1,11 @@
 # Catálogo de exercícios
 
-Fonte única dos ids. Cada id abaixo tem (ou terá) dois arquivos com o MESMO nome:
+Fonte única dos ids. Cada id abaixo tem arquivos com o MESMO nome:
 
-- `src/data/anim/<id>.ts`: a animação (`RigDef`), ver `docs/ANIMACOES.md`;
-- `src/data/ex/<id>.ts`: os textos (`Exercise`, ver `src/types.ts`).
+- `src/data/ex/<id>.ts`: os textos (`Exercise`, ver `src/types.ts`), obrigatório;
+- `src/assets/fotos/<id>.jpg`: a foto do exercício (paisagem 4:3), que é o que o app mostra quando existe;
+- `src/data/anim/<id>.ts`: a animação (`RigDef`), ver `docs/ANIMACOES.md`. É OPCIONAL: os exercícios novos
+  (seção 5) não têm animação e usam só a foto.
 
 Colunas: **id** · **nome no app** · **tipo** (`kind`) · **grupo** (`group`) · **vista** sugerida para a animação ·
 **movimento** (o que a animação precisa mostrar: K0 → K1).
@@ -11,7 +13,7 @@ Colunas: **id** · **nome no app** · **tipo** (`kind`) · **grupo** (`group`) �
 Regras gerais para as animações: exercício unilateral ou com lado mostra o lado direito do corpo como membro
 próximo (`N`); aparelhos são desenhados só com o essencial (assento, encosto, apoio, alavanca ou cabo).
 
-## 1. Musculação: ficha "Atleta Híbrido"
+## 1. Musculação: exercícios da ficha antiga (seguem na biblioteca)
 
 ### Lote M1 · Costas e bíceps (ficha A)
 
@@ -22,7 +24,7 @@ próximo (`N`); aparelhos são desenhados só com o essencial (assento, encosto,
 | `puxada-supinada` | Puxada supinada na polia | forca | costas | lado | Sentado na puxada alta, coxas sob o rolo, cabo descendo da polia no alto até a barra. K0: braços estendidos acima da cabeça segurando a barra. K1: barra desce até a parte alta do peito, cotovelos apontam para baixo e para trás, peito aberto, leve inclinação do tronco para trás. |
 | `remada-maquina` | Remada na máquina (pegada pronada) | forca | costas | lado | Sentado, peito apoiado em um apoio vertical à frente, pés no chão. K0: braços estendidos à frente segurando os pegadores. K1: cotovelos vão para trás, na altura das costelas, mãos chegam perto do tronco. O peito não desencosta do apoio. |
 | `crucifixo-inverso` | Crucifixo inverso com halteres | forca | ombros | lado | Deitado de bruços em um banco inclinado baixo (uns 30°), peito no banco, pés no chão atrás. K0: braços pendentes para o chão com um halter em cada mão. K1: braços abrem para os lados até a linha dos ombros (de lado, as mãos sobem até a altura das costas, com os braços encurtados pela perspectiva). Destaque: parte de trás do ombro e alto das costas. |
-| `rosca-banco-inclinado` | Rosca direta no banco inclinado | forca | biceps | lado | Sentado em um banco inclinado a uns 60°, costas e cabeça apoiadas, braços pendentes para trás da linha do tronco, um halter em cada mão. K0: braços estendidos para baixo. K1: antebraços sobem até os halteres chegarem perto dos ombros. O cotovelo fica parado, apontando para o chão. |
+| `rosca-banco-inclinado` | Rosca no banco inclinado com halteres | forca | biceps | lado | Sentado em um banco inclinado a uns 60°, costas e cabeça apoiadas, braços pendentes para trás da linha do tronco, um halter em cada mão. K0: braços estendidos para baixo. K1: antebraços sobem até os halteres chegarem perto dos ombros. O cotovelo fica parado, apontando para o chão. |
 | `rosca-scott-unilateral` | Rosca Scott unilateral com halter | forca | biceps | lado | Sentado no banco Scott, a parte de trás do braço apoiada no encosto inclinado à frente do corpo. Um braço só. K0: braço quase estendido sobre o apoio, halter embaixo. K1: antebraço sobe até o halter chegar perto do ombro. O braço não descola do apoio. |
 | `elevacao-y-banco` | Elevação em Y no banco inclinado | forca | ombros | lado | Deitado de bruços em um banco inclinado a 30–45°, peito no banco. K0: braços pendentes para o chão com halteres leves. K1: braços sobem à frente e para cima, formando um Y com o tronco (de lado, os braços ficam alinhados com o tronco, acima da cabeça), com pausa de 2 s no alto. |
 
@@ -35,7 +37,7 @@ próximo (`N`); aparelhos são desenhados só com o essencial (assento, encosto,
 | `crucifixo-inclinado` | Crucifixo inclinado com halteres | forca | peito | lado | Deitado de costas em um banco inclinado a uns 30–45°, pés no chão. K0: braços abertos para os lados com cotovelos levemente flexionados, halteres na altura do peito (de lado, mãos na linha dos ombros e braços encurtados pela perspectiva), com pausa de 2 s no alongamento. K1: halteres se encontram acima do peito, braços quase estendidos apontando para cima. |
 | `elevacao-lateral` | Elevação lateral com halteres | forca | ombros | frente | Em pé, de frente. K0: braços ao lado do corpo com um halter em cada mão. K1: braços sobem para os lados até a altura dos ombros, cotovelos levemente flexionados. Destaque nos dois ombros. |
 | `desenvolvimento-maquina` | Desenvolvimento na máquina (pegada neutra) | forca | ombros | lado | Sentado, costas no encosto vertical. K0: mãos nos pegadores na altura dos ombros, cotovelos para baixo. K1: braços estendidos acima da cabeça. |
-| `triceps-frances-polia` | Tríceps francês unilateral na polia | forca | triceps | lado | Em pé, de costas para a torre da polia, um pé à frente, tronco levemente inclinado à frente. Um braço só: cotovelo apontando para cima ao lado da cabeça, cabo vindo de trás (polia baixa ou média). K0: antebraço dobrado para trás da cabeça, mão atrás da nuca. K1: antebraço estende para cima e para a frente até o braço ficar reto. O cotovelo não se mexe. |
+| `triceps-frances-polia` | Tríceps francês na polia | forca | triceps | lado | Em pé, de costas para a torre da polia, um pé à frente, tronco levemente inclinado à frente. Com a corda, nas duas mãos: cotovelos apontando para cima ao lado da cabeça, cabo vindo de trás (polia baixa). K0: antebraços dobrados para trás da cabeça, mãos atrás da nuca. K1: antebraços estendem para cima e para a frente até os braços ficarem retos. Os cotovelos não se mexem. |
 | `triceps-paralela-maquina` | Tríceps paralela na máquina | forca | triceps | lado | Sentado na máquina de mergulho, tronco levemente inclinado à frente, pegadores ao lado do quadril. K0: cotovelos flexionados e altos, atrás do corpo, mãos na altura das costelas. K1: braços estendidos para baixo ao lado do corpo, empurrando os pegadores. |
 | `abdominal-maquina` | Abdominal na máquina | core | core | lado | Sentado na máquina, pés presos sob os rolos, mãos nos pegadores ao lado da cabeça. K0: tronco ereto. K1: tronco enrola para a frente, aproximando o peito dos joelhos, com a lombar se afastando pouco do encosto. Destaque no abdômen. |
 
@@ -45,7 +47,7 @@ próximo (`N`); aparelhos são desenhados só com o essencial (assento, encosto,
 | --- | --- | --- | --- | --- | --- |
 | `agachamento-halter-frente` | Agachamento com halter na frente | forca | pernas | lado | Em pé, segurando um halter junto ao peito com as duas mãos (cotovelos apontando para baixo). K0: em pé. K1: agachamento profundo, coxas paralelas ao chão ou um pouco abaixo, tronco o mais ereto possível, calcanhares no chão. |
 | `recuo-com-halteres` | Recuo com halteres | forca | pernas | lado | Em pé, um halter em cada mão ao lado do corpo. K0: pés juntos. K1: a perna distante dá um passo para trás e o joelho de trás desce até quase tocar o chão; joelho da frente a 90° sobre o tornozelo; tronco ereto. Destaque na coxa e no glúteo da perna da frente (a próxima). |
-| `leg-press-45` | Leg press 45° (pés afastados) | forca | pernas | lado | Deitado no leg press inclinado: encosto a uns 45° no canto inferior, plataforma acima e à frente, pernas empurrando em diagonal para cima. K0: joelhos flexionados perto do peito, plataforma perto. K1: pernas quase estendidas, plataforma longe. Desenhe o encosto, o assento e a plataforma (retângulo preso aos pés, perpendicular às pernas). |
+| `leg-press-45` | Leg press 45° | forca | pernas | lado | Deitado no leg press inclinado: encosto a uns 45° no canto inferior, plataforma acima e à frente, pernas empurrando em diagonal para cima. K0: joelhos flexionados perto do peito, plataforma perto. K1: pernas quase estendidas, plataforma longe. Desenhe o encosto, o assento e a plataforma (retângulo preso aos pés, perpendicular às pernas). |
 | `cadeira-extensora-unilateral` | Cadeira extensora unilateral | forca | pernas | lado | Sentado na cadeira extensora, costas no encosto, mãos nos apoios ao lado do assento. Uma perna só: rolo apoiado na frente do tornozelo. K0: joelho a 90°, canela para baixo. K1: perna estendida à frente, na horizontal. A outra perna fica parada, dobrada. |
 | `flexao-nordica` | Flexão nórdica | forca | posterior | lado | Ajoelhado sobre um apoio, tornozelos presos atrás por um rolo, corpo reto dos joelhos à cabeça, braços cruzados no peito. K0: tronco na vertical. K1: corpo desce reto para a frente até uns 45°, dobrando só os joelhos, sem quebrar o quadril. Destaque na parte de trás das coxas. |
 | `hiperextensao-lombar` | Hiperextensão de lombar | forca | posterior | lado | No banco de hiperextensão a 45°: coxas apoiadas no apoio inclinado, tornozelos presos embaixo, corpo em diagonal. K0: tronco pendendo para a frente e para baixo, dobrado no quadril. K1: tronco sobe até alinhar com as pernas (corpo reto em diagonal), mãos cruzadas no peito. Destaque na lombar e nos glúteos. |
@@ -165,3 +167,34 @@ inclinado à frente. Destaque em laranja (corrida) na musculatura principal.
 | `agachamento-peso-do-corpo` | Agachamento livre | aquecimento | pernas | lado | Agachamento sem carga: braços estendidos à frente para equilibrar. K0: em pé. K1: coxas paralelas ao chão, calcanhares no chão, tronco inclinado à frente o mínimo necessário. |
 | `polichinelo` | Polichinelo | aquecimento | corpo-todo | frente | De frente. K0: pés juntos, braços ao lado do corpo. K1: pés afastados e mãos juntas acima da cabeça. Ciclo rápido (0,9 a 1,1 s) com leve salto (o quadril sobe 2 a 3 unidades no meio do movimento). |
 | `elevacao-de-panturrilha` | Elevação de panturrilha | aquecimento | panturrilha | lado | Em pé, pés paralelos, mãos na cintura. K0: pés inteiros no chão. K1: sobe na ponta dos dois pés. Destaque na panturrilha. |
+
+### Trocas pedidas pelo Filipe
+
+| id | nome no app | tipo | grupo | vista | movimento |
+| --- | --- | --- | --- | --- | --- |
+| `face-pull` | Face pull na polia | forca | ombros | lado | Em pé, de frente para a polia na altura do rosto, corda nas mãos. K0: braços estendidos à frente. K1: corda puxada até o rosto, cotovelos abertos na linha dos ombros. |
+
+## 5. Musculação: programa Maromba (nov/2026)
+
+Fichas A · Pernas, B · Peito e costas e C · Braços e ombros. Além dos ids abaixo, o programa usa `leg-press-45`,
+`face-pull`, `elevacao-lateral`, `rosca-banco-inclinado`, `triceps-frances-polia` e `abdominal-maquina`, que já
+estão nas seções acima. Estes exercícios não têm animação: a coluna **movimento** descreve o que a foto mostra.
+
+| id | nome no app | tipo | grupo | vista | movimento |
+| --- | --- | --- | --- | --- | --- |
+| `agachamento-hack` | Agachamento no hack | forca | pernas | foto | Homem na máquina hack, costas no apoio inclinado e ombros sob as almofadas, no fundo do agachamento, pés inteiros na plataforma. |
+| `cadeira-extensora` | Cadeira extensora | forca | pernas | foto | Sentado na cadeira extensora, costas no encosto, as duas pernas estendidas à frente com o rolo na frente dos tornozelos. |
+| `mesa-flexora` | Mesa flexora | forca | posterior | foto | Deitado de bruços na mesa flexora, quadril no banco, joelhos dobrados com o rolo perto dos glúteos. |
+| `stiff-halteres` | Stiff com halteres | forca | posterior | foto | Em pé, de lado, tronco inclinado à frente com as costas retas, quadril para trás, halteres na altura das canelas, rente às pernas. |
+| `panturrilha-em-pe-maquina` | Panturrilha em pé na máquina | forca | panturrilha | foto | Em pé na máquina de panturrilha, ombros sob as almofadas, na ponta dos pés sobre a borda do degrau. |
+| `supino-reto-barra` | Supino reto com barra | forca | peito | foto | Deitado no banco reto, pés no chão, barra perto do meio do peito, cotovelos a uns 45° do tronco. |
+| `puxada-frente` | Puxada na frente com pegada aberta | forca | costas | foto | Sentado na puxada alta, coxas sob o rolo, pegada aberta, barra na parte alta do peito e cotovelos apontando para baixo. |
+| `supino-inclinado-halteres` | Supino inclinado com halteres | forca | peito | foto | Deitado no banco inclinado a uns 30 a 45°, um halter em cada mão ao lado do peito, cotovelos abaixo das mãos. |
+| `remada-curvada` | Remada curvada com barra | forca | costas | foto | Em pé, de lado, tronco inclinado a uns 45° com as costas retas, barra puxada até o umbigo, cotovelos rente ao corpo. |
+| `crossover` | Crossover na polia | forca | peito | foto | Em pé entre as duas polias altas, um pé à frente, braços fechados à frente do corpo com as mãos juntas na altura do umbigo. |
+| `remada-baixa` | Remada baixa na polia | forca | costas | foto | Sentado de frente para a polia baixa, pés no apoio, tronco reto, triângulo puxado até a barriga. |
+| `desenvolvimento-halteres` | Desenvolvimento com halteres | forca | ombros | foto | Sentado no banco com encosto quase vertical, halteres na altura das orelhas, palmas para a frente. |
+| `rosca-direta-barra` | Rosca direta com barra | forca | biceps | foto | Em pé, cotovelos colados ao tronco, barra na metade da subida, palmas para cima. |
+| `triceps-testa` | Tríceps testa com barra W | forca | triceps | foto | Deitado no banco reto, cotovelos apontando para o teto, barra W descendo até perto da testa. |
+| `rosca-martelo` | Rosca martelo com halteres | forca | biceps | foto | Em pé, um halter em cada mão com as palmas viradas uma para a outra, um braço dobrado com o halter perto do ombro. |
+| `triceps-corda` | Tríceps na polia com corda | forca | triceps | foto | Em pé de frente para a polia alta, cotovelos colados ao tronco, braços estendidos para baixo com a corda aberta. |

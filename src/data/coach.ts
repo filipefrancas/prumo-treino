@@ -2,7 +2,7 @@ import type { ISODate } from '../types.ts';
 
 /**
  * Orientações do treinador que não cabem na ficha nem no plano de corrida: o roteiro de longo prazo da corrida
- * e os ajustes da musculação para o bloco de retorno.
+ * e os recados semanais da musculação.
  */
 
 export interface Etapa {
@@ -60,11 +60,10 @@ export const ROTEIRO_CORRIDA: Etapa[] = [
 export const etapaAtual = (data: ISODate): Etapa | undefined => ROTEIRO_CORRIDA.find((e) => data >= e.inicio && data <= e.fim);
 
 /**
- * Musculação no bloco de retorno: a ficha "Atleta Híbrido" continua a mesma, com estes ajustes do treinador.
- * As cargas da ficha são de agosto de 2025; na primeira vez de cada exercício no app, a sugestão é uma fração delas.
+ * Musculação: recados da semana para o programa "Maromba" (A · Pernas na segunda, B · Peito e costas na quinta,
+ * C · Braços e ombros no sábado). A regra é sempre a mesma: a primeira série do primeiro exercício é leve; nas
+ * outras sobram 1 a 2 repetições; quando todas as séries batem o topo da faixa, a carga sobe.
  */
-export const FATOR_RETORNO = 0.75;
-
 export interface RecadoForca {
   /** Segunda-feira da semana. */
   semana: ISODate;
@@ -72,69 +71,70 @@ export interface RecadoForca {
   texto: string;
   /** Repetições em reserva pedidas na semana. */
   rir: string;
-  /** Métodos de intensidade (drop-set, rest-pause, cluster) liberados na semana. */
+  /** Métodos de intensidade (drop-set, rest-pause, cluster) liberados na semana. O programa atual não tem nenhum. */
   metodos: boolean;
 }
 
 export const RECADOS_FORCA: RecadoForca[] = [
   {
     semana: '2026-11-09',
-    titulo: 'Readaptação',
-    texto: 'Volte devagar: use cerca de 75% das cargas da ficha, que são de agosto de 2025, e pare cada série com 2 a 3 repetições de folga. Sem drop-set e sem rest-pause: faça as séries normais.',
-    rir: '2 a 3',
-    metodos: false,
+    titulo: 'Ficha nova',
+    texto: 'A ficha mudou: pernas na segunda, peito e costas na quinta, braços e ombros no sábado. As cargas do app são um ponto de partida. Ajuste na hora para sobrarem 2 repetições em cada série.',
+    rir: '2',
+    metodos: true,
   },
   {
     semana: '2026-11-16',
-    titulo: 'Readaptação',
-    texto: 'Mesma regra da semana passada: 75% das cargas da ficha, 2 a 3 repetições de folga, sem drop-set e sem rest-pause. Na segunda, a perna precisa sobrar para a corrida de quarta.',
-    rir: '2 a 3',
-    metodos: false,
+    titulo: 'Achar as cargas',
+    texto: 'Primeira semana completa da ficha nova. Use as séries para achar a carga de cada exercício: a certa é a que deixa 1 a 2 repetições sobrando. Na segunda, a perna precisa sobrar para a corrida de quarta.',
+    rir: '1 a 2',
+    metodos: true,
   },
   {
     semana: '2026-11-23',
-    titulo: 'Subir a carga',
-    texto: 'Se as duas primeiras semanas foram bem, siga as sugestões de carga do app e pare com 2 repetições de folga. Ainda sem drop-set nem rest-pause.',
-    rir: '2',
-    metodos: false,
+    titulo: 'Somar repetições',
+    texto: 'Repita as cargas da semana passada e tente uma repetição a mais em cada série. Quando todas as séries chegarem ao topo da faixa, o app sugere subir a carga.',
+    rir: '1 a 2',
+    metodos: true,
   },
   {
     semana: '2026-11-30',
-    titulo: 'Ficha completa',
-    texto: 'Volta a ficha como o Fabiano escreveu: repetições em reserva da ficha e os métodos (cluster, rest-pause, drop-set e os pares). Nos inferiores, mantenha 2 de folga no leg press e no recuo.',
-    rir: 'o da ficha',
+    titulo: 'Seguir a progressão',
+    texto: 'Siga as sugestões de carga do app. Na sexta a corrida ganha o primeiro treino forte do bloco: a quinta continua normal, porque peito e costas não cansam a perna.',
+    rir: '1 a 2',
     metodos: true,
   },
   {
     semana: '2026-12-07',
     titulo: 'Semana de alívio',
-    texto: 'A corrida alivia e a musculação também: uma série a menos em cada exercício principal e nada de falha. É a semana em que o corpo absorve o que você treinou.',
+    texto: 'A corrida alivia e a musculação também: uma série a menos em cada exercício e mais folga em todas. É a semana em que o corpo absorve o que você treinou.',
     rir: '3',
-    metodos: false,
+    metodos: true,
   },
   {
     semana: '2026-12-14',
-    titulo: 'Ficha completa',
-    texto: 'Ficha completa, com os métodos. É a semana mais puxada da corrida: se a perna estiver pesada na segunda, tire o drop-set da extensora.',
-    rir: 'o da ficha',
+    titulo: 'Semana cheia',
+    texto: 'Ficha completa. É a semana mais puxada da corrida: se a perna estiver pesada na segunda, tire uma série do agachamento no hack e uma do leg press.',
+    rir: '1 a 2',
     metodos: true,
   },
   {
     semana: '2026-12-21',
     titulo: 'Fechar o ciclo',
-    texto: 'Última semana desta ficha. Capriche na execução e anote as cargas: é com elas que eu monto o próximo ciclo, em janeiro.',
-    rir: 'o da ficha',
+    texto: 'Última semana do bloco de corrida. Capriche na execução e registre as cargas: é com elas que o próximo ciclo é montado, em janeiro.',
+    rir: '1 a 2',
     metodos: true,
   },
 ];
 
 export const recadoForca = (segunda: ISODate): RecadoForca | undefined => RECADOS_FORCA.find((r) => r.semana === segunda);
 
-/** Princípios do treino híbrido, mostrados em Musculação › "Como este treino funciona". */
+/** Princípios do treino, mostrados em Musculação › "Como este treino funciona". */
 export const PRINCIPIOS_HIBRIDO: string[] = [
-  'Corrida e musculação se alternam: quarta, sexta e domingo você corre; segunda, quinta e sábado você treina força; terça é livre.',
-  'Inferiores na segunda, o mais longe possível do longo de domingo e com dois dias até a corrida de quarta.',
+  'Corrida e musculação se alternam: quarta, sexta e domingo você corre; segunda, quinta e sábado você treina força; terça é dia de alongamento.',
+  'Pernas na segunda, o mais longe possível do longo de domingo e com dois dias até a corrida de quarta. Quinta é peito e costas. Sábado é braços e ombros.',
+  'A primeira série do primeiro exercício é leve, para aquecer. Nas outras, pare com 1 a 2 repetições sobrando.',
+  'Quando todas as séries chegarem ao topo da faixa de repetições, suba a carga. O app avisa.',
   'Na dúvida entre uma repetição a mais e uma execução limpa, fique com a execução limpa.',
-  'Progrida uma coisa por vez: primeiro as repetições até o topo da faixa, depois a carga.',
   'Semana ruim de sono ou de trabalho: mantenha os treinos e corte uma série de cada exercício. Faltar custa mais do que treinar leve.',
 ];

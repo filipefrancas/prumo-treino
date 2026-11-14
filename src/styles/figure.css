@@ -35,7 +35,7 @@
 .ui-fig--thumb{width:64px;height:64px;aspect-ratio:1;border-radius:var(--r-sm)}
 /* sem fundo: assume que está sobre um cartão; --fig-bg informa outra cor de fundo para os recortes */
 .ui-fig--plain{--fig-fill:var(--fig-bg,var(--surface));background:transparent;border-radius:0}
-/* sem animação cadastrada: silhueta apagada dentro de uma moldura tracejada */
-.ui-fig--empty{border:1px dashed var(--line);background:transparent}
-.ui-fig--empty svg{opacity:.45}
-.ui-fig--empty.ui-fig--plain{border:0}
+/* sem foto nem animação: quadro neutro com as iniciais do exercício */
+.ui-fig--empty{container-type:inline-size;display:grid;place-items:center;background:var(--fig-fill)}
+.ui-fig-ini{font-family:var(--f-display);font-size:clamp(15px,34cqi,56px);font-weight:700;line-height:1;letter-spacing:.04em;color:var(--muted);opacity:.7;user-select:none}
+.ui-fig--empty.ui-fig--plain{background:transparent}

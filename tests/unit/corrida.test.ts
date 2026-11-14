@@ -408,3 +408,31 @@ describe('corridasPorData', () => {
     expect(corridasPorData(estado()).size).toBe(0);
   });
 });
+
+/* ---------------- "Por que assim" ---------------- */
+
+describe('"Por que assim" de cada corrida', () => {
+  it('todo treino do plano traz o raciocínio, com 2 a 4 frases e sem travessão', async () => {
+    const { ALL_RUNS } = await import('../../src/data/runs.ts');
+    expect(ALL_RUNS.length).toBe(20);
+    const textos = new Set<string>();
+    for (const w of ALL_RUNS) {
+      const t = w.porque ?? '';
+      expect(t.length, w.id).toBeGreaterThan(120);
+      const frases = t.split(/(?<=[.!?])\s+/).filter((f) => f.trim() !== '');
+      expect(frases.length, w.id).toBeGreaterThanOrEqual(2);
+      expect(frases.length, w.id).toBeLessThanOrEqual(4);
+      expect(t, w.id).not.toMatch(/—|–/);
+      textos.add(t);
+    }
+    expect(textos.size).toBe(ALL_RUNS.length); // um texto próprio para cada treino
+  });
+
+  it('o texto fala do dia certo e da musculação vizinha', async () => {
+    const { runById } = await import('../../src/data/runs.ts');
+    expect(runById('c-2026-11-18')?.porque).toMatch(/^Quarta vem dois dias depois do treino de pernas de segunda/);
+    expect(runById('c-2026-11-20')?.porque).toMatch(/peito e costas/);
+    expect(runById('c-2026-11-22')?.porque).toMatch(/braços e ombros/);
+    expect(runById('c-2026-12-27')?.porque).toMatch(/meta do bloco de retorno/);
+  });
+});

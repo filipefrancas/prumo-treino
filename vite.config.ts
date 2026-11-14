@@ -37,7 +37,8 @@ export default defineConfig({
         ],
       },
       workbox: {
-        globPatterns: ['**/*.{js,css,html,woff2,png,svg,webmanifest,json}'],
+        // jpg, jpeg e webp: as fotos dos exercícios (src/assets/fotos) precisam estar no cache para o app funcionar offline
+        globPatterns: ['**/*.{js,css,html,woff2,png,jpg,jpeg,webp,svg,webmanifest,json}'],
         navigateFallback: 'index.html',
         cleanupOutdatedCaches: true,
         clientsClaim: true,

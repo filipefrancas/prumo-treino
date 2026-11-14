@@ -61,7 +61,6 @@ import {
   Nota,
   alvoDoBloco,
   apagarLift,
-  cargaDeRetorno,
   fmtVolume,
   fraseDaSugestao,
   gravarLift,
@@ -160,7 +159,7 @@ function linhasDoBloco(l: Lift, bloco: FichaExercicio[]): Linha[] {
   return out;
 }
 
-/** O que preencher na série n: já gravado → série anterior do mesmo bloco → sugestão (75% na primeira vez) → ficha. */
+/** O que preencher na série n: já gravado → série anterior do mesmo bloco → sugestão → ficha. */
 function valoresDe(l: Lift, ex: FichaExercicio, n: number, info: InfoEx | undefined): Valores {
   const plan = planoDe(ex, n);
   const g = serieGravada(l, ex.id, n);
@@ -168,8 +167,7 @@ function valoresDe(l: Lift, ex: FichaExercicio, n: number, info: InfoEx | undefi
   const anterior = ant?.feito && planoDe(ex, n - 1)?.bloco === plan?.bloco ? ant : undefined;
   const series = info?.sug.series ?? [];
   const sug = series.find((s) => s.n === n) ?? series[series.length - 1];
-  let cargaSug = sug?.carga ?? plan?.carga ?? null;
-  if (cargaSug !== null && cargaSug > 0 && info && !info.ult && ehPrincipal(ex)) cargaSug = cargaDeRetorno(cargaSug);
+  const cargaSug = sug?.carga ?? plan?.carga ?? null;
   const tempo = plan?.segundos ?? null;
   return {
     carga: g?.carga ?? anterior?.carga ?? cargaSug ?? 0,
@@ -1108,7 +1106,7 @@ function FolhaMetodo({ ex, recado, onClose }: { ex: FichaExercicio | undefined; 
           <p>{metodoTexto(ex)}</p>
           {ex.instrucoes ? (
             <div class="mu-bloco">
-              <p class="ui-eyebrow">Instruções do Fabiano</p>
+              <p class="ui-eyebrow">Instruções da ficha</p>
               <p class="ui-muted">{ex.instrucoes}</p>
             </div>
           ) : null}
@@ -1185,7 +1183,7 @@ function FolhaTrocar({ lift, ex, onClose }: { lift: Lift; ex: FichaExercicio | u
         <>
           <p class="ui-muted">Aparelho ocupado? Escolha um substituto para hoje. As séries continuam contando para {ex.nome}.</p>
           {opcoes.length === 0 ? (
-            <Empty icon="trocar" title="Sem substituto cadastrado" text="Para este exercício, o treinador não deixou alternativa. Se precisar, pule e avise na observação." />
+            <Empty icon="trocar" title="Sem substituto cadastrado" text="Este exercício não tem alternativa cadastrada. Se precisar, pule e anote na observação." />
           ) : (
             <List>
               {opcoes.map((id) => {
@@ -1261,7 +1259,7 @@ function FolhaComo({ lift, ex, onClose }: { lift: Lift; ex: FichaExercicio | und
           ) : null}
           {ex.instrucoes && !lift.trocas?.[ex.id] ? (
             <div class="mu-bloco">
-              <p class="ui-eyebrow">Instruções do Fabiano</p>
+              <p class="ui-eyebrow">Instruções da ficha</p>
               <p class="ui-muted">{ex.instrucoes}</p>
             </div>
           ) : null}
@@ -1377,7 +1375,7 @@ function FolhaConcluirAberta(p: Omit<FolhaConcluirProps, 'open'> & { intensidade
 
 function TreinoConcluido({ lift, lifts }: { lift: Lift; lifts: Lift[] }) {
   const volume = volumeDoLift(lift);
-  const anterior = ultimoDaFicha(lifts.filter((l) => l.data <= lift.data), lift.ficha, lift);
+  const anterior = ultimoDaFicha(lifts.filter((l) => l.data <= lift.data), lift.ficha, lift.programa, lift);
   const volAnt = anterior ? volumeDoLift(anterior) : 0;
   const delta = anterior && volAnt > 0 ? (volume - volAnt) / volAnt : undefined;
   const prs: PrDaSessao[] = (lift.prs ?? []).map((p) => ({ ...p }));

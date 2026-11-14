@@ -1,6 +1,6 @@
 import type { Exercise } from '../../types.ts';
 
-/** Ficha C · Peito, ombro e braço. O treinador também chama a máquina de "abdômen bi articular". */
+/** Ficha C · Braços e ombros. Encerra o treino e a semana. */
 const ex: Exercise = {
   id: 'abdominal-maquina',
   name: 'Abdominal na máquina',

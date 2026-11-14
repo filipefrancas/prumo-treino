@@ -1,10 +1,10 @@
 import type { Exercise } from '../../types.ts';
 
-/** Ficha A · Costas e bíceps (faz par com o crucifixo inverso). */
+/** Ficha C · Braços e ombros. Alonga o bíceps: é o que o banco inclinado tem de especial. */
 const ex: Exercise = {
   id: 'rosca-banco-inclinado',
-  name: 'Rosca direta no banco inclinado',
-  aka: ['Rosca direta Banco Inclinado', 'Rosca inclinada com halteres', 'Rosca no banco inclinado'],
+  name: 'Rosca no banco inclinado com halteres',
+  aka: ['Rosca inclinada com halteres', 'Rosca no banco inclinado', 'Rosca direta no banco inclinado'],
   kind: 'forca',
   group: 'biceps',
   muscles: {
@@ -31,8 +31,8 @@ const ex: Exercise = {
   breath: 'Solte o ar ao subir os halteres e puxe o ar na descida.',
   easier: 'Levante um pouco mais o encosto ou suba um braço de cada vez.',
   harder: 'Desça em 3 segundos e pare 1 segundo com os braços estendidos antes de subir de novo.',
-  swap: ['rosca-scott-unilateral'],
-  yt: 'rosca direta banco inclinado com halteres execução',
+  swap: ['rosca-direta-barra', 'rosca-martelo'],
+  yt: 'rosca no banco inclinado com halteres execução',
 };
 
 export default ex;

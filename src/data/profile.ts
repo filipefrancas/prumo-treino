@@ -19,5 +19,8 @@ export const PROFILE: Profile = {
   runDays: [3, 5, 0],
   // segunda, quinta e sábado
   gymDays: [1, 4, 6],
+  // terça: o único dia sem corrida nem musculação
+  stretchDays: [2],
+  stretchRoutine: 'alongamento-completo',
   watch: 'Garmin Venu 2 Plus',
 };

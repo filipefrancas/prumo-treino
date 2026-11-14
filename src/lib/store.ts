@@ -9,6 +9,7 @@
  *   iPhone a gravação no IndexedDB pode não terminar quando o app é fechado, e o espelho (síncrono) termina.
  */
 import { useEffect, useReducer, useRef } from 'preact/hooks';
+import { programaPorId } from '../data/fichas.ts';
 import { ZONES } from '../data/profile.ts';
 import type {
   AppState, DiaPlano, FichaAjuste, HrZone, Lift, MobilityLog, PlanMark, PlanoTipo, RunLog, Settings, WeightLog,
@@ -47,15 +48,15 @@ export function initialState(): AppState {
     alongamentoSeg: 60,
     fcMax: 192,
     zonas: ZONES.map((z) => ({ ...z })),
-    programa: 'hibrido',
+    programa: 'maromba',
     plano: {
       0: { tipo: 'corrida' },
-      1: { tipo: 'musc', ficha: 'B' },
+      1: { tipo: 'musc', ficha: 'A' },
       2: { tipo: 'descanso' },
       3: { tipo: 'corrida' },
-      4: { tipo: 'musc', ficha: 'C' },
+      4: { tipo: 'musc', ficha: 'B' },
       5: { tipo: 'corrida' },
-      6: { tipo: 'musc', ficha: 'A' },
+      6: { tipo: 'musc', ficha: 'C' },
     },
   };
   return { v: SCHEMA_VERSION, criadoEm: Date.now(), settings, runs: [], lifts: [], weights: [], mob: [], marcas: {} };
@@ -138,7 +139,25 @@ function settingsDe(v: unknown, base: Settings): Settings {
     for (const [id, aj] of Object.entries(v.fichas)) if (ehObj(aj)) fichas[id] = aj as FichaAjuste;
     s.fichas = fichas;
   }
-  return s;
+  return migrarPrograma(s, base);
+}
+
+/**
+ * Troca de programa (nov/2026): quem vem de um programa que não existe mais no app (a ficha "hibrido") passa para
+ * o programa atual. As letras mudaram de sentido (A era costas, agora é pernas), então os dias de musculação voltam
+ * às fichas fixas do plano inicial (segunda = A, quinta = B, sábado = C; outro dia de musculação fica na rotação)
+ * e os ajustes de carga e de séries da ficha antiga são descartados. Os treinos gravados não são tocados.
+ */
+function migrarPrograma(s: Settings, base: Settings): Settings {
+  if (programaPorId(s.programa)) return s;
+  const plano: Record<number, DiaPlano> = {};
+  for (const [d, dia] of Object.entries(s.plano)) {
+    const n = Number(d), fixa = base.plano[n]?.ficha;
+    if (dia.tipo !== 'musc' && dia.tipo !== 'ambos') plano[n] = { tipo: dia.tipo };
+    else plano[n] = fixa ? { tipo: dia.tipo, ficha: fixa } : { tipo: dia.tipo };
+  }
+  const { fichas: _descartados, ...resto } = s;
+  return { ...resto, programa: base.programa, plano };
 }
 
 /**

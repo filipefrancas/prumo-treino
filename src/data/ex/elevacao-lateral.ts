@@ -1,10 +1,10 @@
 import type { Exercise } from '../../types.ts';
 
-/** Ficha C · Peito, ombro e braço. */
+/** Ficha C · Braços e ombros. */
 const ex: Exercise = {
   id: 'elevacao-lateral',
   name: 'Elevação lateral com halteres',
-  aka: ['Elevação Lateral com Halteres', 'Elevação lateral', 'Abdução de ombros com halteres'],
+  aka: ['Elevação lateral', 'Abdução de ombros com halteres'],
   kind: 'forca',
   group: 'ombros',
   muscles: {
@@ -31,7 +31,7 @@ const ex: Exercise = {
   breath: 'Solte o ar ao subir os braços e puxe o ar na descida.',
   easier: 'Dobre os cotovelos a 90° para encurtar a alavanca e use halteres mais leves.',
   harder: 'Desça em 3 segundos e pare antes de os halteres encostarem no corpo, sem descansar embaixo.',
-  swap: ['desenvolvimento-maquina'],
+  swap: ['desenvolvimento-halteres', 'desenvolvimento-maquina'],
   yt: 'elevação lateral com halteres execução correta',
 };
 

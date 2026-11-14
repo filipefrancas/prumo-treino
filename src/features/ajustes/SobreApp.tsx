@@ -52,6 +52,7 @@ export function SobreApp() {
       <Card>
         <List>
           <Row leading={<Icon name="info" />} title="Prumo Treino" sub="Corrida, musculação e mobilidade" right={<span class="aj-versao">v{version}</span>} />
+          <Row leading={<Icon name="info" />} title="Fotos dos exercícios" sub="Free Exercise DB (domínio público)" />
           <Row
             leading={<Icon name="ok" />}
             title="Uso sem internet"

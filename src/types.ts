@@ -35,6 +35,10 @@ export interface Profile {
   zones: HrZone[];
   runDays: Weekday[];
   gymDays: Weekday[];
+  /** Dias de alongamento: sem corrida nem musculação, o treino do dia é a rotina `stretchRoutine`. */
+  stretchDays: Weekday[];
+  /** id da rotina (data/routines) feita nos dias de alongamento. */
+  stretchRoutine: string;
   watch: string;
 }
 
@@ -79,6 +83,8 @@ export interface RunWorkout {
   description: string;
   blocks: RunBlock[];
   tips?: string[];
+  /** "Por que assim": o raciocínio do treinador para este treino, neste dia. Aparece sempre na tela do treino. */
+  porque?: string;
   /** Quem montou o treino. */
   source: 'claude' | 'treinador';
   /** Já está no calendário do Garmin Connect. */
@@ -174,9 +180,9 @@ export interface SerieBloco {
 }
 
 export interface FichaExercicio {
-  /** id permanente no formato do Prumo: "h-A-07" (programa-ficha-posição). */
+  /** id permanente: "m-A-01" (programa-ficha-posição). É a chave de `Lift.sets` nos treinos gravados. */
   id: string;
-  /** id do exercício no catálogo deste app (animação em data/anim e textos em data/ex). */
+  /** id do exercício no catálogo deste app (foto em assets/fotos, textos em data/ex e, se houver, animação em data/anim). */
   anim: string;
   nome: string;
   grupo: string;
@@ -194,6 +200,8 @@ export interface Ficha {
   /** Letra da ficha: "A", "B", "C". */
   id: string;
   nome: string;
+  /** "Por que assim": o raciocínio do treinador para esta ficha. Aparece sempre na tela da ficha e em Hoje. */
+  porque?: string;
   exercicios: FichaExercicio[];
 }
 

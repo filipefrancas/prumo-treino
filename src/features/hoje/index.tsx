@@ -16,13 +16,14 @@ import {
 } from '../../lib/academia.ts';
 import { logDoTreino, semanaDoPlano, type Situacao } from '../../lib/corrida.ts';
 import { DIAS_LETRA, diaSemana, fmtData, fmtRelativa, fromISO, hoje, saudacao } from '../../lib/dates.ts';
-import { useAgora } from '../../lib/feedback.ts';
+import { destravarAudio, useAgora } from '../../lib/feedback.ts';
 import { copiar } from '../../lib/files.ts';
 import { fmtMin, kg, num, plural } from '../../lib/format.ts';
-import { agendaDaSemana, resumoDaSemana, type ItemDoDia } from '../../lib/plano.ts';
+import { agendaDaSemana, PORQUE_ALONGAMENTO, resumoDaSemana, type ItemDoDia } from '../../lib/plano.ts';
 import { resumoParaTreinador } from '../../lib/progresso.ts';
+import { go } from '../../lib/router.ts';
 import { useStore } from '../../lib/store.ts';
-import type { AppState, Ficha, ISODate, Lift, RunFamily, RunWorkout } from '../../types.ts';
+import type { AppState, Ficha, ISODate, Lift, Routine, RunFamily, RunWorkout } from '../../types.ts';
 import {
   Button,
   Card,
@@ -32,6 +33,7 @@ import {
   IntensityChart,
   List,
   Pill,
+  PorQue,
   Ring,
   Row,
   Screen,
@@ -261,6 +263,55 @@ function MuscCard({ state, ficha, data, ehHoje, futuro, feito, aberta, agora }: 
   );
 }
 
+/** Dia de alongamento (terça): a rotina é o treino do dia, com um toque para abrir o tocador. */
+function AlongamentoCard({ rotina, ehHoje, futuro, feito }: { rotina: Routine; ehHoje: boolean; futuro: boolean; feito: boolean }) {
+  const posicoes = new Set(rotina.steps.map((p) => p.ex));
+  const pill = feito ? <Pill tone="good">feito</Pill> : ehHoje ? <Pill tone="warn">pendente</Pill> : <Pill>{futuro ? 'planejado' : 'não feito'}</Pill>;
+  const comecar = (): void => {
+    destravarAudio(); // dentro do toque: libera bipes e voz para a rotina guiada
+    go(`/mobilidade/tocar/${rotina.id}`);
+  };
+  return (
+    <Card area="mob" eyebrow="Alongamento · academia do prédio" action={pill}>
+      <div class="hj-topo">
+        <div class="hj-topo-txt">
+          <h3 class="hj-titulo">{rotina.name}</h3>
+          <p class="hj-sub">
+            {plural(posicoes.size, 'posição', 'posições')} no chão, com o timer do app. Leve um colchonete.
+          </p>
+        </div>
+        <div class="hj-min num" aria-label={`${rotina.minutes} minutos`}>
+          {rotina.minutes}
+          <small>min</small>
+        </div>
+      </div>
+      <ul class="hj-thumbs">
+        {[...posicoes].slice(0, 3).map((ex) => (
+          <li key={ex}>
+            <ExMedia id={ex} play="never" tone="mob" />
+          </li>
+        ))}
+      </ul>
+      <div class="hj-acoes">
+        {ehHoje && !feito ? (
+          <Button variant="primary" size="lg" icon="play" onClick={comecar}>
+            Começar alongamento
+          </Button>
+        ) : (
+          <Button href={`/mobilidade/rotina/${rotina.id}`} icon="info">
+            Ver as posições
+          </Button>
+        )}
+      </div>
+      {ehHoje && !feito ? (
+        <a class="ui-link hj-ver-ficha" href={`#/mobilidade/rotina/${rotina.id}`}>
+          ver as posições antes
+        </a>
+      ) : null}
+    </Card>
+  );
+}
+
 function DescansoCard() {
   return (
     <Card eyebrow="Sem treino no plano" action={<Pill icon="descanso">descanso</Pill>}>
@@ -330,6 +381,8 @@ export function HojeScreen() {
   const resumo = resumoDaSemana(state, dia);
   const planCorridas = semana.reduce((n, d) => n + d.itens.filter((i) => i.tipo === 'corrida').length, 0);
   const planMusc = semana.reduce((n, d) => n + d.itens.filter((i) => i.tipo === 'musc').length, 0);
+  // Em dia com musculação não se sugere alongamento, mobilidade nem aquecimento.
+  const temMusc = itemMusc !== undefined;
   const semanaPlano = semanaDoPlano(dia);
   const blocoConcluido = dia > RUN_PLAN.end;
 
@@ -396,7 +449,7 @@ export function HojeScreen() {
             const situacao = item.situacao ?? 'futuro';
             return (
               <Fragment key={item.corrida.id}>
-                {ehHoje && situacao === 'hoje' ? (
+                {ehHoje && situacao === 'hoje' && !temMusc ? (
                   <Sugestoes
                     titulo="Antes de correr"
                     itens={[
@@ -411,7 +464,8 @@ export function HojeScreen() {
                   situacao={situacao}
                   primario={ehHoje && situacao === 'hoje' && !muscPendenteHoje && !avisoSessao}
                 />
-                {situacao === 'feito' ? (
+                <PorQue texto={item.corrida.porque} area="corrida" />
+                {situacao === 'feito' && !temMusc ? (
                   <Sugestoes
                     titulo="Depois da corrida"
                     itens={[{ id: ROTINA.posCorrida, nome: 'Alongamento pós-corrida', sub: 'Com o corpo ainda quente.' }]}
@@ -423,17 +477,18 @@ export function HojeScreen() {
           if (item.tipo === 'musc' && item.ficha) {
             const ficha = muscPendenteHoje && fichaAberta ? fichaAberta : item.ficha;
             return (
-              <MuscCard
-                key={`musc-${ficha.id}`}
-                state={state}
-                ficha={ficha}
-                data={sel}
-                ehHoje={ehHoje}
-                futuro={sel > dia}
-                feito={item.feito}
-                aberta={aberta}
-                agora={agora}
-              />
+              <Fragment key={`musc-${ficha.id}`}>
+                <MuscCard state={state} ficha={ficha} data={sel} ehHoje={ehHoje} futuro={sel > dia} feito={item.feito} aberta={aberta} agora={agora} />
+                <PorQue texto={ficha.porque} area="musc" />
+              </Fragment>
+            );
+          }
+          if (item.tipo === 'mob' && item.rotina) {
+            return (
+              <Fragment key={`mob-${item.rotina.id}`}>
+                <AlongamentoCard rotina={item.rotina} ehHoje={ehHoje} futuro={sel > dia} feito={item.feito} />
+                <PorQue texto={PORQUE_ALONGAMENTO} area="mob" />
+              </Fragment>
             );
           }
           return null;
