@@ -96,11 +96,11 @@ describe('programa Maromba', () => {
     expect(ficha('A').exercicios.map(linha)).toEqual([
       'agachamento-hack 1x12-15+4x8-10 120s',
       'leg-press-45 3x10-12 90s',
-      'elevacao-pelvica 3x8-12 90s',
       'cadeira-extensora 3x12-15 60s',
       'mesa-flexora 4x10-12 75s',
       'stiff-halteres 3x10-12 90s',
       'cadeira-abdutora 3x12-15 60s',
+      'cadeira-adutora 3x12-15 60s',
       'panturrilha-em-pe-maquina 4x12-15 45s',
       'panturrilha-sentado 3x12-15 45s',
     ]);

@@ -187,6 +187,7 @@ estão nas seções acima. Estes exercícios não têm animação: a coluna **mo
 | `mesa-flexora` | Mesa flexora | forca | posterior | foto | Deitado de bruços na mesa flexora, quadril no banco, joelhos dobrados com o rolo perto dos glúteos. |
 | `stiff-halteres` | Stiff com halteres | forca | posterior | foto | Em pé, de lado, tronco inclinado à frente com as costas retas, quadril para trás, halteres na altura das canelas, rente às pernas. |
 | `elevacao-pelvica` | Elevação pélvica com barra | forca | gluteos | foto | Costas apoiadas na lateral do banco, barra sobre o quadril, quadril elevado até o tronco ficar reto. |
+| `cadeira-adutora` | Cadeira adutora | forca | pernas | foto | Sentado na cadeira adutora, pernas fechando as almofadas uma contra a outra. |
 | `cadeira-abdutora` | Cadeira abdutora | forca | gluteos | foto | Sentado na cadeira abdutora, pernas abertas empurrando as almofadas para fora. |
 | `panturrilha-sentado` | Panturrilha sentado | forca | panturrilha | foto | Sentado na máquina, almofadas sobre as coxas, calcanhares elevados na ponta dos pés. |
 | `voador` | Voador (peck deck) | forca | peito | foto | Sentado no voador, costas no encosto, braços fechados à frente do peito. |

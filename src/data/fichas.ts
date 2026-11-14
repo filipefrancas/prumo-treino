@@ -37,15 +37,15 @@ export const PROGRAMAS: Programa[] = [
         id: 'A',
         nome: 'Pernas',
         porque:
-          'Segunda é o dia mais longe do longo de domingo e deixa dois dias até a corrida de quarta, então a perna pesada mora aqui. Começa pelo agachamento no hack, que é o exercício mais pesado e pede perna descansada. O leg press soma volume sem cansar a lombar. A elevação pélvica trabalha o glúteo, que é o motor da corrida. A extensora isola a frente da coxa. Mesa flexora e stiff cuidam da parte de trás, que é o que mais protege quem corre de lesão. A abdutora fortalece a lateral do quadril, que segura o joelho alinhado na passada. A panturrilha fecha em pé e sentado, porque cada posição pega uma parte dela e é ela que mais apanha no asfalto. Não tem falha total na perna: sobram 1 a 2 repetições, para a corrida de quarta não pagar a conta.',
+          'Segunda é o dia mais longe do longo de domingo e deixa dois dias até a corrida de quarta, então a perna pesada mora aqui. Começa pelo agachamento no hack, que é o exercício mais pesado e pede perna descansada. O leg press soma volume sem cansar a lombar. A extensora isola a frente da coxa. Mesa flexora e stiff cuidam da parte de trás, que é o que mais protege quem corre de lesão. A abdutora e a adutora fortalecem os dois lados do quadril, que seguram o joelho alinhado na passada. A panturrilha fecha em pé e sentado, porque cada posição pega uma parte dela e é ela que mais apanha no asfalto. Não tem falha total na perna: sobram 1 a 2 repetições, para a corrida de quarta não pagar a conta.',
         exercicios: [
           ex('m-A-01', 'agachamento-hack', 'Agachamento no hack', 'quadríceps', 'máquina', [leve(40), trab(4, '8-10', 80, 120)]),
           ex('m-A-02', 'leg-press-45', 'Leg press 45°', 'quadríceps', 'máquina', [trab(3, '10-12', 160, 90)]),
-          ex('m-A-07', 'elevacao-pelvica', 'Elevação pélvica com barra', 'glúteo', 'barra', [trab(3, '8-12', 60, 90)]),
           ex('m-A-03', 'cadeira-extensora', 'Cadeira extensora', 'quadríceps', 'máquina', [trab(3, '12-15', 45, 60)]),
           ex('m-A-04', 'mesa-flexora', 'Mesa flexora', 'posterior', 'máquina', [trab(4, '10-12', 35, 75)]),
           ex('m-A-05', 'stiff-halteres', 'Stiff com halteres', 'posterior', 'halteres', [trab(3, '10-12', 18, 90)]),
           ex('m-A-08', 'cadeira-abdutora', 'Cadeira abdutora', 'glúteo', 'máquina', [trab(3, '12-15', 50, 60)]),
+          ex('m-A-07', 'cadeira-adutora', 'Cadeira adutora', 'adutores', 'máquina', [trab(3, '12-15', 50, 60)]),
           ex('m-A-06', 'panturrilha-em-pe-maquina', 'Panturrilha em pé na máquina', 'panturrilha', 'máquina', [trab(4, '12-15', 60, 45)]),
           ex('m-A-09', 'panturrilha-sentado', 'Panturrilha sentado', 'panturrilha', 'máquina', [trab(3, '12-15', 40, 45)]),
         ],
