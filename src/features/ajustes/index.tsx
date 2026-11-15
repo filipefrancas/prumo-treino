@@ -22,6 +22,7 @@ import {
   Toggle,
 } from '../../ui/index.ts';
 import { Dados } from './Dados.tsx';
+import { Relogio } from './Relogio.tsx';
 import { SobreApp } from './SobreApp.tsx';
 import './ajustes.css';
 
@@ -260,6 +261,7 @@ export function AjustesScreen() {
         </Card>
       </Section>
 
+      <Relogio />
       <Dados />
       <SobreApp />
 

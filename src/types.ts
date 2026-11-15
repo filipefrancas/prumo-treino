@@ -144,6 +144,8 @@ export interface RunLog {
   sensacao?: 1 | 2 | 3 | 4 | 5;
   local?: 'rua' | 'esteira';
   fcMax?: number;
+  /** id da atividade no intervals.icu, quando a corrida veio do relógio (Garmin). */
+  garminId?: string;
 }
 
 /** Peso registrado (igual ao Prumo). */

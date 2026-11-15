@@ -11,9 +11,12 @@ import './styles/viz.css';
 import './styles/figure.css';
 import './styles/media.css';
 import { App } from './app.tsx';
+import { textoDoResultado } from './features/ajustes/Relogio.tsx';
+import { ligarSyncAutomatico } from './lib/garmin.ts';
 import { carregarMidia } from './lib/midia.ts';
 import { marcarOfflineReady, observarServiceWorker } from './lib/pwa.ts';
 import { getState, loadState, subscribe } from './lib/store.ts';
+import { toast } from './ui/index.ts';
 import type { Settings } from './types.ts';
 
 type Tema = Settings['tema'];
@@ -88,6 +91,8 @@ async function iniciar(): Promise<void> {
   registrarServiceWorker();
   const raiz = document.getElementById('app');
   if (raiz) render(<App />, raiz);
+  // Corridas do relógio (Garmin, pelo intervals.icu): busca ao abrir e ao voltar para o app.
+  ligarSyncAutomatico((r) => toast(textoDoResultado(r), { tone: 'ok', ms: 4000 }));
 }
 
 void iniciar();
