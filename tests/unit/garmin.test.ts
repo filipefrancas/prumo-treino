@@ -69,7 +69,7 @@ describe('juntarAtividades', () => {
   it('liga a corrida ao treino do plano do dia e marca como feito', () => {
     const s = novo();
     const r = juntarAtividades(s, [LONGO_15, CAMINHADA]);
-    expect(r).toEqual({ novas: 1, completadas: 0 });
+    expect(r).toEqual({ novas: 1, completadas: 0, caminhadas: 1 });
     expect(s.runs).toHaveLength(1);
     expect(s.runs[0]?.treinoId).toBe('c-2026-11-15');
     expect(s.runs[0]?.tipo).toBe('Longão');
@@ -79,7 +79,7 @@ describe('juntarAtividades', () => {
   it('não duplica na segunda busca', () => {
     const s = novo();
     juntarAtividades(s, [LONGO_15]);
-    expect(juntarAtividades(s, [LONGO_15])).toEqual({ novas: 0, completadas: 0 });
+    expect(juntarAtividades(s, [LONGO_15])).toEqual({ novas: 0, completadas: 0, caminhadas: 0 });
     expect(s.runs).toHaveLength(1);
   });
 
@@ -87,9 +87,23 @@ describe('juntarAtividades', () => {
     const s = novo();
     s.runs.push({ id: 'm1', data: '2026-11-15', tipo: 'Longão', fonte: 'treino', min: 21, pse: 7, obs: 'quente', treinoId: 'c-2026-11-15' });
     s.marcas['c-2026-11-15'] = 'feito';
-    expect(juntarAtividades(s, [LONGO_15])).toEqual({ novas: 0, completadas: 1 });
+    expect(juntarAtividades(s, [LONGO_15])).toEqual({ novas: 0, completadas: 1, caminhadas: 0 });
     expect(s.runs).toHaveLength(1);
     expect(s.runs[0]).toMatchObject({ id: 'm1', min: 20, km: 3.19, fc: 153, pse: 7, obs: 'quente', garminId: 'i1001', treinoId: 'c-2026-11-15' });
+  });
+
+  it('caminhada do mesmo dia entra junto da corrida, uma vez só', () => {
+    const s = novo();
+    juntarAtividades(s, [LONGO_15, CAMINHADA]);
+    expect(s.runs[0]?.caminhada).toEqual({ garminId: 'i1002', km: 2.34, min: 30 });
+    expect(juntarAtividades(s, [LONGO_15, CAMINHADA]).caminhadas).toBe(0);
+  });
+
+  it('caminhada sem corrida no dia fica de fora e entra quando a corrida chegar', () => {
+    const s = novo();
+    expect(juntarAtividades(s, [CAMINHADA])).toEqual({ novas: 0, completadas: 0, caminhadas: 0 });
+    expect(s.runs).toHaveLength(0);
+    expect(juntarAtividades(s, [CAMINHADA, LONGO_15])).toEqual({ novas: 1, completadas: 0, caminhadas: 1 });
   });
 
   it('segunda corrida no mesmo dia entra avulsa', () => {

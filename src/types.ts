@@ -146,6 +146,8 @@ export interface RunLog {
   fcMax?: number;
   /** id da atividade no intervals.icu, quando a corrida veio do relógio (Garmin). */
   garminId?: string;
+  /** Caminhada gravada no relógio no mesmo dia (aquecimento ou volta à calma), vinda do Garmin. */
+  caminhada?: { garminId: string; km?: number; min?: number; fc?: number };
 }
 
 /** Peso registrado (igual ao Prumo). */

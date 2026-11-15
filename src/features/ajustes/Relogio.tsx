@@ -13,6 +13,7 @@ export function textoDoResultado(r: ResultadoSync): string {
   const partes: string[] = [];
   if (r.novas > 0) partes.push(plural(r.novas, 'corrida nova do relógio', 'corridas novas do relógio'));
   if (r.completadas > 0) partes.push(`${plural(r.completadas, 'registro completado', 'registros completados')} com os dados do relógio`);
+  if (r.caminhadas > 0) partes.push(plural(r.caminhadas, 'caminhada junto da corrida', 'caminhadas junto das corridas'));
   return partes.length > 0 ? `${partes.join(' e ')}.`.replace(/^./, (c) => c.toUpperCase()) : 'Tudo em dia: nenhuma corrida nova no relógio.';
 }
 
@@ -47,7 +48,7 @@ export function Relogio() {
   const buscarAgora = async (): Promise<void> => {
     try {
       const r = await sincronizar();
-      toast(textoDoResultado(r), { tone: r.novas + r.completadas > 0 ? 'ok' : 'info', ms: 4000 });
+      toast(textoDoResultado(r), { tone: r.novas + r.completadas + r.caminhadas > 0 ? 'ok' : 'info', ms: 4000 });
     } catch (e) {
       toast(e instanceof FalhaGarmin ? e.message : 'Não deu certo. Tente de novo.', { tone: 'erro', ms: 6000 });
     }

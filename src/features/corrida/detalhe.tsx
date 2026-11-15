@@ -68,6 +68,13 @@ function Resumo({ log, onEditar }: { log: RunLog; onEditar: () => void }) {
   if (log.sensacao) detalhes.push(`Sentiu-se: ${(SENSACAO_ROTULO[log.sensacao] ?? '').toLowerCase()}`);
   if (log.local) detalhes.push(log.local === 'esteira' ? 'Esteira' : 'Rua');
   if (log.fc !== undefined) detalhes.push(`FC média ${num(log.fc, 0)} bpm`);
+  if (log.fcMax !== undefined) detalhes.push(`máxima ${num(log.fcMax, 0)} bpm`);
+  const cam = log.caminhada;
+  const caminhada = cam
+    ? [cam.km !== undefined ? `${num(cam.km, 2)} km` : '', cam.min !== undefined ? `em ${fmtMin(cam.min)}` : '', cam.fc !== undefined ? `· FC média ${num(cam.fc, 0)} bpm` : '']
+        .filter(Boolean)
+        .join(' ')
+    : undefined;
   return (
     <Card
       area="corrida"
@@ -84,6 +91,11 @@ function Resumo({ log, onEditar }: { log: RunLog; onEditar: () => void }) {
         <Stat label="PSE" value={log.pse !== undefined ? num(log.pse) : null} unit="de 10" />
       </StatRow>
       {detalhes.length ? <p class="ui-note ui-mt">{detalhes.join(' · ')}</p> : null}
+      {caminhada ? (
+        <p class="ui-note ui-mt-sm">
+          <b>Caminhada no mesmo dia:</b> {caminhada}
+        </p>
+      ) : null}
       {log.obs ? <p class="co-nota ui-mt-sm">{log.obs}</p> : null}
     </Card>
   );

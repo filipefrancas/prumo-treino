@@ -25,6 +25,7 @@ const DIAS_FOLGA = 3;
 /** Intervalo mínimo entre buscas automáticas. */
 const INTERVALO_AUTO_MS = 10 * 60 * 1000;
 const TIPOS_CORRIDA = new Set(['Run', 'TrailRun', 'VirtualRun', 'TreadmillRun']);
+const TIPOS_CAMINHADA = new Set(['Walk', 'Hike']);
 
 export interface GarminConfig {
   chave: string;
@@ -141,12 +142,28 @@ function mesmaCorrida(a: RunLog, b: Omit<RunLog, 'id'>): boolean {
 
 const DO_RELOGIO = ['km', 'min', 'fc', 'fcMax', 'elev', 'cad'] as const;
 
+/** Caminhada do relógio → resumo para pendurar na corrida do mesmo dia. */
+export function caminhadaDaAtividade(a: Atividade): ({ data: ISODate } & NonNullable<RunLog['caminhada']>) | undefined {
+  if (!a || !TIPOS_CAMINHADA.has(String(a.type)) || typeof a.start_date_local !== 'string') return undefined;
+  const data = a.start_date_local.slice(0, 10);
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(data)) return undefined;
+  const seg = num(a.moving_time) ?? num(a.elapsed_time);
+  const metros = num(a.distance);
+  if (seg === undefined && metros === undefined) return undefined;
+  const c: { data: ISODate } & NonNullable<RunLog['caminhada']> = { data, garminId: String(a.id) };
+  if (metros !== undefined) c.km = r2(metros / 1000);
+  if (seg !== undefined) c.min = r1(seg / 60);
+  const fc = num(a.average_heartrate);
+  if (fc !== undefined) c.fc = Math.round(fc);
+  return c;
+}
+
 /**
  * Junta as atividades ao estado (muda `draft`). Devolve quantas corridas entraram novas e quantas existentes
  * foram completadas com os números do relógio.
  */
-export function juntarAtividades(draft: AppState, atividades: Atividade[]): { novas: number; completadas: number } {
-  let novas = 0, completadas = 0;
+export function juntarAtividades(draft: AppState, atividades: Atividade[]): { novas: number; completadas: number; caminhadas: number } {
+  let novas = 0, completadas = 0, caminhadas = 0;
   const vistas = new Set(draft.runs.map((r) => r.garminId).filter((x): x is string => typeof x === 'string'));
   const lista = atividades
     .map(corridaDaAtividade)
@@ -179,7 +196,22 @@ export function juntarAtividades(draft: AppState, atividades: Atividade[]): { no
     draft.runs.push(registro);
     novas += 1;
   }
-  return { novas, completadas };
+
+  // Caminhada no mesmo dia de uma corrida entra junto dela. Sem corrida no dia, fica de fora (e é tentada de
+  // novo na próxima busca, caso a corrida ainda não tenha sincronizado).
+  const comCaminhada = new Set(draft.runs.map((r) => r.caminhada?.garminId).filter((x): x is string => typeof x === 'string'));
+  for (const a of atividades) {
+    const c = caminhadaDaAtividade(a);
+    if (!c || comCaminhada.has(c.garminId)) continue;
+    const alvo = draft.runs.find((r) => r.data === c.data && r.caminhada === undefined && r.garminId !== undefined)
+      ?? draft.runs.find((r) => r.data === c.data && r.caminhada === undefined);
+    if (!alvo) continue;
+    const { data: _d, ...resto } = c;
+    alvo.caminhada = resto;
+    comCaminhada.add(c.garminId);
+    caminhadas += 1;
+  }
+  return { novas, completadas, caminhadas };
 }
 
 /* ------------------------------------------------------------------ */
@@ -230,7 +262,7 @@ export async function buscarAtividades(chave: string, de: ISODate, ate: ISODate,
 /* Sincronizar                                                         */
 /* ------------------------------------------------------------------ */
 
-export interface ResultadoSync { novas: number; completadas: number }
+export interface ResultadoSync { novas: number; completadas: number; caminhadas: number }
 
 let emCurso: Promise<ResultadoSync> | null = null;
 let ultimoErro: string | undefined;
@@ -254,10 +286,10 @@ export function sincronizar(opts: { chaveNova?: string; f?: typeof fetch } = {})
   emCurso = (async () => {
     try {
       const atividades = await buscarAtividades(chave, de, dia, opts.f);
-      let res: ResultadoSync = { novas: 0, completadas: 0 };
+      let res: ResultadoSync = { novas: 0, completadas: 0, caminhadas: 0 };
       const previa = structuredClone(getState());
       const teste = juntarAtividades(previa, atividades);
-      if (teste.novas + teste.completadas > 0) {
+      if (teste.novas + teste.completadas + teste.caminhadas > 0) {
         update((d) => {
           res = juntarAtividades(d, atividades);
         });
@@ -297,7 +329,7 @@ export function ligarSyncAutomatico(aoTrazer: (r: ResultadoSync) => void): void 
     if (c.ultima !== undefined && Date.now() - c.ultima < INTERVALO_AUTO_MS) return;
     sincronizar()
       .then((r) => {
-        if (r.novas + r.completadas > 0) aoTrazer(r);
+        if (r.novas + r.completadas + r.caminhadas > 0) aoTrazer(r);
       })
       .catch(() => {
         /* o erro fica em erroGarmin() e aparece em Ajustes */
