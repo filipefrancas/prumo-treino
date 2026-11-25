@@ -197,6 +197,8 @@ estão nas seções acima. Estes exercícios não têm animação: a coluna **mo
 | `supino-reto-barra` | Supino reto com barra | forca | peito | foto | Deitado no banco reto, pés no chão, barra perto do meio do peito, cotovelos a uns 45° do tronco. |
 | `puxada-frente` | Puxada na frente com pegada aberta | forca | costas | foto | Sentado na puxada alta, coxas sob o rolo, pegada aberta, barra na parte alta do peito e cotovelos apontando para baixo. |
 | `supino-inclinado-halteres` | Supino inclinado com halteres | forca | peito | foto | Deitado no banco inclinado a uns 30 a 45°, um halter em cada mão ao lado do peito, cotovelos abaixo das mãos. |
+| `remada-unilateral-halter` | Remada unilateral com halter (serrote) | forca | costas | foto | Mão e joelho no banco, costas retas, halter puxado até a cintura. |
+| `crucifixo-inverso-voador` | Crucifixo inverso no voador | forca | ombros | foto | Sentado de frente para o encosto do voador, braços abertos para trás na linha dos ombros. |
 | `remada-curvada` | Remada curvada com barra | forca | costas | foto | Em pé, de lado, tronco inclinado a uns 45° com as costas retas, barra puxada até o umbigo, cotovelos rente ao corpo. |
 | `crossover` | Crossover na polia | forca | peito | foto | Em pé entre as duas polias altas, um pé à frente, braços fechados à frente do corpo com as mãos juntas na altura do umbigo. |
 | `remada-baixa` | Remada baixa na polia | forca | costas | foto | Sentado de frente para a polia baixa, pés no apoio, tronco reto, triângulo puxado até a barriga. |

@@ -54,17 +54,17 @@ export const PROGRAMAS: Programa[] = [
         id: 'B',
         nome: 'Peito e costas',
         porque:
-          'Quinta fica entre a corrida de quarta e a de sexta, então é só tronco e a perna descansa. Peito e costas ficam no mesmo dia para liberar o sábado inteiro para os braços. Os dois se revezam: enquanto o peito trabalha, as costas descansam, e o treino rende mais em menos tempo. Supino reto e puxada abrem porque são os mais pesados. Supino inclinado e remada curvada vêm em seguida, e crossover, voador, remada baixa, pullover e face pull fecham com menos carga e mais repetição. O voador e o pullover trabalham peito e costas sem gastar tríceps e bíceps, que ficam inteiros para o sábado. O face pull cuida da postura dos ombros.',
+          'Quinta fica entre a corrida de quarta e a de sexta, então é só tronco e a perna descansa. Peito e costas ficam no mesmo dia para liberar o sábado inteiro para os braços. Os dois se revezam: enquanto o peito trabalha, as costas descansam, e o treino rende mais em menos tempo. Supino reto e puxada abrem porque são os mais pesados. Supino inclinado e remada unilateral com halter (o serrote, que deixa ir pesado sem carregar a lombar) vêm em seguida, e crossover, voador, remada baixa, pullover e crucifixo inverso fecham com menos carga e mais repetição. O voador e o pullover trabalham peito e costas sem gastar tríceps e bíceps, que ficam inteiros para o sábado. O crucifixo inverso no voador cuida da postura dos ombros e é feito com o abdômen firme, sem encostar o peito na almofada.',
         exercicios: [
           ex('m-B-01', 'supino-reto-barra', 'Supino reto com barra', 'peito', 'barra', [leve(30), trab(4, '6-10', 60, 120)]),
           ex('m-B-02', 'puxada-frente', 'Puxada na frente com pegada aberta', 'costas', 'polia', [trab(4, '8-12', 50, 90)]),
           ex('m-B-03', 'supino-inclinado-halteres', 'Supino inclinado com halteres', 'peito', 'halteres', [trab(3, '8-12', 20, 90)]),
-          ex('m-B-04', 'remada-curvada', 'Remada curvada com barra', 'costas', 'barra', [trab(4, '8-10', 40, 120)]),
+          ex('m-B-10', 'remada-unilateral-halter', 'Remada unilateral com halter (serrote)', 'costas', 'halter', [trab(4, '8-10', 24, 90)]),
           ex('m-B-05', 'crossover', 'Crossover na polia', 'peito', 'polia', [trab(3, '12-15', 15, 60)]),
           ex('m-B-08', 'voador', 'Voador (peck deck)', 'peito', 'máquina', [trab(3, '12-15', 40, 60)]),
           ex('m-B-06', 'remada-baixa', 'Remada baixa na polia', 'costas', 'polia', [trab(3, '10-12', 45, 90)]),
           ex('m-B-09', 'pullover-polia', 'Pullover na polia', 'costas', 'polia', [trab(3, '12-15', 25, 60)]),
-          ex('m-B-07', 'face-pull', 'Face pull na polia', 'ombro', 'polia', [trab(3, '12-15', 15, 60)]),
+          ex('m-B-11', 'crucifixo-inverso-voador', 'Crucifixo inverso no voador', 'ombro', 'máquina', [trab(3, '12-15', 25, 60)]),
         ],
       },
       {
@@ -117,6 +117,9 @@ export const PROGRAMA_ANTIGO = 'hibrido';
  * esta tabela dá nome a esses registros e mantém a contagem de séries de trabalho que eles tinham.
  */
 export const EXERCICIOS_ANTIGOS: Record<string, ExercicioAntigo> = {
+  // Saíram da ficha B em 25/11/2026 (entraram o serrote e o crucifixo inverso no voador).
+  'm-B-04': { nome: 'Remada curvada com barra', anim: 'remada-curvada' },
+  'm-B-07': { nome: 'Face pull na polia', anim: 'face-pull' },
   'h-A-01': { nome: 'Alongamento de peitoral no espaldar', anim: 'alongamento-peitoral-espaldar', aquecimento: 'todas' },
   'h-A-02': { nome: 'Alongamento de dorsal no espaldar', anim: 'alongamento-dorsal-espaldar', aquecimento: 'todas' },
   'h-A-03': { nome: 'Mobilidade de ombro com bastão', anim: 'mobilidade-ombro-bastao', aquecimento: 'todas' },

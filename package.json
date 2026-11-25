@@ -1,7 +1,7 @@
 {
   "name": "prumo-treino",
   "private": true,
-  "version": "1.4.1",
+  "version": "1.4.2",
   "type": "module",
   "description": "Prumo Treino: app pessoal de corrida, musculação e mobilidade (PWA offline).",
   "scripts": {

@@ -108,12 +108,12 @@ describe('programa Maromba', () => {
       'supino-reto-barra 1x12-15+4x6-10 120s',
       'puxada-frente 4x8-12 90s',
       'supino-inclinado-halteres 3x8-12 90s',
-      'remada-curvada 4x8-10 120s',
+      'remada-unilateral-halter 4x8-10 90s',
       'crossover 3x12-15 60s',
       'voador 3x12-15 60s',
       'remada-baixa 3x10-12 90s',
       'pullover-polia 3x12-15 60s',
-      'face-pull 3x12-15 60s',
+      'crucifixo-inverso-voador 3x12-15 60s',
     ]);
     expect(ficha('C').exercicios.map(linha)).toEqual([
       'desenvolvimento-halteres 1x12-15+3x8-12 90s',
@@ -131,7 +131,12 @@ describe('programa Maromba', () => {
   it('ids novos e permanentes, tudo principal, sem pares nem métodos', () => {
     for (const f of p?.fichas ?? []) {
       // Os ids não seguem a ordem da ficha: exercício que entra depois ganha o número seguinte e não renumera os outros.
-      expect(f.exercicios.map((e) => e.id).sort()).toEqual(f.exercicios.map((_, i) => `m-${f.id}-${String(i + 1).padStart(2, '0')}`));
+      // Exercício trocado por outro bem diferente também ganha id novo, e o antigo se aposenta
+      // (fica em EXERCICIOS_ANTIGOS para o histórico não misturar as cargas).
+      const ids = f.exercicios.map((e) => e.id);
+      expect(new Set(ids).size).toBe(9);
+      for (const id of ids) expect(id.startsWith(`m-${f.id}-`)).toBe(true);
+      if (f.id === 'B') expect([...ids].sort()).toEqual(['m-B-01', 'm-B-02', 'm-B-03', 'm-B-05', 'm-B-06', 'm-B-08', 'm-B-09', 'm-B-10', 'm-B-11']);
       f.exercicios.forEach((e) => {
         expect(e.anim).toMatch(/^[a-z0-9]+(-[a-z0-9]+)*$/);
         expect(e.equipamento).toBeTruthy();
@@ -173,7 +178,7 @@ describe('programa Maromba', () => {
     expect(carga('m-A-02')).toBe(160); // leg press: 200 era otimista para 10-12 depois da pausa
     expect(carga('m-C-02')).toBe(10); // elevação lateral
     expect(carga('m-C-05')).toBe(14); // rosca no banco inclinado
-    expect(carga('m-B-07')).toBe(15); // face pull
+    expect(carga('m-B-11')).toBe(25); // crucifixo inverso no voador
     expect(carga('m-C-09')).toBe(20); // abdominal
   });
 
@@ -202,10 +207,10 @@ describe('programa Maromba', () => {
 });
 
 describe('ficha antiga no histórico', () => {
-  it('a tabela cobre os 36 ids antigos e dá nome a cada um', () => {
-    expect(Object.keys(EXERCICIOS_ANTIGOS)).toHaveLength(36);
+  it('a tabela cobre os 36 ids da ficha antiga e os 2 aposentados da atual, e dá nome a cada um', () => {
+    expect(Object.keys(EXERCICIOS_ANTIGOS)).toHaveLength(38);
     for (const [id, e] of Object.entries(EXERCICIOS_ANTIGOS)) {
-      expect(id).toMatch(/^h-[ABC]-\d{2}$/);
+      expect(id).toMatch(/^(h-[ABC]-\d{2}|m-B-0[47])$/);
       expect(e.nome.length).toBeGreaterThan(5);
       expect(exById(e.anim), e.anim).toBeDefined();
     }
