@@ -59,12 +59,12 @@ function nomeGravado(exId: string, gravado: string): string {
 }
 
 function comecar(letra: string): void {
-  destravarAudio();
+  destravarAudio({ voz: false });
   go(`/musculacao/sessao?ficha=${encodeURIComponent(letra)}`);
 }
 
 function continuar(): void {
-  destravarAudio();
+  destravarAudio({ voz: false });
   go('/musculacao/sessao');
 }
 

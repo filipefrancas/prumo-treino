@@ -37,14 +37,18 @@ function retomar(c: AudioContext): void {
 }
 
 /**
- * Chamar dentro do toque em "Começar": cria ou retoma o AudioContext, define a sessão de áudio como 'playback'
- * (o bipe toca com o iPhone no silencioso) e prepara a voz.
+ * Chamar dentro do toque em "Começar": cria ou retoma o AudioContext e prepara a voz.
+ *
+ * A sessão de áudio fica como 'ambient': os bipes e a voz se misturam com a música que já está tocando
+ * (Spotify etc.) em vez de pausá-la. O tipo 'playback', usado antes, faz o iPhone parar a música do outro app
+ * no primeiro toque. O preço é o bipe seguir a chave de silencioso do iPhone.
+ * `voz: false` não prepara a voz (a musculação não fala; a fala muda também interrompe a música no iPhone).
  */
-export function destravarAudio(): void {
+export function destravarAudio(opcoes: { voz?: boolean } = {}): void {
   try {
     if (typeof navigator !== 'undefined') {
       const nav = navigator as Navigator & { audioSession?: { type: string } };
-      if (nav.audioSession) nav.audioSession.type = 'playback';
+      if (nav.audioSession) nav.audioSession.type = 'ambient';
     }
   } catch {
     /* sem audioSession */
@@ -69,7 +73,7 @@ export function destravarAudio(): void {
     const synth = sintetizador();
     if (synth) {
       synth.getVoices(); // dispara o carregamento da lista de vozes
-      if (getState().settings.voz && !synth.speaking) {
+      if (opcoes.voz !== false && getState().settings.voz && !synth.speaking) {
         // Fala muda dentro do toque: libera a voz para as falas disparadas depois por cronômetro.
         const u = new SpeechSynthesisUtterance(' ');
         u.volume = 0;

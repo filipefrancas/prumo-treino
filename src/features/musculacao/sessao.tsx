@@ -186,6 +186,18 @@ function comValores(l: Lift, exId: string, n: number, v: { carga?: number; reps?
   return { ...l, sets: { ...(l.sets ?? {}), [exId]: { ...(l.sets?.[exId] ?? {}), [String(n)]: serie } } };
 }
 
+/** Repete a carga nas séries depois de n do mesmo bloco (aquecimento e trabalho não se misturam) ainda não feitas. */
+function cargaNasSeguintes(l: Lift, ex: FichaExercicio, n: number, carga: number): Lift {
+  const bloco = planoDe(ex, n)?.bloco;
+  let out = l;
+  for (let k = n + 1; k <= numSeries(out, ex); k++) {
+    if (planoDe(ex, k)?.bloco !== bloco) break;
+    if (serieGravada(out, ex.id, k)?.feito === true) continue;
+    out = comValores(out, ex.id, k, { carga });
+  }
+  return out;
+}
+
 /** Tira a série n do registro (série acrescentada que não vai ser feita). */
 function semSerie(l: Lift, exId: string, n: number): Lift {
   const doEx = { ...(l.sets?.[exId] ?? {}) };
@@ -248,7 +260,7 @@ export function SessaoScreen() {
               variant="primary"
               icon="play"
               onClick={() => {
-                destravarAudio();
+                destravarAudio({ voz: false });
                 go(`/musculacao/sessao?ficha=${sugerida.id}`, { replace: true });
               }}
             >
@@ -375,7 +387,7 @@ function Sessao({ lift, ficha, lifts, settings, onConcluir, onDescartar }: Sessa
 
   // O som só toca depois de um toque: o primeiro toque na tela libera os bipes do descanso.
   useEffect(() => {
-    const liberar = (): void => destravarAudio();
+    const liberar = (): void => destravarAudio({ voz: false });
     document.addEventListener('pointerdown', liberar, { once: true });
     document.documentElement.classList.add('mu-em-sessao');
     return () => {
@@ -416,7 +428,13 @@ function Sessao({ lift, ficha, lifts, settings, onConcluir, onDescartar }: Sessa
 
   const editar = (ex: FichaExercicio, n: number, v: { carga?: number; reps?: number }): void => {
     const base = valores(ex, n);
-    gravarLift(lift.id, (l) => comValores(l, ex.id, n, { carga: base.temCarga ? base.carga : undefined, reps: base.tempo === null ? base.reps : undefined, ...v }));
+    gravarLift(lift.id, (l) => {
+      let out = comValores(l, ex.id, n, { carga: base.temCarga ? base.carga : undefined, reps: base.tempo === null ? base.reps : undefined, ...v });
+      // Peso novo vale também para as séries seguintes do mesmo bloco que ainda não foram feitas:
+      // quem acerta a carga repete nas outras séries e só mexe se ficar leve ou pesado demais.
+      if (v.carga !== undefined) out = cargaNasSeguintes(out, ex, n, v.carga);
+      return out;
+    });
   };
 
   const marcar = (linha: Linha, bloco: FichaExercicio[]): void => {
@@ -884,7 +902,7 @@ function Preparacao({ lift, itens }: { lift: Lift; itens: FichaExercicio[] }) {
                       class="mu-tempo"
                       aria-label={`Cronômetro de ${seg} segundos: ${ex.nome}`}
                       onClick={() => {
-                        destravarAudio();
+                        destravarAudio({ voz: false });
                         const agora = Date.now();
                         setTimer({ exId: ex.id, inicio: agora, fim: agora + seg * 1000 });
                       }}

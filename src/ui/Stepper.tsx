@@ -98,13 +98,6 @@ export function Stepper({ value, onChange, step, min, max, unit, label, big = fa
   });
 
   const editing = text !== null;
-  useEffect(() => {
-    if (!editing) return;
-    const el = inputRef.current;
-    if (!el) return;
-    el.focus();
-    el.select();
-  }, [editing]);
 
   const commit = (): void => {
     if (text === null) return;
@@ -115,11 +108,27 @@ export function Stepper({ value, onChange, step, min, max, unit, label, big = fa
     if (next !== valueRef.current) onChangeRef.current(next);
   };
 
+  /**
+   * O valor é sempre um campo de texto de verdade: no iPhone o teclado só abre quando o próprio toque cai num
+   * campo (focar depois, por código, mostra o campo sem teclado). Fora da edição ele só exibe o número.
+   */
+  const comecar = (e: FocusEvent): void => {
+    const el = e.currentTarget as HTMLInputElement;
+    setText(fmtNum(valueRef.current));
+    window.setTimeout(() => {
+      try {
+        el.setSelectionRange(0, el.value.length);
+      } catch {
+        /* sem seleção */
+      }
+    }, 0);
+  };
   const shown = format(value);
   return (
     <div class={cx('ui-stepper', big && 'is-big')}>
       <span class={hideLabel ? 'sr-only' : 'ui-label'} id={id}>
         {label}
+        {unit ? <span class="ui-stepper-unit"> ({unit})</span> : null}
       </span>
       <div class={cx('ui-stepper-ctl', editing && 'is-editing')} role="group" aria-labelledby={id}>
         <button
@@ -131,7 +140,7 @@ export function Stepper({ value, onChange, step, min, max, unit, label, big = fa
         >
           <Icon name="menos" size={big ? 24 : 20} />
         </button>
-        {editing ? (
+        <label class="ui-stepper-val num">
           <input
             ref={inputRef}
             class="ui-stepper-input num"
@@ -139,33 +148,24 @@ export function Stepper({ value, onChange, step, min, max, unit, label, big = fa
             inputMode={casasDe(step) > 0 ? 'decimal' : 'numeric'}
             autocomplete="off"
             enterkeyhint="done"
-            aria-label={label}
-            value={text}
+            aria-label={`${label}${unit ? ` em ${unit}` : ''}`}
+            value={text ?? shown}
+            onFocus={comecar}
             onInput={(e) => setText(e.currentTarget.value)}
             onBlur={commit}
             onKeyDown={(e) => {
               if (e.key === 'Enter') {
                 e.preventDefault();
                 commit();
+                e.currentTarget.blur();
               } else if (e.key === 'Escape') {
                 e.stopPropagation();
                 setText(null);
+                e.currentTarget.blur();
               }
             }}
           />
-        ) : (
-          <button
-            type="button"
-            class="ui-stepper-val num"
-            aria-label={`${label}: ${shown}${unit ? ` ${unit}` : ''}. Toque para digitar`}
-            onClick={() => setText(fmtNum(value))}
-          >
-            <span class="ui-stepper-num">
-              <b>{shown}</b>
-              {unit ? <small>{unit}</small> : null}
-            </span>
-          </button>
-        )}
+        </label>
         <button
           type="button"
           class="ui-stepper-btn"

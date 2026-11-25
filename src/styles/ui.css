@@ -207,17 +207,19 @@ input[type="date"].ui-input::-webkit-date-and-time-value{text-align:left;min-hei
 .ui-stepper-btn:active{background:var(--surface-3);color:var(--fg)}
 .ui-stepper-btn:disabled{opacity:.3}
 .ui-stepper-btn:focus-visible,.ui-stepper-val:focus-visible{outline-offset:-3px}
-.ui-stepper-val{display:flex;align-items:center;justify-content:center;min-width:0;padding:0 4px;border:0;border-inline:1px solid var(--line-soft);background:none;color:var(--fg);font:600 22px/1 var(--f-display);white-space:nowrap}
+.ui-stepper-val{position:relative;display:flex;align-items:stretch;min-width:0;padding:0;border:0;border-inline:1px solid var(--line-soft);background:none;color:var(--fg);font:600 22px/1 var(--f-display);white-space:nowrap;cursor:text}
 .ui-stepper-num{display:inline-flex;align-items:baseline;gap:4px}
 .ui-stepper-val b{font-weight:600}
 .ui-stepper-val small{font:500 var(--fs-xs)/1 var(--f-body);color:var(--muted)}
-.ui-stepper-input{width:100%;min-width:0;padding:0 4px;border:0;border-inline:1px solid var(--line-soft);border-radius:0;background:var(--surface);color:var(--fg);font:600 22px/1 var(--f-display);text-align:center;outline:none;-webkit-appearance:none;appearance:none}
+.ui-stepper-input{flex:1;width:100%;min-width:0;height:auto;margin:0;padding:0 4px;border:0;border-radius:0;background:transparent;color:inherit;font:inherit;text-align:center;outline:none;caret-color:var(--accent);-webkit-appearance:none;appearance:none;-webkit-user-select:text;user-select:text}
+.ui-stepper-unit{font-weight:400;color:var(--muted)}
+.ui-stepper-ctl.is-editing .ui-stepper-val{background:var(--surface)}
 .ui-stepper.is-big .ui-stepper-ctl{grid-template-columns:60px minmax(0,1fr) 60px;min-height:64px;border-radius:var(--r)}
-.ui-stepper.is-big .ui-stepper-val,.ui-stepper.is-big .ui-stepper-input{font-size:36px}
+.ui-stepper.is-big .ui-stepper-val{font-size:36px}
 .ui-stepper.is-big .ui-stepper-val small{font-size:var(--fs-md)}
 @container (max-width:239px){
   .ui-stepper.is-big .ui-stepper-ctl{grid-template-columns:minmax(0,1fr) minmax(0,1fr);grid-template-areas:"v v" "m p"}
-  .ui-stepper.is-big .ui-stepper-val,.ui-stepper.is-big .ui-stepper-input{grid-area:v;min-height:62px;border-inline:0;border-bottom:1px solid var(--line-soft)}
+  .ui-stepper.is-big .ui-stepper-val{grid-area:v;min-height:62px;border-inline:0;border-bottom:1px solid var(--line-soft)}
   .ui-stepper.is-big .ui-stepper-btn{min-height:50px}
   .ui-stepper.is-big .ui-stepper-btn:first-child{grid-area:m;border-right:1px solid var(--line-soft)}
   .ui-stepper.is-big .ui-stepper-btn:last-child{grid-area:p}
