@@ -184,6 +184,7 @@ estão nas seções acima. Estes exercícios não têm animação: a coluna **mo
 | --- | --- | --- | --- | --- | --- |
 | `agachamento-hack` | Agachamento no hack | forca | pernas | foto | Homem na máquina hack, costas no apoio inclinado e ombros sob as almofadas, no fundo do agachamento, pés inteiros na plataforma. |
 | `cadeira-extensora` | Cadeira extensora | forca | pernas | foto | Sentado na cadeira extensora, costas no encosto, as duas pernas estendidas à frente com o rolo na frente dos tornozelos. |
+| `cadeira-flexora` | Cadeira flexora | forca | posterior | foto | Sentado na cadeira flexora, costas no encosto, trava sobre as coxas, joelhos dobrados levando o rolo para trás. |
 | `mesa-flexora` | Mesa flexora | forca | posterior | foto | Deitado de bruços na mesa flexora, quadril no banco, joelhos dobrados com o rolo perto dos glúteos. |
 | `stiff-halteres` | Stiff com halteres | forca | posterior | foto | Em pé, de lado, tronco inclinado à frente com as costas retas, quadril para trás, halteres na altura das canelas, rente às pernas. |
 | `elevacao-pelvica` | Elevação pélvica com barra | forca | gluteos | foto | Costas apoiadas na lateral do banco, barra sobre o quadril, quadril elevado até o tronco ficar reto. |

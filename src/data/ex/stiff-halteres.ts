@@ -31,7 +31,7 @@ const ex: Exercise = {
   breath: 'Puxe o ar na descida e solte ao subir.',
   easier: 'Desça só até a altura dos joelhos, com halteres mais leves.',
   harder: 'Desça em 3 segundos e pare 1 segundo no ponto mais baixo.',
-  swap: ['mesa-flexora', 'hiperextensao-lombar'],
+  swap: ['cadeira-flexora', 'hiperextensao-lombar'],
   yt: 'stiff com halteres execução correta',
 };
 
